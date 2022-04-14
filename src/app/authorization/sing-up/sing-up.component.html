@@ -1,1 +1,17 @@
-<p>sing-up works!</p>
+<form>
+  <h1>Sign up</h1>
+  <p>
+    <a [routerLink]="['/auth', 'login']">Have an account?</a>
+  </p>
+  <div class="form-control">
+    <input type="text" placeholder="Username" />
+  </div>
+  <div class="form-control">
+    <input type="email" placeholder="Email" />
+  </div>
+  <div class="form-control">
+    <input type="password" placeholder="Password" />
+  </div>
+
+  <button class="btn-lg">Sign up</button>
+</form>

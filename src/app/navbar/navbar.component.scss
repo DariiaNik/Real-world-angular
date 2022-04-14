@@ -16,10 +16,11 @@
   }
   li.active a {
     color: rgba(0, 0, 0, 0.8);
-    font-weight: bolder;
   }
   .nav-link {
+    font-family: "Source Sans Pro", sans-serif;
     color: rgba(0, 0, 0, 0.3);
+    font-size: 1rem;
     display: block;
     padding-top: 0.425rem;
     padding-bottom: 0.425rem;

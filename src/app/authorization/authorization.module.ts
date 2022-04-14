@@ -4,8 +4,6 @@ import { SingInComponent } from './sing-in/sing-in.component';
 import { SingUpComponent } from './sing-up/sing-up.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [SingInComponent, SingUpComponent],
@@ -13,8 +11,6 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule,
-    MatButtonModule,
     RouterModule.forChild([
       {
         path: 'login',
