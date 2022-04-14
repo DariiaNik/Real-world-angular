@@ -8,6 +8,7 @@ import { HomeLayoutComponent } from './home-layout/home-layout.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [AppComponent, HomeLayoutComponent, NavbarComponent],
@@ -17,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
+    RouterModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

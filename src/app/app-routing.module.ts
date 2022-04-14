@@ -4,8 +4,15 @@ import { HomeLayoutComponent } from 'src/app/home-layout/home-layout.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     component: HomeLayoutComponent,
+  },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./authorization/authorization.module').then(
+        (m) => m.AuthorizationModule
+      ),
   },
 ];
 

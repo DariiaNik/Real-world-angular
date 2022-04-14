@@ -20,7 +20,9 @@ ul {
   list-style: none;
 }
 a {
+  color: black;
   cursor: pointer;
+  text-decoration: none;
 }
 .text-center {
   text-align: center;
@@ -47,4 +49,16 @@ a {
   padding-right: 0.6em;
   padding-left: 0.6em;
   border-radius: 10rem;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+select,
+textarea {
+  display: block;
+  width: 100%;
+  padding: 0.4rem;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
 }

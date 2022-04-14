@@ -14,12 +14,15 @@
     margin-right: 2rem;
     color: #846c5b;
   }
+  li.active a {
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: bolder;
+  }
   .nav-link {
     color: rgba(0, 0, 0, 0.3);
     display: block;
     padding-top: 0.425rem;
     padding-bottom: 0.425rem;
-    &.active,
     &:hover {
       color: rgba(0, 0, 0, 0.8);
     }
