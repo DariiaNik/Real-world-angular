@@ -48,8 +48,9 @@
     }
   }
   .article-comments {
+    margin: 0 15%;
     .comment-form {
-      max-width: 650px;
+      max-width: none;
       border: 1px solid #e5e5e5;
       margin-bottom: 0.75rem;
       background-color: #fff;

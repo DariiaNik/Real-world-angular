@@ -13,6 +13,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ArticleComponent } from './shared/components/article/article.component';
 import { TagsComponent } from './shared/components/tags/tags.component';
 import { ArticlePageComponent } from './article-page/article-page.component';
+import { CommentComponent } from './shared/components/comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ArticlePageComponent } from './article-page/article-page.component';
     ArticleComponent,
     TagsComponent,
     ArticlePageComponent,
+    CommentComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Article, Tags } from 'src/app/shared/interfaces';
+import { Article } from 'src/app/shared/models/article-interface';
+import { Tags } from 'src/app/shared/models/tags-interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ export class ArticlesService {
   }
 
   getBySlug(slug: string): Observable<Article> {
+    console.log('getBySlug');
     return this.http.get(`https://api.realworld.io/api/articles/${slug}`).pipe(
       map((response: any) => {
         console.log(response);

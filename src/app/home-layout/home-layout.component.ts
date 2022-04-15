@@ -1,7 +1,8 @@
 import { ArticlesService } from './../shared/articles.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Article, Tags } from 'src/app/shared/interfaces';
+import { Article } from 'src/app/shared/models/article-interface';
+import { Tags } from 'src/app/shared/models/tags-interface';
 
 @Component({
   selector: 'app-home-layout',

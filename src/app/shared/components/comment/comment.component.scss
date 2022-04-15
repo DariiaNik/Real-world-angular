@@ -1,0 +1,40 @@
+.comment-card {
+  border: 1px solid #e5e5e5;
+  margin-bottom: 0.75rem;
+  background-color: #fff;
+  border-radius: 0.3rem;
+  .comment-card-footer {
+    border-top: 1px solid #e5e5e5;
+    padding: 0.75rem 1.25rem;
+    background-color: #f5f5f5;
+    font-size: 0.8rem;
+    font-weight: 300;
+    .info-name {
+      font-size: 0.8rem;
+      font-weight: 300;
+      font-family: "Source Sans Pro", sans-serif;
+      color: #69a2b0;
+      line-height: 1.5;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .info-date {
+      color: #bbb;
+      font-size: 0.8rem;
+      font-weight: 300;
+      font-family: "Source Sans Pro", sans-serif;
+      line-height: 1.5;
+    }
+    img {
+      height: 20px;
+      width: 20px;
+    }
+    a {
+      padding-right: 0.5rem;
+    }
+  }
+  p {
+    padding: 0.75rem 1.25rem;
+  }
+}

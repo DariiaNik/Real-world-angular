@@ -15,6 +15,3 @@ export interface Article {
     following: boolean;
   };
 }
-export interface Tags {
-  tags: [string];
-}
