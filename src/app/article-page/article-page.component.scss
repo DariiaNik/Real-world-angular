@@ -32,6 +32,10 @@
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       margin-bottom: 2rem;
       padding-bottom: 2rem;
+      .article-list-tags {
+        float: none;
+        padding: 0;
+      }
       p {
         font-family: "Source Serif Pro", serif;
         font-size: 1.2rem;

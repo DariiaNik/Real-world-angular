@@ -13,8 +13,12 @@
     </button>
   </div>
   <div class="prewiew-main">
-    <h1 class="prewiew-title">{{ article.title }}</h1>
-    <p class="prewiew-text">{{ article.description }}</p>
+    <h1 class="prewiew-title" [routerLink]="['/article', article.slug]">
+      {{ article.title }}
+    </h1>
+    <p class="prewiew-text" [routerLink]="['/article', article.slug]">
+      {{ article.description }}
+    </p>
     <span [routerLink]="['/article', article.slug]">Read more...</span>
     <ul class="prewiew-list-tags">
       <li class="prewiew-tag pills" *ngFor="let tag of article.tagList">

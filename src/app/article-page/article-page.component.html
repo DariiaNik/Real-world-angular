@@ -1,24 +1,24 @@
-<div class="article-page">
+<div class="article-page" *ngIf="article$ | async as article">
   <div class="banner">
     <div class="container">
-      <h1 class="logo">Create a new implementationg</h1>
+      <h1 class="logo">{{ article.title }}</h1>
       <div class="article-bio">
         <a class="article-image">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHpTun6ZJzXtt0rIiRtvI5Hdt0JwtGFxxmcA&usqp=CAU"
-          />
+          <img src="{{ article.author.image }}" />
         </a>
         <div class="article-info">
-          <a class="info-name">Name</a>
-          <span class="info-date">November 24, 2021 </span>
+          <a class="info-name">{{ article.author.username }}</a>
+          <span class="info-date">{{
+            article.createdAt | date: "longDate"
+          }}</span>
         </div>
         <button mat-stroked-button class="btn-follow">
           <mat-icon class="icon-add">add</mat-icon>
-          <span>Follow Name</span>
+          <span>Follow {{ article.author.username }}</span>
         </button>
         <button mat-stroked-button class="btn-favorite">
           <mat-icon class="icon-heart">favorite</mat-icon>
-          <span>Favorite articles 4567</span>
+          <span>Favorite articles {{ article.favoritesCount }}</span>
         </button>
       </div>
     </div>
@@ -26,20 +26,23 @@
   <div class="container article-body">
     <div class="article-content">
       <p>
-        Share your knowledge and enpower the community by creating a new
-        implementation
+        {{ article.body }}
       </p>
-      <app-tags></app-tags>
+      <ul class="article-list-tags">
+        <li class="article-tag pills" *ngFor="let tag of article.tagList">
+          {{ tag }}
+        </li>
+      </ul>
     </div>
     <div class="article-bio">
       <a class="article-image">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHpTun6ZJzXtt0rIiRtvI5Hdt0JwtGFxxmcA&usqp=CAU"
-        />
+        <img src="{{ article.author.image }}" />
       </a>
       <div class="article-info">
-        <a class="info-name">Name</a>
-        <span class="info-date">November 24, 2021 </span>
+        <a class="info-name">{{ article.author.username }}</a>
+        <span class="info-date">{{
+          article.createdAt | date: "longDate"
+        }}</span>
       </div>
       <button mat-stroked-button class="btn-follow">
         <mat-icon class="icon-add">add</mat-icon>
@@ -47,7 +50,7 @@
       </button>
       <button mat-stroked-button class="btn-favorite">
         <mat-icon class="icon-heart">favorite</mat-icon>
-        <span>Favorite articles 4567</span>
+        <span>Favorite articles {{ article.favoritesCount }}</span>
       </button>
     </div>
     <div class="article-comments">
@@ -64,7 +67,6 @@
           <button class="btn-sub">Post comment</button>
         </div>
       </form>
-      <app-comment></app-comment>
       <app-comment></app-comment>
     </div>
   </div>

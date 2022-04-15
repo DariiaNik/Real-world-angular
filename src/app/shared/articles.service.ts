@@ -19,11 +19,10 @@ export class ArticlesService {
   }
 
   getBySlug(slug: string): Observable<Article> {
-    console.log('getBySlug');
     return this.http.get(`https://api.realworld.io/api/articles/${slug}`).pipe(
       map((response: any) => {
-        console.log(response);
-        return response;
+        console.log(response.article);
+        return response.article;
       })
     );
   }
