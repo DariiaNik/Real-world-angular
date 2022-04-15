@@ -1,0 +1,90 @@
+.article {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 0;
+  .prewiew-header {
+    margin: 0 0 1rem 0;
+    .prewiew-profile {
+      img {
+        display: inline-block;
+        vertical-align: middle;
+        height: 32px;
+        width: 32px;
+        border-radius: 30px;
+      }
+    }
+    .prewiew-info {
+      margin: 0 1.5rem 0 0.3rem;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1rem;
+      .info-name {
+        font-weight: 500;
+        display: block;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      .info-date {
+        display: block;
+        color: #bbb;
+        font-size: 0.8rem;
+      }
+    }
+    .prewiew-likes {
+      float: right;
+      font-size: 0.875rem;
+      color: #69a2b0;
+      border-color: #69a2b0;
+      padding: 0.25rem 0.5rem;
+      line-height: 1.25;
+      text-align: center;
+      &:hover {
+        background-color: #69a2b0;
+        color: #fff;
+      }
+      .icon-heart {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+    }
+  }
+  .prewiew-main {
+    h1 {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.5rem;
+      margin-bottom: 3px;
+    }
+    p {
+      cursor: pointer;
+      font-weight: 300;
+      font-size: 24px;
+      color: #999;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      line-height: 1.3rem;
+      margin-top: 0;
+    }
+    span {
+      max-width: 30%;
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: #bbb;
+      vertical-align: middle;
+      cursor: pointer;
+    }
+    .prewiew-list-tags {
+      float: right;
+      max-width: 50%;
+      vertical-align: top;
+      margin-top: 0;
+      .prewiew-tag {
+        border: 1px solid #ddd;
+        color: #aaa;
+        background: none;
+        margin-top: -20px;
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -1,17 +1,28 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HomeLayoutComponent } from './home-layout/home-layout.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { AppRoutingModule } from './app-routing.module';
+import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+
+import { AppComponent } from './app.component';
+import { HomeLayoutComponent } from './home-layout/home-layout.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { ArticleComponent } from './shared/components/article/article.component';
+import { TagsComponent } from './shared/components/tags/tags.component';
+import { ArticlePageComponent } from './article-page/article-page.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeLayoutComponent, NavbarComponent],
+  declarations: [
+    AppComponent,
+    HomeLayoutComponent,
+    NavbarComponent,
+    ArticleComponent,
+    TagsComponent,
+    ArticlePageComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -19,7 +30,9 @@ import { RouterModule } from '@angular/router';
     MatButtonModule,
     MatIconModule,
     RouterModule,
+    HttpClientModule,
   ],
+  exports: [HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })
