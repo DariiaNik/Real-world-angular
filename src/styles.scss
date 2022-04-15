@@ -105,3 +105,43 @@ form {
     background-color: #50808c;
   }
 }
+.btn-sub {
+  font-weight: 700;
+  float: right;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+  background-color: #69a2b0;
+  border: 1px solid #69a2b0;
+  color: #fff;
+  cursor: pointer;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.article-image {
+  img {
+    display: inline-block;
+    vertical-align: middle;
+    height: 32px;
+    width: 32px;
+    border-radius: 30px;
+  }
+}
+.article-info {
+  margin: 0 1.5rem 0 0.5rem;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1rem;
+  .info-name {
+    font-weight: 500;
+    display: block;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .info-date {
+    display: block;
+    color: #bbb;
+    font-size: 0.8rem;
+  }
+}

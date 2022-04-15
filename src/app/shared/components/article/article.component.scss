@@ -3,33 +3,6 @@
   padding: 1.5rem 0;
   .prewiew-header {
     margin: 0 0 1rem 0;
-    .prewiew-profile {
-      img {
-        display: inline-block;
-        vertical-align: middle;
-        height: 32px;
-        width: 32px;
-        border-radius: 30px;
-      }
-    }
-    .prewiew-info {
-      margin: 0 1.5rem 0 0.3rem;
-      display: inline-block;
-      vertical-align: middle;
-      line-height: 1rem;
-      .info-name {
-        font-weight: 500;
-        display: block;
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-      .info-date {
-        display: block;
-        color: #bbb;
-        font-size: 0.8rem;
-      }
-    }
     .prewiew-likes {
       float: right;
       font-size: 0.875rem;
