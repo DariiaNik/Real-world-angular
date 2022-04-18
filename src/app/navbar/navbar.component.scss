@@ -28,6 +28,11 @@
       content: "\ea20";
       text-align: center;
     }
+    .profile img {
+      border-radius: 30px;
+      width: 25px;
+      height: 25px;
+    }
   }
   .nav-link {
     font-family: "Source Sans Pro", sans-serif;
@@ -45,6 +50,6 @@
   }
   ul {
     display: flex;
-    align-items: center;
+    align-items: baseline;
   }
 }

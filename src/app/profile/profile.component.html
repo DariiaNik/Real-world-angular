@@ -1,0 +1,46 @@
+<div class="profile-page">
+  <div class="user-info">
+    <div class="container">
+      <div class="bio">
+        <img src="https://api.realworld.io/images/smiley-cyrus.jpeg" />
+        <h4>Name</h4>
+        <button mat-stroked-button class="btn btn-edit-settings">
+          <mat-icon class="icon-settings">settings</mat-icon>
+          <span>Edit Profile settings</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="container profile-articles">
+    <div class="feed-toggle">
+      <ul class="nav">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive="active"
+            [routerLink]="['/profile']"
+            >My Articles</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive="active"
+            [routerLink]="['/profile', 'favorites']"
+            >Favorited Articles</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div
+      class="list-articles"
+      *ngIf="articles$ | async as articles; else loading"
+    >
+      <app-article></app-article>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p class="text-center">Loading...</p>
+</ng-template>
