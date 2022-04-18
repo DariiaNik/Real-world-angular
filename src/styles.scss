@@ -94,6 +94,21 @@ form {
 .form-control {
   margin-bottom: 1rem;
 }
+.btn {
+  font-family: "Source Sans Pro", sans-serif;
+  display: inline-block;
+  font-weight: normal;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+}
 .btn-lg {
   font-family: "Source Sans Pro", sans-serif;
   float: right;

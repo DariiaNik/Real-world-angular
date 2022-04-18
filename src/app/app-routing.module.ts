@@ -28,6 +28,11 @@ const routes: Routes = [
         (m) => m.NewArticlePageModule
       ),
   },
+  {
+    path: 'settings',
+    loadChildren: () =>
+      import('./settings/settings.module').then((m) => m.SettingsModule),
+  },
 ];
 
 @NgModule({
