@@ -21,6 +21,13 @@ const routes: Routes = [
         (m) => m.ArticlePageModule
       ),
   },
+  {
+    path: 'editor',
+    loadChildren: () =>
+      import('./new-article-page/new-article-page.module').then(
+        (m) => m.NewArticlePageModule
+      ),
+  },
 ];
 
 @NgModule({
