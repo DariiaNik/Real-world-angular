@@ -67,7 +67,12 @@
           <button class="btn-sub">Post comment</button>
         </div>
       </form>
-      <app-comment></app-comment>
+      <div *ngIf="comments$ | async as comments">
+        <app-comment
+          *ngFor="let comment of comments"
+          [comment]="comment"
+        ></app-comment>
+      </div>
     </div>
   </div>
 </div>

@@ -1,12 +1,10 @@
 <div class="comment-card">
-  <p>This is comment</p>
+  <p>{{ comment.body }}</p>
   <div class="comment-card-footer">
     <a class="article-image">
-      <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHpTun6ZJzXtt0rIiRtvI5Hdt0JwtGFxxmcA&usqp=CAU"
-      />
+      <img src="{{ comment.author.image }}" />
     </a>
-    <a class="info-name">Name</a>
-    <span class="info-date">November 24, 2021</span>
+    <a class="info-name">{{ comment.author.username }}</a>
+    <span class="info-date">{{ comment.createdAt | date: "longDate" }}</span>
   </div>
 </div>

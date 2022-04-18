@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { map, Observable, switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { ArticlesService } from 'src/app/shared/articles.service';
 import { Article } from 'src/app/shared/models/article-interface';
+import { Comments } from 'src/app/shared/models/comments-interface';
 
 @Component({
   selector: 'app-article-page',
@@ -11,6 +12,7 @@ import { Article } from 'src/app/shared/models/article-interface';
 })
 export class ArticlePageComponent implements OnInit {
   article$!: Observable<Article>;
+  comments$!: Observable<Comments[]>;
   constructor(
     private articlesService: ArticlesService,
     private route: ActivatedRoute
@@ -22,6 +24,10 @@ export class ArticlePageComponent implements OnInit {
         return this.articlesService.getBySlug(params['slug']);
       })
     );
-    console.log(this.article$);
+    this.comments$ = this.route.params.pipe(
+      switchMap((params: Params) => {
+        return this.articlesService.getComments(params['slug']);
+      })
+    );
   }
 }

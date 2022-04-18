@@ -1,3 +1,5 @@
+import { Profile } from 'src/app/shared/models/profile-interface';
+
 export interface Article {
   slug: string;
   title: string;
@@ -8,10 +10,5 @@ export interface Article {
   updatedAt: string;
   favorited: boolean;
   favoritesCount: number;
-  author: {
-    username: string;
-    bio: string;
-    image: string;
-    following: boolean;
-  };
+  author: Profile;
 }
