@@ -48,6 +48,9 @@ a {
   padding-right: 0.6em;
   padding-left: 0.6em;
   border-radius: 10rem;
+  &:hover {
+    background-color: #5b6266;
+  }
 }
 input[type="text"],
 input[type="email"],

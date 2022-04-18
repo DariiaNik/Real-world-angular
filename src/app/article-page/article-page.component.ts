@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
+import { CommentsService } from 'src/app/article-page/comments.service';
 import { ArticlesService } from 'src/app/shared/articles.service';
 import { Article } from 'src/app/shared/models/article-interface';
 import { Comments } from 'src/app/shared/models/comments-interface';
@@ -15,6 +16,7 @@ export class ArticlePageComponent implements OnInit {
   comments$!: Observable<Comments[]>;
   constructor(
     private articlesService: ArticlesService,
+    private commentsService: CommentsService,
     private route: ActivatedRoute
   ) {}
 
@@ -26,7 +28,7 @@ export class ArticlePageComponent implements OnInit {
     );
     this.comments$ = this.route.params.pipe(
       switchMap((params: Params) => {
-        return this.articlesService.getComments(params['slug']);
+        return this.commentsService.getComments(params['slug']);
       })
     );
   }
