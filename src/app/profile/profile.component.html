@@ -1,4 +1,4 @@
-<div class="profile-page">
+<div class="profile-page" *ngIf="user$ | async as user">
   <div class="user-info">
     <div class="container">
       <div class="bio">
@@ -15,27 +15,14 @@
     <div class="feed-toggle">
       <ul class="nav">
         <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLinkActive="active"
-            [routerLink]="['/profile']"
-            >My Articles</a
-          >
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/profile']">My Articles</a>
         </li>
         <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLinkActive="active"
-            [routerLink]="['/profile', 'favorites']"
-            >Favorited Articles</a
-          >
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/profile', 'favorites']">Favorited Articles</a>
         </li>
       </ul>
     </div>
-    <div
-      class="list-articles"
-      *ngIf="articles$ | async as articles; else loading"
-    >
+    <div class="list-articles" *ngIf="articles$ | async as articles; else loading">
       <app-article></app-article>
     </div>
   </div>

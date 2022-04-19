@@ -13,13 +13,11 @@ import { TagsService } from 'src/app/home-page/tags.service';
 export class HomeLayoutComponent implements OnInit {
   articles$!: Observable<Article[]>;
   tags$!: Observable<Tags[]>;
-  constructor(
-    private articlesService: ArticlesService,
-    private tagsService: TagsService
-  ) {}
+  constructor(private articlesService: ArticlesService, private tagsService: TagsService) {}
 
   ngOnInit(): void {
     this.articles$ = this.articlesService.getAll();
     this.tags$ = this.tagsService.getTags();
+    console.log(localStorage.getItem('token'));
   }
 }

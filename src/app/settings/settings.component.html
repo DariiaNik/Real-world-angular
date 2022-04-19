@@ -9,11 +9,7 @@
         <input type="text" placeholder="Username" />
       </div>
       <div class="form-control">
-        <textarea
-          type="text"
-          rows="8"
-          placeholder="Short bio about you"
-        ></textarea>
+        <textarea type="text" rows="8" placeholder="Short bio about you"></textarea>
       </div>
       <div class="form-control">
         <input type="email" placeholder="Email" />
@@ -25,7 +21,7 @@
     </form>
     <hr />
     <div>
-      <button class="btn btn-logout">Or click here to logout</button>
+      <button class="btn btn-logout" (click)="logout()">Or click here to logout</button>
     </div>
   </div>
 </div>

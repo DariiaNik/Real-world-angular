@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ProfileService } from 'src/app/profile/profile.service';
 import { Article } from 'src/app/shared/models/article-interface';
+import { User } from 'src/app/shared/models/user-interface';
 
 @Component({
   selector: 'app-profile',
@@ -9,8 +11,12 @@ import { Article } from 'src/app/shared/models/article-interface';
 })
 export class ProfileComponent implements OnInit {
   articles$!: Observable<Article[]>;
+  user$!: Observable<User>;
 
-  constructor() {}
+  constructor(private profileService: ProfileService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.user$ = this.profileService.getUser();
+    console.log(this.user$);
+  }
 }

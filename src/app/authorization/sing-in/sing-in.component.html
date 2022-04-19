@@ -1,14 +1,33 @@
-<form>
+<form [formGroup]="form" (ngSubmit)="singIn()">
   <h1>Sign in</h1>
   <p>
     <a [routerLink]="['/auth', 'register']">Need an account?</a>
   </p>
-  <div class="form-control">
-    <input type="email" placeholder="Email" />
-  </div>
-  <div class="form-control">
-    <input type="password" placeholder="Password" />
+
+  <div
+    class="form-control"
+    [ngClass]="{
+      invalid: form.get('email')?.touched && form.get('email')?.invalid
+    }"
+  >
+    <input id="email" type="email" placeholder="Email" formControlName="email" />
+    <div class="validation" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+      <small *ngIf="form.get('email')?.hasError('required')">Field cannot be empty</small>
+      <small *ngIf="form.get('email')?.hasError('email')">Enter valid email address</small>
+    </div>
   </div>
 
-  <button class="btn-lg">Sign in</button>
+  <div
+    class="form-control"
+    [ngClass]="{
+      invalid: form.get('password')?.touched && form.get('password')?.invalid
+    }"
+  >
+    <input id="password" type="password" placeholder="Password" formControlName="password" />
+    <div class="validation" *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
+      <small *ngIf="form.get('password')?.hasError('required')">Field cannot be empty</small>
+    </div>
+  </div>
+
+  <button type="submit" class="btn-lg" [disabled]="form.invalid || submitted">Sign in</button>
 </form>
