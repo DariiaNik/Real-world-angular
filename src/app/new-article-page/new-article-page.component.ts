@@ -21,4 +21,15 @@ export class NewArticlePageComponent implements OnInit {
       tagList: new FormControl(''),
     });
   }
+
+  publishArticle() {
+    const article = {
+      ...this.form.value,
+      tagList: this.form.value.tagList.split(','),
+    };
+    this.articlesService.createArticle(article).subscribe((response) => {
+      console.log(response);
+    });
+    this.router.navigate(['/home']);
+  }
 }
