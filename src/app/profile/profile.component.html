@@ -1,9 +1,9 @@
-<div class="profile-page" *ngIf="user$ | async as user">
+<div class="profile-page" *ngIf="user">
   <div class="user-info">
     <div class="container">
       <div class="bio">
-        <img src="https://api.realworld.io/images/smiley-cyrus.jpeg" />
-        <h4>Name</h4>
+        <img src="{{ user.image }}" />
+        <h4>{{ user.username }}</h4>
         <button mat-stroked-button class="btn btn-edit-settings">
           <mat-icon class="icon-settings">settings</mat-icon>
           <span>Edit Profile settings</span>
@@ -11,23 +11,34 @@
       </div>
     </div>
   </div>
-  <div class="container profile-articles">
-    <div class="feed-toggle">
-      <ul class="nav">
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/profile']">My Articles</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/profile', 'favorites']">Favorited Articles</a>
-        </li>
-      </ul>
-    </div>
-    <div class="list-articles" *ngIf="articles$ | async as articles; else loading">
-      <app-article></app-article>
+  <div class="container">
+    <div class="row">
+      <div class="profile-articles">
+        <div class="feed-toggle">
+          <ul class="nav">
+            <li class="nav-item" (click)="getArticles('author')">
+              <a
+                class="nav-link"
+                routerLinkActive="active"
+                [routerLink]="['/profile']"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >My Articles</a
+              >
+            </li>
+            <li class="nav-item" (click)="getArticles('favorites')">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/profile', 'favorites']"
+                >Favorited Articles</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="list-articles" *ngIf="articles$ | async as articles; else loading">
+          <app-article *ngFor="let article of articles" [article]="article"></app-article>
+        </div>
+        <ng-template #loading>
+          <p class="loading">Loading...</p>
+        </ng-template>
+      </div>
     </div>
   </div>
 </div>
-
-<ng-template #loading>
-  <p class="text-center">Loading...</p>
-</ng-template>

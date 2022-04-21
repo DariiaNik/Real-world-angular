@@ -12,7 +12,7 @@
       margin-bottom: 1rem;
     }
     h4 {
-      font-family: "Source Sans Pro", sans-serif;
+      font-family: 'Source Sans Pro', sans-serif;
       font-weight: 700;
       font-size: 1.5rem;
       margin-bottom: 0.5rem;
@@ -39,33 +39,41 @@
       margin: 0 2rem;
     }
   }
-  .profile-articles {
-    position: relative;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-    flex: 0 0 75%;
-    max-width: 75%;
-    .feed-toggle {
-      .nav {
-        padding-left: 0;
-        margin-bottom: 0;
-        .nav-item {
-          float: left;
-          .nav-link {
-            display: block;
-            padding: 0.5em 1em;
-            &.active {
-              background: #fff;
-              border-bottom: 2px solid #69a2b0;
-              color: #69a2b0;
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -15px;
+    margin-right: -15px;
+    .profile-articles {
+      position: relative;
+      min-height: 1px;
+      padding-right: 15px;
+      padding-left: 15px;
+      flex: 100%;
+      .feed-toggle {
+        .nav {
+          padding-left: 0;
+          margin-bottom: 0;
+          .nav-item {
+            float: left;
+            .nav-link {
+              display: block;
+              padding: 0.5em 1em;
+              &.active {
+                background: #fff;
+                border-bottom: 2px solid #69a2b0;
+                color: #69a2b0;
+              }
             }
           }
         }
       }
-    }
-    .list-articles {
-      margin-top: 3rem;
+      .list-articles {
+        margin-top: 3rem;
+      }
     }
   }
+}
+.loading {
+  margin-top: 4rem;
 }

@@ -13,6 +13,12 @@ import { SharedModule } from 'src/app/shared/shared.module';
       {
         path: '',
         component: ProfileComponent,
+        children: [
+          {
+            path: 'favorites',
+            component: ProfileComponent,
+          },
+        ],
       },
     ]),
   ],

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map, Observable, pipe } from 'rxjs';
 import { ProfileService } from 'src/app/profile/profile.service';
+import { ArticlesService } from 'src/app/shared/articles.service';
 import { Article } from 'src/app/shared/models/article-interface';
 import { User } from 'src/app/shared/models/user-interface';
 
@@ -11,12 +13,28 @@ import { User } from 'src/app/shared/models/user-interface';
 })
 export class ProfileComponent implements OnInit {
   articles$!: Observable<Article[]>;
-  user$!: Observable<User>;
+  favouriteArticles$!: Observable<Article[]>;
+  user!: User;
+  name!: any;
 
-  constructor(private profileService: ProfileService) {}
+  constructor(private profileService: ProfileService, private articlesService: ArticlesService) {}
 
   ngOnInit(): void {
-    this.user$ = this.profileService.getUser();
-    console.log(this.user$);
+    this.profileService.getUser().subscribe((user) => {
+      this.user = user;
+      this.articles$ = this.articlesService.getByAuthor(this.user.username);
+    });
+  }
+
+  getArticles(type: string) {
+    switch (type) {
+      case 'author':
+        this.articles$ = this.articlesService.getByAuthor(this.user.username);
+        break;
+
+      case 'favorites':
+        this.articles$ = this.articlesService.getFavoriteArticles(this.user.username);
+        break;
+    }
   }
 }

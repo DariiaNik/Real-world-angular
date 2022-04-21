@@ -14,8 +14,8 @@ export class AuthorizationService {
     return localStorage.getItem('token')!;
   }
 
-  login(user: LoginUser): Observable<any> {
-    return this.http.post('https://api.realworld.io/api/users/login', { user }).pipe(
+  login(user: LoginUser): Observable<LoginUser> {
+    return this.http.post<LoginUser>('https://api.realworld.io/api/users/login', { user }).pipe(
       map((response) => {
         this.setToken(response);
         return response;
@@ -23,8 +23,8 @@ export class AuthorizationService {
     );
   }
 
-  register(user: NewUser): Observable<any> {
-    return this.http.post('https://api.realworld.io/api/users', { user }).pipe(
+  register(user: NewUser): Observable<NewUser> {
+    return this.http.post<NewUser>('https://api.realworld.io/api/users', { user }).pipe(
       map((response) => {
         this.setToken(response);
         return response;
