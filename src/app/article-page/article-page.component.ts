@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 import { CommentsService } from 'src/app/article-page/comments.service';
-import { ArticlesService } from 'src/app/shared/articles.service';
+import { ArticlesService } from 'src/app/shared/services/articles.service';
 import { Article } from 'src/app/shared/models/article-interface';
 import { Comments } from 'src/app/shared/models/comments-interface';
 
@@ -17,7 +17,8 @@ export class ArticlePageComponent implements OnInit {
   constructor(
     private articlesService: ArticlesService,
     private commentsService: CommentsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -31,5 +32,10 @@ export class ArticlePageComponent implements OnInit {
         return this.commentsService.getComments(params['slug']);
       })
     );
+  }
+
+  deleteArticle(slug: string) {
+    this.articlesService.deleteArticle(slug).subscribe();
+    this.router.navigate(['/home']);
   }
 }

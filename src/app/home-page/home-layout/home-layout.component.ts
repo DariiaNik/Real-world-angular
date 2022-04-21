@@ -1,4 +1,4 @@
-import { ArticlesService } from '../../shared/articles.service';
+import { ArticlesService } from '../../shared/services/articles.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Article } from 'src/app/shared/models/article-interface';

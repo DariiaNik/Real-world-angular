@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, pipe } from 'rxjs';
-import { ProfileService } from 'src/app/profile/profile.service';
-import { ArticlesService } from 'src/app/shared/articles.service';
+import { UserService } from 'src/app/shared/services/user.service';
+import { ArticlesService } from 'src/app/shared/services/articles.service';
 import { Article } from 'src/app/shared/models/article-interface';
 import { User } from 'src/app/shared/models/user-interface';
 
@@ -17,10 +17,10 @@ export class ProfileComponent implements OnInit {
   user!: User;
   name!: any;
 
-  constructor(private profileService: ProfileService, private articlesService: ArticlesService) {}
+  constructor(private userService: UserService, private articlesService: ArticlesService) {}
 
   ngOnInit(): void {
-    this.profileService.getUser().subscribe((user) => {
+    this.userService.getUser().subscribe((user) => {
       this.user = user;
       this.articles$ = this.articlesService.getByAuthor(this.user.username);
     });

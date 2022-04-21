@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { LoginUser } from 'src/app/shared/models/login-user-interface';
 import { NewUser } from 'src/app/shared/models/new-user-interface';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class AuthorizationService {
   }
 
   login(user: LoginUser): Observable<LoginUser> {
-    return this.http.post<LoginUser>('https://api.realworld.io/api/users/login', { user }).pipe(
+    return this.http.post<LoginUser>(`${environment.apiUrl}users/login`, { user }).pipe(
       map((response) => {
         this.setToken(response);
         return response;
@@ -24,7 +25,7 @@ export class AuthorizationService {
   }
 
   register(user: NewUser): Observable<NewUser> {
-    return this.http.post<NewUser>('https://api.realworld.io/api/users', { user }).pipe(
+    return this.http.post<NewUser>(`${environment.apiUrl}users`, { user }).pipe(
       map((response) => {
         this.setToken(response);
         return response;

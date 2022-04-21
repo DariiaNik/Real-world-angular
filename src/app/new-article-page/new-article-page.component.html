@@ -1,14 +1,10 @@
 <div class="container">
-  <form>
+  <form [formGroup]="form" (ngSubmit)="publishArticle()">
     <div class="form-control">
-      <input class="input-title" type="text" placeholder="Article Title" />
+      <input class="input-title" type="text" placeholder="Article Title" formControlName="title" />
     </div>
     <div class="form-control">
-      <input
-        class="input-about"
-        type="text"
-        placeholder="What's this article about?"
-      />
+      <input class="input-about" type="text" placeholder="What's this article about?" formControlName="description" />
     </div>
     <div class="form-control">
       <textarea
@@ -16,11 +12,12 @@
         type="text"
         rows="8"
         placeholder="Write your article(in markdown)"
+        formControlName="body"
       ></textarea>
     </div>
     <div class="form-control">
-      <input class="input-tags" type="text" placeholder="Enter tags" />
+      <input class="input-tags" type="text" placeholder="Enter tags" formControlName="tagList" />
     </div>
-    <button class="btn-lg">Publish Article</button>
+    <button type="submit" class="btn-lg">Publish Article</button>
   </form>
 </div>

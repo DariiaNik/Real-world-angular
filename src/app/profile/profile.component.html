@@ -4,7 +4,8 @@
       <div class="bio">
         <img src="{{ user.image }}" />
         <h4>{{ user.username }}</h4>
-        <button mat-stroked-button class="btn btn-edit-settings">
+        <p>{{ user.bio }}</p>
+        <button mat-stroked-button class="btn btn-edit-settings" [routerLink]="['/settings']">
           <mat-icon class="icon-settings">settings</mat-icon>
           <span>Edit Profile settings</span>
         </button>

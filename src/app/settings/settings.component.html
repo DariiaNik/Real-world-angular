@@ -1,23 +1,23 @@
-<div class="container">
+<div class="container" *ngIf="isFormReady">
   <div class="settings-page">
     <h1>Your Settings</h1>
-    <form>
+    <form [formGroup]="form" (ngSubmit)="updateUser()">
       <div class="form-control">
-        <input type="text" placeholder="URL of profile picture" />
+        <input type="text" placeholder="URL of profile picture" formControlName="image" />
       </div>
       <div class="form-control">
-        <input type="text" placeholder="Username" />
+        <input type="text" placeholder="Username" formControlName="username" />
       </div>
       <div class="form-control">
-        <textarea type="text" rows="8" placeholder="Short bio about you"></textarea>
+        <textarea type="text" rows="8" placeholder="Short bio about you" formControlName="bio"></textarea>
       </div>
       <div class="form-control">
-        <input type="email" placeholder="Email" />
+        <input type="email" placeholder="Email" formControlName="email" />
       </div>
       <div class="form-control">
-        <input type="password" placeholder="New password" />
+        <input type="password" placeholder="New password" formControlName="password" />
       </div>
-      <button class="btn-lg">Update Settings</button>
+      <button type="submit" class="btn-lg">Update Settings</button>
     </form>
     <hr />
     <div>
