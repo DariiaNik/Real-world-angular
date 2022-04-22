@@ -10,13 +10,10 @@ export class CommentsService {
   constructor(private http: HttpClient) {}
 
   getComments(slug: string): Observable<Comments[]> {
-    return this.http
-      .get(`https://api.realworld.io/api/articles/${slug}/comments`)
-      .pipe(
-        map((response: any) => {
-          console.log(response.comments);
-          return response.comments;
-        })
-      );
+    return this.http.get(`https://api.realworld.io/api/articles/${slug}/comments`).pipe(
+      map((response: any) => {
+        return response.comments;
+      })
+    );
   }
 }

@@ -15,6 +15,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         path: '',
         component: NewArticlePageComponent,
       },
+      {
+        path: ':slug',
+        component: NewArticlePageComponent,
+      },
     ]),
   ],
 })

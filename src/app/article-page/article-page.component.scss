@@ -6,7 +6,7 @@
     margin-bottom: 2rem;
 
     h1 {
-      font-family: "Source Sans Pro", sans-serif;
+      font-family: 'Source Sans Pro', sans-serif;
       text-shadow: 0px 1px 3px rgb(0 0 0 / 30%);
       font-size: 2.8rem;
       font-weight: 600;
@@ -20,10 +20,13 @@
       font-weight: 300;
       margin-bottom: 0px;
     }
-    .article-info {
-      font-family: "Source Sans Pro", sans-serif;
-      .info-name {
-        color: #fff;
+    .article-bio {
+      justify-content: flex-start;
+      .article-info {
+        font-family: 'Source Sans Pro', sans-serif;
+        .info-name {
+          color: #fff;
+        }
       }
     }
   }
@@ -37,22 +40,15 @@
         padding: 0;
       }
       p {
-        font-family: "Source Serif Pro", serif;
+        font-family: 'Source Serif Pro', serif;
         font-size: 1.2rem;
         line-height: 1.8rem;
         margin-bottom: 2rem;
       }
     }
-    .article-bio {
-      text-align: center;
-      margin-bottom: 3rem;
-      .info-name {
-        text-align: left;
-      }
-    }
   }
   .article-comments {
-    margin: 0 15%;
+    margin: 3% 15%;
     .comment-form {
       max-width: none;
       border: 1px solid #e5e5e5;
@@ -76,32 +72,53 @@
       }
     }
   }
-
-  .btn-follow,
-  .btn-favorite {
-    font-size: 0.875rem;
-    color: #69a2b0;
-    border-color: #69a2b0;
-    padding: 0.25rem 0.5rem;
-    line-height: 1.25;
-    text-align: center;
-    &:hover {
-      background-color: #69a2b0;
-      color: #fff;
+  .article-btn {
+    .btn-follow,
+    .btn-favorite,
+    .btn-delete,
+    .btn-edit {
+      font-size: 0.875rem;
+      color: #69a2b0;
+      border-color: #69a2b0;
+      padding: 0.1rem 0.5rem;
+      line-height: 1.25;
+      text-align: center;
+      &:hover {
+        background-color: #69a2b0;
+        color: #fff;
+      }
+      .icon-btn {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
     }
-    .icon-heart,
-    .icon-add {
-      font-size: 1rem;
-      line-height: 1.5;
+    .btn-follow,
+    .btn-edit {
+      margin-right: 0.25rem;
+      color: #ccc;
+      border-color: #ccc;
+      &:hover {
+        background-color: #ccc;
+        color: #fff;
+      }
+    }
+    .btn-delete {
+      color: #b85c5c;
+      border-color: #b85c5c;
+      &:hover {
+        background-color: #b85c5c;
+        color: #fff;
+      }
     }
   }
-  .btn-follow {
-    margin-right: 0.25rem;
-    color: #ccc;
-    border-color: #ccc;
-    &:hover {
-      background-color: #ccc;
-      color: #fff;
+  .article-bio {
+    text-align: center;
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+    .info-name {
+      text-align: left;
     }
   }
 }

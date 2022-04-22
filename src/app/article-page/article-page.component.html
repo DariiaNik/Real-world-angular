@@ -10,14 +10,16 @@
           <a class="info-name">{{ article.author.username }}</a>
           <span class="info-date">{{ article.createdAt | date: 'longDate' }}</span>
         </div>
-        <button mat-stroked-button class="btn-follow">
-          <mat-icon class="icon-add">add</mat-icon>
-          <span>Follow {{ article.author.username }}</span>
-        </button>
-        <button mat-stroked-button class="btn-favorite">
-          <mat-icon class="icon-heart">favorite</mat-icon>
-          <span>Favorite articles {{ article.favoritesCount }}</span>
-        </button>
+        <div class="article-btn" *ngIf="article.author.username !== user.username; else myArticle">
+          <button mat-stroked-button class="btn-follow">
+            <mat-icon class="icon-btn">add</mat-icon>
+            <span>Follow {{ article.author.username }}</span>
+          </button>
+          <button mat-stroked-button class="btn-favorite">
+            <mat-icon class="icon-btn">favorite</mat-icon>
+            <span>Favorite articles {{ article.favoritesCount }}</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -26,10 +28,6 @@
       <p>
         {{ article.body }}
       </p>
-      <div class="article-btn">
-        <button mat-stroked-button>Edit post</button>
-        <button mat-stroked-button (click)="deleteArticle(article.slug)">Delete article</button>
-      </div>
       <ul class="article-list-tags">
         <li class="article-tag pills" *ngFor="let tag of article.tagList">
           {{ tag }}
@@ -44,14 +42,16 @@
         <a class="info-name">{{ article.author.username }}</a>
         <span class="info-date">{{ article.createdAt | date: 'longDate' }}</span>
       </div>
-      <button mat-stroked-button class="btn-follow">
-        <mat-icon class="icon-add">add</mat-icon>
-        <span>Follow {{ article.author.username }}</span>
-      </button>
-      <button mat-stroked-button class="btn-favorite">
-        <mat-icon class="icon-heart">favorite</mat-icon>
-        <span>Favorite articles {{ article.favoritesCount }}</span>
-      </button>
+      <div class="article-btn" *ngIf="article.author.username !== user.username; else myArticle">
+        <button mat-stroked-button class="btn-follow">
+          <mat-icon class="icon-btn">add</mat-icon>
+          <span>Follow {{ article.author.username }}</span>
+        </button>
+        <button mat-stroked-button class="btn-favorite">
+          <mat-icon class="icon-btn">favorite</mat-icon>
+          <span>Favorite articles {{ article.favoritesCount }}</span>
+        </button>
+      </div>
     </div>
     <div class="article-comments">
       <form class="comment-form">
@@ -68,4 +68,17 @@
       </div>
     </div>
   </div>
+
+  <ng-template #myArticle>
+    <div class="article-btn">
+      <button mat-stroked-button class="btn-edit" [routerLink]="['/editor', article.slug]">
+        <mat-icon class="icon-btn">edit</mat-icon>
+        <span>Edit Article</span>
+      </button>
+      <button mat-stroked-button class="btn-delete" (click)="deleteArticle(article.slug)">
+        <mat-icon class="icon-btn">delete</mat-icon>
+        <span>Delete Article</span>
+      </button>
+    </div>
+  </ng-template>
 </div>

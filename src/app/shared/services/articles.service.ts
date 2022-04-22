@@ -1,7 +1,7 @@
 import { ResponseArticle } from '../models/response-article-interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable } from 'rxjs';
 import { Article } from 'src/app/shared/models/article-interface';
 import { ResponseMultiArticles } from 'src/app/shared/models/response-multi-articles-interface';
 import { environment } from 'src/environments/environment';
@@ -41,18 +41,18 @@ export class ArticlesService {
       })
     );
   }
-  createArticle(article: any): Observable<any> {
+  createArticle(article: Article): Observable<any> {
     return this.http.post(`${environment.apiUrl}articles`, { article }).pipe(
       map((response: any) => {
         return response;
       })
     );
   }
+  updateArticle(article: Article, slug: string) {
+    return this.http.put(`${environment.apiUrl}articles/${slug}`, { article });
+  }
+
   deleteArticle(slug: string) {
-    return this.http.delete(`${environment.apiUrl}articles/${slug}`).pipe(
-      map((response: any) => {
-        console.log(response);
-      })
-    );
+    return this.http.delete(`${environment.apiUrl}articles/${slug}`);
   }
 }
