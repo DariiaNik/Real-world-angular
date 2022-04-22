@@ -11,10 +11,18 @@
       padding: 0.25rem 0.5rem;
       line-height: 1.25;
       text-align: center;
+      &.favourited {
+        background-color: #69a2b0;
+        color: #fff;
+        &:hover {
+          background-color: #436a74;
+        }
+      }
       &:hover {
         background-color: #69a2b0;
         color: #fff;
       }
+
       .icon-heart {
         font-size: 1rem;
         line-height: 1.5;

@@ -55,4 +55,11 @@ export class ArticlesService {
   deleteArticle(slug: string) {
     return this.http.delete(`${environment.apiUrl}articles/${slug}`);
   }
+  favouriteArticle(slug: string) {
+    return this.http.post(`${environment.apiUrl}articles/${slug}/favorite`, {});
+  }
+
+  unFavouriteArticle(slug: string) {
+    return this.http.delete(`${environment.apiUrl}articles/${slug}/favorite`);
+  }
 }

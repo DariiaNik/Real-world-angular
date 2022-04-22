@@ -5,9 +5,14 @@
     </a>
     <div class="article-info">
       <a class="info-name">{{ article.author.username }}</a>
-      <span class="info-date">{{ article.createdAt | date: "longDate" }}</span>
+      <span class="info-date">{{ article.createdAt | date: 'longDate' }}</span>
     </div>
-    <button mat-stroked-button class="prewiew-likes">
+    <button
+      mat-stroked-button
+      [ngClass]="article.favorited ? 'favourited' : ''"
+      class="prewiew-likes"
+      (click)="favouriteArticle()"
+    >
       <mat-icon class="icon-heart">favorite</mat-icon>
       <span class="count-likes">{{ article.favoritesCount }}</span>
     </button>
