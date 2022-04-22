@@ -7,22 +7,22 @@
     <div class="home-articles">
       <div class="feed-toggle">
         <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link">Your Feed</a>
+          <li class="nav-item" (click)="getArticles('your')">
+            <a routerLinkActive="active" [routerLink]="['/home', 'your']" class="nav-link">Your Feed</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link active">Global Feeds</a>
+          <li class="nav-item" (click)="getArticles('global')">
+            <a
+              routerLinkActive="active"
+              [routerLink]="['/home']"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="nav-link"
+              >Global Feeds</a
+            >
           </li>
         </ul>
       </div>
-      <div
-        class="list-articles"
-        *ngIf="articles$ | async as articles; else loading"
-      >
-        <app-article
-          *ngFor="let article of articles"
-          [article]="article"
-        ></app-article>
+      <div class="list-articles" *ngIf="articles$ | async as articles; else loading">
+        <app-article *ngFor="let article of articles" [article]="article"></app-article>
       </div>
     </div>
     <div class="home-tags">

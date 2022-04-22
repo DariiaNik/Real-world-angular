@@ -14,6 +14,12 @@ import { TagsComponent } from 'src/app/home-page/tags/tags.component';
       {
         path: '',
         component: HomeLayoutComponent,
+        children: [
+          {
+            path: 'your',
+            component: HomeLayoutComponent,
+          },
+        ],
       },
     ]),
   ],
