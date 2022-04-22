@@ -1,10 +1,31 @@
-<div class="comment-card">
-  <p>{{ comment.body }}</p>
-  <div class="comment-card-footer">
-    <a class="article-image">
-      <img src="{{ comment.author.image }}" />
-    </a>
-    <a class="info-name">{{ comment.author.username }}</a>
-    <span class="info-date">{{ comment.createdAt | date: "longDate" }}</span>
+<div class="article-comments">
+  <form [formGroup]="form" (ngSubmit)="postComment()" class="comment-form">
+    <div class="comment-input">
+      <textarea type="text" placeholder="Write a comment..." rows="3" formControlName="comment"></textarea>
+    </div>
+    <div class="comment-banner" *ngIf="user">
+      <img src="{{ user.image }}" />
+      <button type="submit" class="btn-sub">Post comment</button>
+    </div>
+  </form>
+  <div *ngIf="comments$ | async as comments">
+    <div *ngFor="let comment of comments">
+      <div class="comment-card" *ngIf="user">
+        <p>{{ comment.body }}</p>
+        <div class="comment-card-footer">
+          <a class="article-image">
+            <img src="{{ comment.author.image }}" />
+          </a>
+          <a class="info-name">{{ comment.author.username }}</a>
+          <span class="info-date">{{ comment.createdAt | date: 'longDate' }}</span>
+          <mat-icon
+            *ngIf="user.username === comment.author.username"
+            class="icon-delete"
+            (click)="deleteComment(comment.id)"
+            >delete</mat-icon
+          >
+        </div>
+      </div>
+    </div>
   </div>
 </div>

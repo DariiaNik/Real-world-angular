@@ -53,20 +53,7 @@
         </button>
       </div>
     </div>
-    <div class="article-comments">
-      <form class="comment-form">
-        <div class="comment-input">
-          <textarea type="text" placeholder="Write a comment..." rows="3"></textarea>
-        </div>
-        <div class="comment-banner">
-          <img src="https://api.realworld.io/images/smiley-cyrus.jpeg" />
-          <button class="btn-sub">Post comment</button>
-        </div>
-      </form>
-      <div *ngIf="comments$ | async as comments">
-        <app-comment *ngFor="let comment of comments" [comment]="comment"></app-comment>
-      </div>
-    </div>
+    <app-comment [slug]="article.slug"></app-comment>
   </div>
 
   <ng-template #myArticle>
