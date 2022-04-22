@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ResponseComment } from 'src/app/shared/models/response-comment-interface';
 import { User } from 'src/app/shared/models/user-interface';
 import { UserService } from 'src/app/shared/services/user.service';
 import { CommentsService } from 'src/app/article-page/comments.service';
 import { Comment } from 'src/app/shared/models/comment-interface';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -13,13 +13,15 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./comment.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommentComponent implements OnInit {
+export class CommentComponent implements OnInit, OnDestroy {
+  constructor(private userService: UserService, private commentsService: CommentsService) {}
+
   @Input() slug!: string;
   form!: FormGroup;
   comments$!: Observable<ResponseComment[]>;
   user!: User;
-
-  constructor(private userService: UserService, private commentsService: CommentsService) {}
+  dSub!: Subscription;
+  pSub!: Subscription;
 
   ngOnInit(): void {
     this.userService.getUser().subscribe((user) => {
@@ -35,13 +37,22 @@ export class CommentComponent implements OnInit {
     this.comments$ = this.commentsService.getComments(this.slug);
   }
   public deleteComment(id: number) {
-    this.commentsService.deleteComment(this.slug, id).subscribe();
+    this.dSub = this.commentsService.deleteComment(this.slug, id).subscribe();
   }
 
   public postComment() {
     const comment: Comment = {
       body: this.form.value.comment,
     };
-    this.commentsService.addComments(this.slug, comment).subscribe();
+    this.pSub = this.commentsService.addComments(this.slug, comment).subscribe();
+  }
+
+  ngOnDestroy(): void {
+    if (this.dSub) {
+      this.dSub.unsubscribe;
+    }
+    if (this.pSub) {
+      this.pSub.unsubscribe;
+    }
   }
 }

@@ -52,8 +52,8 @@ export class ArticlesService {
     return this.http.put(`${environment.apiUrl}articles/${slug}`, { article });
   }
 
-  deleteArticle(slug: string) {
-    return this.http.delete(`${environment.apiUrl}articles/${slug}`);
+  deleteArticle(slug: string): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}articles/${slug}`);
   }
   favouriteArticle(slug: string) {
     return this.http.post(`${environment.apiUrl}articles/${slug}/favorite`, {});

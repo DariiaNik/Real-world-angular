@@ -11,7 +11,12 @@
           <span class="info-date">{{ article.createdAt | date: 'longDate' }}</span>
         </div>
         <div class="article-btn" *ngIf="article.author.username !== user.username; else myArticle">
-          <button mat-stroked-button class="btn-follow">
+          <button
+            *ngIf="!article.author.following; else unfollowing"
+            mat-stroked-button
+            class="btn-follow"
+            (click)="follow(article.author.username)"
+          >
             <mat-icon class="icon-btn">add</mat-icon>
             <span>Follow {{ article.author.username }}</span>
           </button>
@@ -43,7 +48,7 @@
         <span class="info-date">{{ article.createdAt | date: 'longDate' }}</span>
       </div>
       <div class="article-btn" *ngIf="article.author.username !== user.username; else myArticle">
-        <button mat-stroked-button class="btn-follow">
+        <button *ngIf="!article.author.following; else unfollowing" mat-stroked-button class="btn-follow">
           <mat-icon class="icon-btn">add</mat-icon>
           <span>Follow {{ article.author.username }}</span>
         </button>
@@ -67,5 +72,12 @@
         <span>Delete Article</span>
       </button>
     </div>
+  </ng-template>
+
+  <ng-template #unfollowing>
+    <button mat-stroked-button class="btn-follow" (click)="unFollow(article.author.username)">
+      <mat-icon class="icon-btn">add</mat-icon>
+      <span>Unfollow {{ article.author.username }}</span>
+    </button>
   </ng-template>
 </div>
