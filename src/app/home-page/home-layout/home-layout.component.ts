@@ -1,5 +1,5 @@
 import { ArticlesService } from '../../shared/services/articles.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Article } from 'src/app/shared/models/article-interface';
 import { Tags } from 'src/app/shared/models/tags-interface';
@@ -13,7 +13,7 @@ import { UserService } from 'src/app/shared/services/user.service';
   templateUrl: './home-layout.component.html',
   styleUrls: ['./home-layout.component.scss'],
 })
-export class HomeLayoutComponent implements OnInit {
+export class HomeLayoutComponent implements OnInit, OnDestroy {
   constructor(
     private articlesService: ArticlesService,
     private tagsService: TagsService,
@@ -31,7 +31,7 @@ export class HomeLayoutComponent implements OnInit {
     this.tags$ = this.tagsService.getTags();
 
     if (this.authorizationService.isAuthenticated()) {
-      this.userService.getUser().subscribe((user) => {
+      this.uSub = this.userService.getUser().subscribe((user) => {
         this.user = user;
       });
     }
@@ -48,6 +48,12 @@ export class HomeLayoutComponent implements OnInit {
           this.articles$ = this.articlesService.getByAuthor(this.user.username);
           break;
       }
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.uSub) {
+      this.uSub.unsubscribe();
     }
   }
 }

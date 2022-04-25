@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { ResponseComment } from 'src/app/shared/models/response-comment-interface';
 import { Comment } from 'src/app/shared/models/comment-interface';
 
@@ -10,9 +10,12 @@ import { Comment } from 'src/app/shared/models/comment-interface';
 export class CommentsService {
   constructor(private http: HttpClient) {}
 
+  public comments$: BehaviorSubject<ResponseComment[]> = new BehaviorSubject<ResponseComment[]>([]);
+
   getComments(slug: string): Observable<ResponseComment[]> {
     return this.http.get(`https://api.realworld.io/api/articles/${slug}/comments`).pipe(
       map((response: any) => {
+        this.comments$.next(response.comments);
         return response.comments;
       })
     );

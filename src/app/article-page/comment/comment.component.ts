@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@a
 import { ResponseComment } from 'src/app/shared/models/response-comment-interface';
 import { User } from 'src/app/shared/models/user-interface';
 import { UserService } from 'src/app/shared/services/user.service';
-import { CommentsService } from 'src/app/article-page/comments.service';
+import { CommentsService } from 'src/app/article-page/comment/comments.service';
 import { Comment } from 'src/app/shared/models/comment-interface';
 import { Observable, Subscription } from 'rxjs';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-comment',
@@ -14,45 +14,59 @@ import { FormControl, FormGroup } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentComponent implements OnInit, OnDestroy {
-  constructor(private userService: UserService, private commentsService: CommentsService) {}
+  constructor(readonly userService: UserService, readonly commentsService: CommentsService) {}
 
   @Input() slug!: string;
   form!: FormGroup;
   comments$!: Observable<ResponseComment[]>;
   user!: User;
-  dSub!: Subscription;
-  pSub!: Subscription;
+  disabled: boolean = false;
+  subscriptions: Subscription[] = [];
 
   ngOnInit(): void {
-    this.userService.getUser().subscribe((user) => {
-      this.user = user;
-    });
+    this.getUser();
     this.getComments();
     this.form = new FormGroup({
-      comment: new FormControl(''),
+      comment: new FormControl('', [Validators.required]),
+    });
+  }
+
+  private getUser() {
+    this.userService.getUser().subscribe((user) => {
+      this.user = user;
     });
   }
 
   private getComments() {
-    this.comments$ = this.commentsService.getComments(this.slug);
+    this.comments$ = this.commentsService.comments$;
+    this.commentsService.getComments(this.slug).subscribe();
   }
+
   public deleteComment(id: number) {
-    this.dSub = this.commentsService.deleteComment(this.slug, id).subscribe();
+    const deleteSubscription = this.commentsService.deleteComment(this.slug, id).subscribe((result) => {
+      this.getComments();
+    });
+    this.subscriptions.push(deleteSubscription);
   }
 
   public postComment() {
+    this.disabled = true;
     const comment: Comment = {
       body: this.form.value.comment,
     };
-    this.pSub = this.commentsService.addComments(this.slug, comment).subscribe();
+    const profileSubscription = this.commentsService.addComments(this.slug, comment).subscribe((result) => {
+      this.getComments();
+      this.form.reset();
+      this.disabled = false;
+    });
+    this.subscriptions.push(profileSubscription);
   }
 
   ngOnDestroy(): void {
-    if (this.dSub) {
-      this.dSub.unsubscribe;
-    }
-    if (this.pSub) {
-      this.pSub.unsubscribe;
-    }
+    this.subscriptions.forEach((sub) => {
+      if (sub) {
+        sub.unsubscribe();
+      }
+    });
   }
 }

@@ -142,6 +142,11 @@ form {
   color: #fff;
   cursor: pointer;
   font-family: 'Source Sans Pro', sans-serif;
+  &:disabled {
+    cursor: not-allowed;
+    background-color: rgba(149, 145, 145, 0.654);
+    border-color: #fff;
+  }
 }
 
 .article-image {

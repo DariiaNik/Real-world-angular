@@ -5,7 +5,7 @@
     </div>
     <div class="comment-banner" *ngIf="user">
       <img src="{{ user.image }}" />
-      <button type="submit" class="btn-sub">Post comment</button>
+      <button type="submit" class="btn-sub" [disabled]="disabled || form.invalid">Post comment</button>
     </div>
   </form>
   <div *ngIf="comments$ | async as comments">
