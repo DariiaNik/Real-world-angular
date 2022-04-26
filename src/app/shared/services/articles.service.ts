@@ -1,7 +1,7 @@
 import { ResponseArticle } from '../models/response-article-interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Article } from 'src/app/shared/models/article-interface';
 import { ResponseMultiArticles } from 'src/app/shared/models/response-multi-articles-interface';
 import { environment } from 'src/environments/environment';

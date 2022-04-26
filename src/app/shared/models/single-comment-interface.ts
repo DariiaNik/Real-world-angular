@@ -1,6 +1,6 @@
 import { Profile } from 'src/app/shared/models/profile-interface';
 
-export interface ResponseComment {
+export interface SingleComment {
   id: number;
   createdAt: string;
   updatedAt: string;
