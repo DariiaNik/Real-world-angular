@@ -14,6 +14,7 @@
           <button
             *ngIf="!article.author.following; else unfollowing"
             mat-stroked-button
+            [disabled]="disabled"
             class="btn-follow"
             (click)="follow(article.author.username)"
           >
@@ -75,7 +76,7 @@
   </ng-template>
 
   <ng-template #unfollowing>
-    <button mat-stroked-button class="btn-follow" (click)="unFollow(article.author.username)">
+    <button mat-stroked-button class="btn-follow" [disabled]="disabled" (click)="unFollow(article.author.username)">
       <mat-icon class="icon-btn">add</mat-icon>
       <span>Unfollow {{ article.author.username }}</span>
     </button>

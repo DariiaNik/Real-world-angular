@@ -1,7 +1,7 @@
 import { ResponseArticle } from '../models/response-article-interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { Article } from 'src/app/shared/models/article-interface';
 import { ResponseMultiArticles } from 'src/app/shared/models/response-multi-articles-interface';
 import { environment } from 'src/environments/environment';
@@ -13,6 +13,7 @@ export class ArticlesService {
   constructor(private http: HttpClient) {}
 
   public articles$: BehaviorSubject<Article[]> = new BehaviorSubject<Article[]>([]);
+  public articlesBySlug$: Subject<Article> = new Subject<Article>();
 
   getAll(): Observable<Article[]> {
     return this.http.get<ResponseMultiArticles>(`${environment.apiUrl}articles`).pipe(
@@ -26,6 +27,7 @@ export class ArticlesService {
   getBySlug(slug: string): Observable<Article> {
     return this.http.get<ResponseArticle>(`${environment.apiUrl}articles/${slug}`).pipe(
       map((response: ResponseArticle) => {
+        this.articlesBySlug$.next(response.article);
         return response.article;
       })
     );

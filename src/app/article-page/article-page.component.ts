@@ -18,6 +18,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
   article$!: Observable<Article>;
   user!: User;
   profile!: Profile;
+  disabled: boolean = false;
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -34,11 +35,15 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
   }
 
   private getArticles() {
-    this.article$ = this.route.params.pipe(
-      switchMap((params: Params) => {
-        return this.articlesService.getBySlug(params['slug']);
-      })
-    );
+    this.article$ = this.articlesService.articlesBySlug$;
+    const getBySlugSubscription: Subscription = this.route.params
+      .pipe(
+        switchMap((params: Params) => {
+          return this.articlesService.getBySlug(params['slug']);
+        })
+      )
+      .subscribe();
+    this.subscriptions.push(getBySlugSubscription);
   }
 
   private getUser() {
@@ -49,14 +54,25 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
   }
 
   public deleteArticle(slug: string) {
-    this.articlesService.deleteArticle(slug).subscribe();
+    const deleteSubscription: Subscription = this.articlesService.deleteArticle(slug).subscribe();
+    this.subscriptions.push(deleteSubscription);
     this.router.navigate(['/home']);
   }
   public follow(username: string) {
-    this.profileService.followUser(username).subscribe();
+    this.disabled = true;
+    const followSubscription: Subscription = this.profileService.followUser(username).subscribe(() => {
+      this.getArticles();
+      this.disabled = false;
+    });
+    this.subscriptions.push(followSubscription);
   }
   public unFollow(username: string) {
-    this.profileService.unFollowUser(username).subscribe();
+    this.disabled = true;
+    const unFollowSubscription: Subscription = this.profileService.unFollowUser(username).subscribe(() => {
+      this.getArticles();
+      this.disabled = false;
+    });
+    this.subscriptions.push(unFollowSubscription);
   }
 
   ngOnDestroy(): void {
