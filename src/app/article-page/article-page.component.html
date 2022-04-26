@@ -57,9 +57,10 @@
       <div class="article-btn" *ngIf="article.author.username !== user.username; else myArticle">
         <button
           *ngIf="!article.author.following; else unfollowing"
-          [disabled]="disabled"
           mat-stroked-button
+          [disabled]="disabled"
           class="btn-follow"
+          (click)="follow(article.author.username)"
         >
           <mat-icon class="icon-btn">add</mat-icon>
           <span>Follow {{ article.author.username }}</span>
@@ -67,9 +68,9 @@
         <button
           *ngIf="!article.favorited; else unfavourite"
           [disabled]="disabled"
+          (click)="favouriteArticle(article.slug)"
           mat-stroked-button
           class="btn-favorite"
-          (click)="favouriteArticle(article.slug)"
         >
           <mat-icon class="icon-btn">favorite</mat-icon>
           <span>Favorite articles {{ article.favoritesCount }}</span>
