@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Article } from 'src/app/shared/models/article-interface';
 import { ArticlesService } from '../../services/articles.service';
 
@@ -8,18 +9,50 @@ import { ArticlesService } from '../../services/articles.service';
   styleUrls: ['./article.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent implements OnInit, OnDestroy {
   @Input() article!: Article;
+  disabled: boolean = false;
+  subscriptions: Subscription[] = [];
 
   constructor(private articlesService: ArticlesService) {}
 
   ngOnInit(): void {}
 
-  favouriteArticle() {
+  private gettAllArticle() {
+    const getAllArticlesSubscription = this.articlesService.getAll().subscribe(() => {
+      this.disabled = false;
+    });
+    this.subscriptions.push(getAllArticlesSubscription);
+  }
+
+  private favouriteArticle() {
+    this.disabled = true;
+    const favouriteArticleSubscription = this.articlesService.favouriteArticle(this.article.slug).subscribe(() => {
+      this.gettAllArticle();
+    });
+    this.subscriptions.push(favouriteArticleSubscription);
+  }
+  private unFavouriteArticle() {
+    this.disabled = true;
+    const unFavouriteArticleSubscription = this.articlesService.unFavouriteArticle(this.article.slug).subscribe(() => {
+      this.gettAllArticle();
+    });
+    this.subscriptions.push(unFavouriteArticleSubscription);
+  }
+
+  public favouriteClick() {
     if (this.article.favorited) {
-      this.articlesService.unFavouriteArticle(this.article.slug).subscribe();
+      this.unFavouriteArticle();
     } else {
-      this.articlesService.favouriteArticle(this.article.slug).subscribe();
+      this.favouriteArticle();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => {
+      if (sub) {
+        sub.unsubscribe();
+      }
+    });
   }
 }

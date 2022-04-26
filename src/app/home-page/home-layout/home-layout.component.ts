@@ -14,6 +14,11 @@ import { UserService } from 'src/app/shared/services/user.service';
   styleUrls: ['./home-layout.component.scss'],
 })
 export class HomeLayoutComponent implements OnInit, OnDestroy {
+  articles$!: Observable<Article[]>;
+  tags$!: Observable<Tags[]>;
+  user!: User;
+  subscriptions: Subscription[] = [];
+
   constructor(
     private articlesService: ArticlesService,
     private tagsService: TagsService,
@@ -21,23 +26,32 @@ export class HomeLayoutComponent implements OnInit, OnDestroy {
     private userService: UserService
   ) {}
 
-  articles$!: Observable<Article[]>;
-  tags$!: Observable<Tags[]>;
-  user!: User;
-  uSub!: Subscription;
-
   ngOnInit(): void {
-    this.articles$ = this.articlesService.getAll();
-    this.tags$ = this.tagsService.getTags();
-
+    this.getAllArticles();
+    this.getTags();
     if (this.authorizationService.isAuthenticated()) {
-      this.uSub = this.userService.getUser().subscribe((user) => {
-        this.user = user;
-      });
+      this.getUser();
     }
   }
 
-  getArticles(type: string) {
+  private getAllArticles() {
+    this.articles$ = this.articlesService.articles$;
+    const getAllArticlesSubscription = this.articlesService.getAll().subscribe();
+    this.subscriptions.push(getAllArticlesSubscription);
+  }
+
+  private getTags() {
+    this.tags$ = this.tagsService.getTags();
+  }
+
+  private getUser() {
+    const userSubscription = this.userService.getUser().subscribe((user) => {
+      this.user = user;
+    });
+    this.subscriptions.push(userSubscription);
+  }
+
+  public getArticles(type: string) {
     if (this.authorizationService.isAuthenticated()) {
       switch (type) {
         case 'global':
@@ -52,8 +66,10 @@ export class HomeLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.uSub) {
-      this.uSub.unsubscribe();
-    }
+    this.subscriptions.forEach((sub) => {
+      if (sub) {
+        sub.unsubscribe();
+      }
+    });
   }
 }

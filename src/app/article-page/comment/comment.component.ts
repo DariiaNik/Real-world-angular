@@ -14,14 +14,14 @@ import { SingleComment } from 'src/app/shared/models/single-comment-interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentComponent implements OnInit, OnDestroy {
-  constructor(readonly userService: UserService, readonly commentsService: CommentsService) {}
-
   @Input() slug!: string;
   form!: FormGroup;
   comments$!: Observable<SingleComment[]>;
   user!: User;
   disabled: boolean = false;
   subscriptions: Subscription[] = [];
+
+  constructor(readonly userService: UserService, readonly commentsService: CommentsService) {}
 
   ngOnInit(): void {
     this.getUser();
@@ -39,7 +39,8 @@ export class CommentComponent implements OnInit, OnDestroy {
 
   private getComments() {
     this.comments$ = this.commentsService.comments$;
-    this.commentsService.getComments(this.slug).subscribe();
+    const getCommentsSubscription = this.commentsService.getComments(this.slug).subscribe();
+    this.subscriptions.push(getCommentsSubscription);
   }
 
   public deleteComment(id: number) {

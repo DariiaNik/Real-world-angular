@@ -9,9 +9,10 @@
     </div>
     <button
       mat-stroked-button
+      [disabled]="disabled"
       [ngClass]="article.favorited ? 'favourited' : ''"
       class="prewiew-likes"
-      (click)="favouriteArticle()"
+      (click)="favouriteClick()"
     >
       <mat-icon class="icon-heart">favorite</mat-icon>
       <span class="count-likes">{{ article.favoritesCount }}</span>

@@ -23,6 +23,13 @@
         color: #fff;
       }
 
+      &:disabled {
+        cursor: not-allowed;
+        background-color: rgba(149, 145, 145, 0.654);
+        border-color: #fff;
+        color: #fff;
+      }
+
       .icon-heart {
         font-size: 1rem;
         line-height: 1.5;
