@@ -75,7 +75,9 @@
   }
   .article-btn {
     .btn-follow,
+    .btn-unfollow,
     .btn-favorite,
+    .btn-unfavorite,
     .btn-delete,
     .btn-edit {
       font-size: 0.875rem;
@@ -99,6 +101,7 @@
       }
     }
     .btn-follow,
+    .btn-unfollow,
     .btn-edit {
       margin-right: 0.25rem;
       color: #ccc;
@@ -114,6 +117,17 @@
       &:hover {
         background-color: #b85c5c;
         color: #fff;
+      }
+    }
+    .btn-unfollow {
+      background-color: #c2bfbfaa;
+      color: #fff;
+    }
+    .btn-unfavorite {
+      background-color: #69a2b0;
+      color: #fff;
+      &:hover {
+        background-color: #49717b;
       }
     }
   }

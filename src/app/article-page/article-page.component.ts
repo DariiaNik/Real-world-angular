@@ -75,6 +75,23 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     this.subscriptions.push(unFollowSubscription);
   }
 
+  public favouriteArticle(slug: string) {
+    this.disabled = true;
+    const favouriteArticleSubscription: Subscription = this.articlesService.favouriteArticle(slug).subscribe(() => {
+      this.getArticles();
+      this.disabled = false;
+    });
+    this.subscriptions.push(favouriteArticleSubscription);
+  }
+  public unFavouriteArticle(slug: string) {
+    this.disabled = true;
+    const unFavouriteArticleSubscription: Subscription = this.articlesService.unFavouriteArticle(slug).subscribe(() => {
+      this.getArticles();
+      this.disabled = false;
+    });
+    this.subscriptions.push(unFavouriteArticleSubscription);
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach((sub) => {
       if (sub) {

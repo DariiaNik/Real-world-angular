@@ -21,7 +21,13 @@
             <mat-icon class="icon-btn">add</mat-icon>
             <span>Follow {{ article.author.username }}</span>
           </button>
-          <button mat-stroked-button class="btn-favorite">
+          <button
+            *ngIf="!article.favorited; else unfavourite"
+            [disabled]="disabled"
+            (click)="favouriteArticle(article.slug)"
+            mat-stroked-button
+            class="btn-favorite"
+          >
             <mat-icon class="icon-btn">favorite</mat-icon>
             <span>Favorite articles {{ article.favoritesCount }}</span>
           </button>
@@ -49,11 +55,22 @@
         <span class="info-date">{{ article.createdAt | date: 'longDate' }}</span>
       </div>
       <div class="article-btn" *ngIf="article.author.username !== user.username; else myArticle">
-        <button *ngIf="!article.author.following; else unfollowing" mat-stroked-button class="btn-follow">
+        <button
+          *ngIf="!article.author.following; else unfollowing"
+          [disabled]="disabled"
+          mat-stroked-button
+          class="btn-follow"
+        >
           <mat-icon class="icon-btn">add</mat-icon>
           <span>Follow {{ article.author.username }}</span>
         </button>
-        <button mat-stroked-button class="btn-favorite">
+        <button
+          *ngIf="!article.favorited; else unfavourite"
+          [disabled]="disabled"
+          mat-stroked-button
+          class="btn-favorite"
+          (click)="favouriteArticle(article.slug)"
+        >
           <mat-icon class="icon-btn">favorite</mat-icon>
           <span>Favorite articles {{ article.favoritesCount }}</span>
         </button>
@@ -76,9 +93,16 @@
   </ng-template>
 
   <ng-template #unfollowing>
-    <button mat-stroked-button class="btn-follow" [disabled]="disabled" (click)="unFollow(article.author.username)">
+    <button mat-stroked-button class="btn-unfollow" [disabled]="disabled" (click)="unFollow(article.author.username)">
       <mat-icon class="icon-btn">add</mat-icon>
       <span>Unfollow {{ article.author.username }}</span>
+    </button>
+  </ng-template>
+
+  <ng-template #unfavourite>
+    <button mat-stroked-button class="btn-unfavorite" [disabled]="disabled" (click)="unFavouriteArticle(article.slug)">
+      <mat-icon class="icon-btn">favorite</mat-icon>
+      <span>Unfavorite articles {{ article.favoritesCount }}</span>
     </button>
   </ng-template>
 </div>
