@@ -23,7 +23,7 @@ const routes: Routes = [
     loadChildren: () => import('./settings/settings.module').then((m) => m.SettingsModule),
   },
   {
-    path: 'profile',
+    path: 'profile/:username',
     loadChildren: () => import('./profile/profile.module').then((m) => m.ProfileModule),
   },
 ];

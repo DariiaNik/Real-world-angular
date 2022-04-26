@@ -1,11 +1,16 @@
-<div class="profile-page" *ngIf="user">
+<div class="profile-page" *ngIf="profile">
   <div class="user-info">
     <div class="container">
       <div class="bio">
-        <img src="{{ user.image }}" />
-        <h4>{{ user.username }}</h4>
-        <p>{{ user.bio }}</p>
-        <button mat-stroked-button class="btn btn-edit-settings" [routerLink]="['/settings']">
+        <img src="{{ profile.image }}" />
+        <h4>{{ profile.username }}</h4>
+        <p>{{ profile.bio }}</p>
+        <button
+          *ngIf="profile.username === user.username; else follow"
+          mat-stroked-button
+          class="btn btn-edit-settings"
+          [routerLink]="['/settings']"
+        >
           <mat-icon class="icon-settings">settings</mat-icon>
           <span>Edit Profile settings</span>
         </button>
@@ -21,13 +26,13 @@
               <a
                 class="nav-link"
                 routerLinkActive="active"
-                [routerLink]="['/profile']"
+                [routerLink]="['/profile', profile.username]"
                 [routerLinkActiveOptions]="{ exact: true }"
                 >My Articles</a
               >
             </li>
             <li class="nav-item" (click)="getArticles('favorites')">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/profile', 'favorites']"
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/profile', profile.username, 'favorites']"
                 >Favorited Articles</a
               >
             </li>
@@ -42,4 +47,24 @@
       </div>
     </div>
   </div>
+
+  <ng-template #follow>
+    <button
+      *ngIf="!profile.following; else unfollowing"
+      mat-stroked-button
+      [disabled]="disabled"
+      (click)="following(profile.username)"
+      class="btn-follow"
+    >
+      <mat-icon class="icon-btn">add</mat-icon>
+      <span>Follow {{ profile.username }}</span>
+    </button>
+  </ng-template>
+
+  <ng-template #unfollowing>
+    <button mat-stroked-button class="btn-unfollow" [disabled]="disabled" (click)="unFollowing(profile.username)">
+      <mat-icon class="icon-btn">add</mat-icon>
+      <span>Unfollow {{ profile.username }}</span>
+    </button>
+  </ng-template>
 </div>
