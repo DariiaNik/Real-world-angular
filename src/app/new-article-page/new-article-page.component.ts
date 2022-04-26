@@ -58,7 +58,7 @@ export class NewArticlePageComponent implements OnInit {
   public publishArticle() {
     const article = {
       ...this.form.value,
-      tagList: this.form.value.tagList.split(','),
+      tagList: this.form.value.tagList.toString().split(','),
     };
     if (this.article) {
       this.articlesService.updateArticle(article, this.article.slug).subscribe();

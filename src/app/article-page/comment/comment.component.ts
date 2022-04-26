@@ -32,19 +32,20 @@ export class CommentComponent implements OnInit, OnDestroy {
   }
 
   private getUser() {
-    this.userService.getUser().subscribe((user) => {
+    const getUserSubscription: Subscription = this.userService.getUser().subscribe((user) => {
       this.user = user;
     });
+    this.subscriptions.push(getUserSubscription);
   }
 
   private getComments() {
     this.comments$ = this.commentsService.comments$;
-    const getCommentsSubscription = this.commentsService.getComments(this.slug).subscribe();
+    const getCommentsSubscription: Subscription = this.commentsService.getComments(this.slug).subscribe();
     this.subscriptions.push(getCommentsSubscription);
   }
 
   public deleteComment(id: number) {
-    const deleteSubscription = this.commentsService.deleteComment(this.slug, id).subscribe((result) => {
+    const deleteSubscription: Subscription = this.commentsService.deleteComment(this.slug, id).subscribe((result) => {
       this.getComments();
     });
     this.subscriptions.push(deleteSubscription);
@@ -55,7 +56,7 @@ export class CommentComponent implements OnInit, OnDestroy {
     const comment: NewComment = {
       body: this.form.value.comment,
     };
-    const profileSubscription = this.commentsService.addComments(this.slug, comment).subscribe((result) => {
+    const profileSubscription: Subscription = this.commentsService.addComments(this.slug, comment).subscribe(() => {
       this.getComments();
       this.form.reset();
       this.disabled = false;

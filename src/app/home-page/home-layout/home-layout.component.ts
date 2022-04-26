@@ -29,6 +29,7 @@ export class HomeLayoutComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getAllArticles();
     this.getTags();
+
     if (this.authorizationService.isAuthenticated()) {
       this.getUser();
     }
@@ -36,7 +37,7 @@ export class HomeLayoutComponent implements OnInit, OnDestroy {
 
   private getAllArticles() {
     this.articles$ = this.articlesService.articles$;
-    const getAllArticlesSubscription = this.articlesService.getAll().subscribe();
+    const getAllArticlesSubscription: Subscription = this.articlesService.getAll().subscribe();
     this.subscriptions.push(getAllArticlesSubscription);
   }
 
@@ -45,7 +46,7 @@ export class HomeLayoutComponent implements OnInit, OnDestroy {
   }
 
   private getUser() {
-    const userSubscription = this.userService.getUser().subscribe((user) => {
+    const userSubscription: Subscription = this.userService.getUser().subscribe((user) => {
       this.user = user;
     });
     this.subscriptions.push(userSubscription);
@@ -55,7 +56,7 @@ export class HomeLayoutComponent implements OnInit, OnDestroy {
     if (this.authorizationService.isAuthenticated()) {
       switch (type) {
         case 'global':
-          this.articles$ = this.articlesService.getAll();
+          this.getAllArticles();
           break;
 
         case 'your':
