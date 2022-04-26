@@ -8,19 +8,29 @@
       <li class="nav-item" routerLinkActive="active" [routerLink]="['/home']">
         <a class="nav-link">Home</a>
       </li>
-      <li *ngIf="!isAuthenticated" class="nav-item" routerLinkActive="active" [routerLink]="['/auth', 'login']">
+      <li
+        *ngIf="!(isAuthenticated$ | async)"
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLink]="['/auth', 'login']"
+      >
         <a class="nav-link">Sing in</a>
       </li>
-      <li *ngIf="!isAuthenticated" class="nav-item" routerLinkActive="active" [routerLink]="['/auth', 'register']">
+      <li
+        *ngIf="!(isAuthenticated$ | async)"
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLink]="['/auth', 'register']"
+      >
         <a class="nav-link">Sing up</a>
       </li>
-      <li *ngIf="isAuthenticated" class="nav-item" routerLinkActive="active" [routerLink]="['/editor']">
+      <li *ngIf="isAuthenticated$ | async" class="nav-item" routerLinkActive="active" [routerLink]="['/editor']">
         <a class="nav-link new-article">New Article </a>
       </li>
-      <li *ngIf="isAuthenticated" class="nav-item" routerLinkActive="active" [routerLink]="['/settings']">
+      <li *ngIf="isAuthenticated$ | async" class="nav-item" routerLinkActive="active" [routerLink]="['/settings']">
         <a class="nav-link settings">Settings </a>
       </li>
-      <li *ngIf="isAuthenticated" class="nav-item" routerLinkActive="active" [routerLink]="['/profile']">
+      <li *ngIf="isAuthenticated$ | async" class="nav-item" routerLinkActive="active" [routerLink]="['/profile']">
         <a class="nav-link profile">
           <img src="https://api.realworld.io/images/smiley-cyrus.jpeg" />
           Profile

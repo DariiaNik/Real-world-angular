@@ -1,4 +1,5 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AuthorizationService } from 'src/app/authorization/shared/services/authorization.service';
 
 @Component({
@@ -7,9 +8,11 @@ import { AuthorizationService } from 'src/app/authorization/shared/services/auth
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements DoCheck {
+  isAuthenticated$!: Observable<boolean>;
+
   constructor(private authService: AuthorizationService) {}
-  isAuthenticated!: boolean;
+
   ngDoCheck(): void {
-    this.isAuthenticated = this.authService.isAuthenticated();
+    this.isAuthenticated$ = this.authService.isAuthenticated$;
   }
 }

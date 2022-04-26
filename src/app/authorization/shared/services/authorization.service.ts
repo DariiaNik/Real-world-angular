@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 import { LoginUser } from 'src/app/shared/models/login-user-interface';
 import { NewUser } from 'src/app/shared/models/new-user-interface';
 import { environment } from 'src/environments/environment';
@@ -10,6 +10,8 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthorizationService {
   constructor(private http: HttpClient) {}
+
+  public isAuthenticated$: Subject<boolean> = new Subject<boolean>();
 
   get token(): string {
     return localStorage.getItem('token')!;
@@ -37,7 +39,8 @@ export class AuthorizationService {
     this.setToken(null);
   }
 
-  isAuthenticated(): boolean {
+  isAuthenticated() {
+    this.isAuthenticated$.next(!!this.token);
     return !!this.token;
   }
 
