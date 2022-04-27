@@ -15,24 +15,40 @@ export class HomeLayoutComponent implements OnInit {
   articles$!: Observable<Article[]>;
   tags$!: Observable<Tags[]>;
   subscriptions: Subscription[] = [];
-  changingValue: Subject<string> = new Subject();
-  type!: string;
+  changingValue$: Subject<string> = new Subject();
+  tagName$: Subject<string> = new Subject();
+  type: string = 'global';
   user!: User;
   length: number = 0;
   pageSize: number = 5;
   pageEvent!: PageEvent;
+  selectedItem!: any;
 
   constructor(private tagsService: TagsService) {}
 
   ngOnInit(): void {
     this.getTags();
+    this.changingValue$.subscribe((value) => {
+      if (value) {
+        this.type = value;
+      }
+    });
   }
 
   private getTags() {
     this.tags$ = this.tagsService.getTags();
   }
 
-  getType(type: string) {
-    this.changingValue.next(type);
+  public getType(type: string) {
+    this.changingValue$.next(type);
+  }
+
+  public getTagName($event: Event) {
+    this.tagName$.next($event.toString());
+    this.getType($event.toString());
+  }
+
+  public clearTag() {
+    this.tagName$.next('');
   }
 }

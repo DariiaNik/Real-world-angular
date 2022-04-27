@@ -17,16 +17,6 @@ import { ArticlesComponent } from './articles/articles.component';
       {
         path: '',
         component: HomeLayoutComponent,
-        children: [
-          {
-            path: 'your',
-            component: HomeLayoutComponent,
-          },
-          {
-            path: ':tag',
-            component: HomeLayoutComponent,
-          },
-        ],
       },
     ]),
   ],

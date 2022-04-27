@@ -40,7 +40,7 @@ export class ProfileArticlesComponent implements OnInit, OnDestroy {
   }
 
   private getArticlesByAuthor(limit: number = 5, ofset: number = 0) {
-    this.articles$ = this.articlesService.articles$;
+    this.articles$ = this.articlesService.articlesByAuthor$;
     const getAllArticlesSubscription: Subscription = this.articlesService
       .getByAuthor(this.username, limit, ofset)
       .subscribe((response: any) => {
@@ -50,7 +50,7 @@ export class ProfileArticlesComponent implements OnInit, OnDestroy {
   }
 
   private getFavoriteArticles(limit: number = 5, ofset: number = 0) {
-    this.articles$ = this.articlesService.articles$;
+    this.articles$ = this.articlesService.favoriteArticles$;
     const getAllArticlesSubscription: Subscription = this.articlesService
       .getFavoriteArticles(this.username, limit, ofset)
       .subscribe((response: any) => {

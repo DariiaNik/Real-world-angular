@@ -7,27 +7,24 @@
     <div class="home-articles">
       <div class="feed-toggle">
         <ul class="nav">
-          <li class="nav-item" (click)="getType('your')">
-            <a routerLinkActive="active" [routerLink]="['/home', 'your']" class="nav-link">Your Feed</a>
+          <li class="nav-item" (click)="getType('your')" (click)="clearTag()">
+            <a [ngClass]="type === 'your' ? 'active' : ''" class="nav-link">Your Feed</a>
           </li>
-          <li class="nav-item" (click)="getType('global')">
-            <a
-              routerLinkActive="active"
-              [routerLink]="['/home']"
-              [routerLinkActiveOptions]="{ exact: true }"
-              class="nav-link"
-              >Global Feeds</a
-            >
+          <li class="nav-item" (click)="getType('global')" (click)="clearTag()">
+            <a [ngClass]="type === 'global' ? 'active' : ''" class="nav-link">Global Feeds</a>
+          </li>
+          <li *ngIf="tagName$ | async as tagName" class="nav-item" (click)="getType(tagName)">
+            <a [ngClass]="type === tagName ? 'active' : ''" class="nav-link"># {{ tagName }}</a>
           </li>
         </ul>
       </div>
-      <app-articles [type$]="changingValue"></app-articles>
+      <app-articles [type$]="changingValue$" [tagName$]="tagName$"></app-articles>
     </div>
     <div class="home-tags">
       <div class="sidebar">
         <p>Popular Tags</p>
         <div class="list-tags" *ngIf="tags$ | async as tags">
-          <app-tags *ngFor="let tag of tags" [tag]="tag"></app-tags>
+          <app-tags *ngFor="let tag of tags" [tag]="tag" (sendTag)="getTagName($event)"></app-tags>
         </div>
       </div>
     </div>

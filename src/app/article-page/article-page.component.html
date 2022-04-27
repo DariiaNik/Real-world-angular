@@ -1,5 +1,5 @@
 <div class="article-page" *ngIf="article$ | async as article">
-  <div class="banner">
+  <div class="banner" *ngIf="user">
     <div class="container">
       <h1 class="logo">{{ article.title }}</h1>
       <div class="article-bio">
@@ -35,7 +35,7 @@
       </div>
     </div>
   </div>
-  <div class="container article-body">
+  <div class="container article-body" *ngIf="user">
     <div class="article-content">
       <p>
         {{ article.body }}

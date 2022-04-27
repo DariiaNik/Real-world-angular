@@ -35,7 +35,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
   }
 
   private getArticles() {
-    this.article$ = this.articlesService.articlesBySlug$;
+    this.article$ = this.articlesService.articleBySlug$;
     const getBySlugSubscription: Subscription = this.route.params
       .pipe(
         switchMap((params: Params) => {

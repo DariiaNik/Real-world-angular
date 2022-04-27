@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Tags } from 'src/app/shared/models/tags-interface';
 
 @Component({
@@ -8,8 +8,15 @@ import { Tags } from 'src/app/shared/models/tags-interface';
 })
 export class TagsComponent implements OnInit {
   @Input() tag!: Tags;
+  @Output() sendTag = new EventEmitter();
+  tagName!: string;
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  clickTag(tag: any) {
+    this.tagName = tag;
+    this.sendTag.emit(this.tagName);
+  }
 }

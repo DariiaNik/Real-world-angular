@@ -13,7 +13,10 @@ export class ArticlesService {
   constructor(private http: HttpClient) {}
 
   public articles$: BehaviorSubject<Article[]> = new BehaviorSubject<Article[]>([]);
-  public articlesBySlug$: Subject<Article> = new Subject<Article>();
+  public favoriteArticles$: BehaviorSubject<Article[]> = new BehaviorSubject<Article[]>([]);
+  public articlesByTag$: BehaviorSubject<Article[]> = new BehaviorSubject<Article[]>([]);
+  public articlesByAuthor$: BehaviorSubject<Article[]> = new BehaviorSubject<Article[]>([]);
+  public articleBySlug$: Subject<Article> = new Subject<Article>();
 
   getAll(limit: number = 5, offset: number = 0): Observable<ResponseMultiArticles> {
     return this.http.get<ResponseMultiArticles>(`${environment.apiUrl}articles?limit=${limit}&offset=${offset}`).pipe(
@@ -29,18 +32,21 @@ export class ArticlesService {
       .get<ResponseMultiArticles>(`${environment.apiUrl}articles?author=${author}&limit=${limit}&offset=${offset}`)
       .pipe(
         map((response: ResponseMultiArticles) => {
-          this.articles$.next(response.articles);
+          this.articlesByAuthor$.next(response.articles);
           return response;
         })
       );
   }
 
-  getByTag(tag: string): Observable<Article[]> {
-    return this.http.get<ResponseMultiArticles>(`${environment.apiUrl}articles?tag=${tag}`).pipe(
-      map((response: ResponseMultiArticles) => {
-        return response.articles;
-      })
-    );
+  getByTag(tag: string, limit: number = 5, offset: number = 0): Observable<ResponseMultiArticles> {
+    return this.http
+      .get<ResponseMultiArticles>(`${environment.apiUrl}articles?tag=${tag}&limit=${limit}&offset=${offset}`)
+      .pipe(
+        map((response: ResponseMultiArticles) => {
+          this.articlesByTag$.next(response.articles);
+          return response;
+        })
+      );
   }
 
   getFavoriteArticles(username: string, limit: number = 5, offset: number = 0): Observable<ResponseMultiArticles> {
@@ -48,7 +54,7 @@ export class ArticlesService {
       .get<ResponseMultiArticles>(`${environment.apiUrl}articles?favorited=${username}&limit=${limit}&offset=${offset}`)
       .pipe(
         map((response: ResponseMultiArticles) => {
-          this.articles$.next(response.articles);
+          this.favoriteArticles$.next(response.articles);
           return response;
         })
       );
@@ -57,7 +63,7 @@ export class ArticlesService {
   getBySlug(slug: string): Observable<Article> {
     return this.http.get<ResponseArticle>(`${environment.apiUrl}articles/${slug}`).pipe(
       map((response: ResponseArticle) => {
-        this.articlesBySlug$.next(response.article);
+        this.articleBySlug$.next(response.article);
         return response.article;
       })
     );
