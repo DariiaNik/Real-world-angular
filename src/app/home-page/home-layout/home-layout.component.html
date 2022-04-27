@@ -7,10 +7,10 @@
     <div class="home-articles">
       <div class="feed-toggle">
         <ul class="nav">
-          <li class="nav-item" (click)="getArticles('your')">
+          <li class="nav-item" (click)="getType('your')">
             <a routerLinkActive="active" [routerLink]="['/home', 'your']" class="nav-link">Your Feed</a>
           </li>
-          <li class="nav-item" (click)="getArticles('global')">
+          <li class="nav-item" (click)="getType('global')">
             <a
               routerLinkActive="active"
               [routerLink]="['/home']"
@@ -21,12 +21,7 @@
           </li>
         </ul>
       </div>
-      <div class="list-articles" *ngIf="articles$ | async as articles; else loading">
-        <app-article *ngFor="let article of articles" [article]="article"></app-article>
-      </div>
-      <ng-template #loading>
-        <p class="loading">Loading...</p>
-      </ng-template>
+      <app-articles [type$]="changingValue"></app-articles>
     </div>
     <div class="home-tags">
       <div class="sidebar">

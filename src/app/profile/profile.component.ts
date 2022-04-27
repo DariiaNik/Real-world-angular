@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { map, Observable, pipe, Subscription, switchMap } from 'rxjs';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Subject, Subscription, switchMap } from 'rxjs';
 import { UserService } from 'src/app/shared/services/user.service';
-import { ArticlesService } from 'src/app/shared/services/articles.service';
-import { Article } from 'src/app/shared/models/article-interface';
 import { User } from 'src/app/shared/models/user-interface';
 import { Profile } from 'src/app/shared/models/profile-interface';
 import { ProfileService } from 'src/app/shared/services/profile.service';
@@ -14,17 +12,15 @@ import { ProfileService } from 'src/app/shared/services/profile.service';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  articles$!: Observable<Article[]>;
-  favouriteArticles$!: Observable<Article[]>;
-  user!: User;
-  profile!: Profile;
-  name!: any;
+  changingValue: Subject<string> = new Subject();
   subscriptions: Subscription[] = [];
+  profile!: Profile;
+  user!: User;
   disabled: boolean = false;
+  name!: any;
 
   constructor(
     private userService: UserService,
-    private articlesService: ArticlesService,
     private profileService: ProfileService,
     private route: ActivatedRoute
   ) {}
@@ -38,7 +34,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const getUserSubscription = this.userService.getUser().subscribe((user) => {
       this.user = user;
     });
-
     this.subscriptions.push(getUserSubscription);
   }
 
@@ -51,26 +46,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
       )
       .subscribe((response) => {
         this.profile = response.profile;
-        this.getArticlesByAuthor();
       });
 
     this.subscriptions.push(getProfileSubscription);
   }
 
-  private getArticlesByAuthor() {
-    this.articles$ = this.articlesService.getByAuthor(this.profile.username);
-  }
-
-  public getArticles(type: string) {
-    switch (type) {
-      case 'author':
-        this.articles$ = this.articlesService.getByAuthor(this.profile.username);
-        break;
-
-      case 'favorites':
-        this.articles$ = this.articlesService.getFavoriteArticles(this.profile.username);
-        break;
-    }
+  public getType(type: string) {
+    this.changingValue.next(type);
+    console.log(type);
   }
 
   public following(username: string) {

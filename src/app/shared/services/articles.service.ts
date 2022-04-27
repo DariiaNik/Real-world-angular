@@ -15,13 +15,43 @@ export class ArticlesService {
   public articles$: BehaviorSubject<Article[]> = new BehaviorSubject<Article[]>([]);
   public articlesBySlug$: Subject<Article> = new Subject<Article>();
 
-  getAll(): Observable<Article[]> {
-    return this.http.get<ResponseMultiArticles>(`${environment.apiUrl}articles`).pipe(
+  getAll(limit: number = 5, offset: number = 0): Observable<ResponseMultiArticles> {
+    return this.http.get<ResponseMultiArticles>(`${environment.apiUrl}articles?limit=${limit}&offset=${offset}`).pipe(
       map((response: ResponseMultiArticles) => {
         this.articles$.next(response.articles);
+        return response;
+      })
+    );
+  }
+
+  getByAuthor(author: string, limit: number = 5, offset: number = 0): Observable<ResponseMultiArticles> {
+    return this.http
+      .get<ResponseMultiArticles>(`${environment.apiUrl}articles?author=${author}&limit=${limit}&offset=${offset}`)
+      .pipe(
+        map((response: ResponseMultiArticles) => {
+          this.articles$.next(response.articles);
+          return response;
+        })
+      );
+  }
+
+  getByTag(tag: string): Observable<Article[]> {
+    return this.http.get<ResponseMultiArticles>(`${environment.apiUrl}articles?tag=${tag}`).pipe(
+      map((response: ResponseMultiArticles) => {
         return response.articles;
       })
     );
+  }
+
+  getFavoriteArticles(username: string, limit: number = 5, offset: number = 0): Observable<ResponseMultiArticles> {
+    return this.http
+      .get<ResponseMultiArticles>(`${environment.apiUrl}articles?favorited=${username}&limit=${limit}&offset=${offset}`)
+      .pipe(
+        map((response: ResponseMultiArticles) => {
+          this.articles$.next(response.articles);
+          return response;
+        })
+      );
   }
 
   getBySlug(slug: string): Observable<Article> {
@@ -32,20 +62,7 @@ export class ArticlesService {
       })
     );
   }
-  getByAuthor(author: string): Observable<Article[]> {
-    return this.http.get<ResponseMultiArticles>(`${environment.apiUrl}articles?author=${author}`).pipe(
-      map((response: ResponseMultiArticles) => {
-        return response.articles;
-      })
-    );
-  }
-  getFavoriteArticles(username: string): Observable<Article[]> {
-    return this.http.get<ResponseMultiArticles>(`${environment.apiUrl}articles?favorited=${username}`).pipe(
-      map((response: ResponseMultiArticles) => {
-        return response.articles;
-      })
-    );
-  }
+
   createArticle(article: Article): Observable<Article> {
     return this.http.post<Article>(`${environment.apiUrl}articles`, { article }).pipe(
       map((response: Article) => {

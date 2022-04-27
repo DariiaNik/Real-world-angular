@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { NewComment } from 'src/app/shared/models/new-comment-interface';
 import { ResponseMultiComment } from 'src/app/shared/models/response-multi-comment-interface';
-import { SingleComment } from 'src/app/shared/models/single-comment-interface';
+import { SingleComment } from 'src/app/shared/models/comment-interface';
 
 @Injectable({
   providedIn: 'root',

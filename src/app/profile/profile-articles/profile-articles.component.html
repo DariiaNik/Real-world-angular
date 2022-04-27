@@ -1,0 +1,14 @@
+<div class="list-articles" *ngIf="articles$ | async as articles; else loading">
+  <app-article *ngFor="let article of articles" [article]="article"></app-article>
+  <mat-paginator
+    [length]="length"
+    [pageSize]="pageSize"
+    (page)="pageEvent = $event"
+    (page)="pageEvent = changesPage($event)"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</div>
+<ng-template #loading>
+  <p class="loading">Loading...</p>
+</ng-template>

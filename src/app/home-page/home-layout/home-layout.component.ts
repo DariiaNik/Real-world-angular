@@ -1,76 +1,38 @@
-import { ArticlesService } from '../../shared/services/articles.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Article } from 'src/app/shared/models/article-interface';
 import { Tags } from 'src/app/shared/models/tags-interface';
 import { TagsService } from 'src/app/home-page/tags.service';
-import { AuthorizationService } from 'src/app/authorization/shared/services/authorization.service';
 import { User } from 'src/app/shared/models/user-interface';
-import { UserService } from 'src/app/shared/services/user.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-home-layout',
   templateUrl: './home-layout.component.html',
   styleUrls: ['./home-layout.component.scss'],
 })
-export class HomeLayoutComponent implements OnInit, OnDestroy {
+export class HomeLayoutComponent implements OnInit {
   articles$!: Observable<Article[]>;
   tags$!: Observable<Tags[]>;
-  user!: User;
   subscriptions: Subscription[] = [];
+  changingValue: Subject<string> = new Subject();
+  type!: string;
+  user!: User;
+  length: number = 0;
+  pageSize: number = 5;
+  pageEvent!: PageEvent;
 
-  constructor(
-    private articlesService: ArticlesService,
-    private tagsService: TagsService,
-    private authorizationService: AuthorizationService,
-    private userService: UserService
-  ) {}
+  constructor(private tagsService: TagsService) {}
 
   ngOnInit(): void {
-    this.getAllArticles();
     this.getTags();
-
-    if (this.authorizationService.isAuthenticated()) {
-      this.getUser();
-    }
-  }
-
-  private getAllArticles() {
-    this.articles$ = this.articlesService.articles$;
-    const getAllArticlesSubscription: Subscription = this.articlesService.getAll().subscribe();
-    this.subscriptions.push(getAllArticlesSubscription);
   }
 
   private getTags() {
     this.tags$ = this.tagsService.getTags();
   }
 
-  private getUser() {
-    const userSubscription: Subscription = this.userService.getUser().subscribe((user) => {
-      this.user = user;
-    });
-    this.subscriptions.push(userSubscription);
-  }
-
-  public getArticles(type: string) {
-    if (this.authorizationService.isAuthenticated()) {
-      switch (type) {
-        case 'global':
-          this.getAllArticles();
-          break;
-
-        case 'your':
-          this.articles$ = this.articlesService.getByAuthor(this.user.username);
-          break;
-      }
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
-      if (sub) {
-        sub.unsubscribe();
-      }
-    });
+  getType(type: string) {
+    this.changingValue.next(type);
   }
 }

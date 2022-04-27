@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthorizationInterceptor } from 'src/app/shared/authorization.interceptor';
+import { AuthorizationInterceptor } from 'src/app/shared/services/authorization.interceptor';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],

@@ -1,0 +1,10 @@
+.list-articles {
+  margin-top: 3rem;
+
+  mat-paginator {
+    background-color: #fff;
+    color: rgba(62, 60, 60, 0.654);
+    display: flex;
+    justify-content: center;
+  }
+}

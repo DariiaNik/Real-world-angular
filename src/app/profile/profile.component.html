@@ -1,4 +1,4 @@
-<div class="profile-page" *ngIf="profile">
+<div class="profile-page" *ngIf="profile && user">
   <div class="user-info">
     <div class="container">
       <div class="bio">
@@ -22,7 +22,7 @@
       <div class="profile-articles">
         <div class="feed-toggle">
           <ul class="nav">
-            <li class="nav-item" (click)="getArticles('author')">
+            <li class="nav-item" (click)="getType('author')">
               <a
                 class="nav-link"
                 routerLinkActive="active"
@@ -31,19 +31,20 @@
                 >My Articles</a
               >
             </li>
-            <li class="nav-item" (click)="getArticles('favorites')">
+            <li class="nav-item" (click)="getType('favorites')">
               <a class="nav-link" routerLinkActive="active" [routerLink]="['/profile', profile.username, 'favorites']"
                 >Favorited Articles</a
               >
             </li>
           </ul>
         </div>
-        <div class="list-articles" *ngIf="articles$ | async as articles; else loading">
+        <!-- <div class="list-articles" *ngIf="articles$ | async as articles; else loading">
           <app-article *ngFor="let article of articles" [article]="article"></app-article>
         </div>
         <ng-template #loading>
           <p class="loading">Loading...</p>
-        </ng-template>
+        </ng-template> -->
+        <app-profile-articles [username]="profile.username" [type$]="changingValue"></app-profile-articles>
       </div>
     </div>
   </div>

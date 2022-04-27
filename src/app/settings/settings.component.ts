@@ -50,6 +50,6 @@ export class SettingsComponent implements OnInit {
   public updateUser() {
     const user: User = { ...this.form.value, token: this.user.token };
     this.userService.updateUser(user).subscribe();
-    this.router.navigate(['/profile']);
+    this.router.navigate(['/profile', this.user.username]);
   }
 }

@@ -3,12 +3,15 @@ import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { ProfileArticlesComponent } from 'src/app/profile/profile-articles/profile-articles.component';
 
 @NgModule({
-  declarations: [ProfileComponent],
+  declarations: [ProfileComponent, ProfileArticlesComponent],
   imports: [
     CommonModule,
     SharedModule,
+    MatPaginatorModule,
     RouterModule.forChild([
       {
         path: '',

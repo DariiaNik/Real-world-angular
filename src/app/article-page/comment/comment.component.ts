@@ -5,7 +5,7 @@ import { CommentsService } from 'src/app/article-page/comment/comments.service';
 import { Observable, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NewComment } from 'src/app/shared/models/new-comment-interface';
-import { SingleComment } from 'src/app/shared/models/single-comment-interface';
+import { SingleComment } from 'src/app/shared/models/comment-interface';
 
 @Component({
   selector: 'app-comment',
