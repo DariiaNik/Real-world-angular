@@ -16,12 +16,6 @@ import { ProfileArticlesComponent } from 'src/app/profile/profile-articles/profi
       {
         path: '',
         component: ProfileComponent,
-        children: [
-          {
-            path: 'favorites',
-            component: ProfileComponent,
-          },
-        ],
       },
     ]),
   ],

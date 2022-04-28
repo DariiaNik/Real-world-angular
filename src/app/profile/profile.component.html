@@ -23,27 +23,13 @@
         <div class="feed-toggle">
           <ul class="nav">
             <li class="nav-item" (click)="getType('author')">
-              <a
-                class="nav-link"
-                routerLinkActive="active"
-                [routerLink]="['/profile', profile.username]"
-                [routerLinkActiveOptions]="{ exact: true }"
-                >My Articles</a
-              >
+              <a class="nav-link" [ngClass]="type === 'author' ? 'active' : ''">My Articles</a>
             </li>
             <li class="nav-item" (click)="getType('favorites')">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/profile', profile.username, 'favorites']"
-                >Favorited Articles</a
-              >
+              <a class="nav-link" [ngClass]="type === 'favorites' ? 'active' : ''">Favorited Articles</a>
             </li>
           </ul>
         </div>
-        <!-- <div class="list-articles" *ngIf="articles$ | async as articles; else loading">
-          <app-article *ngFor="let article of articles" [article]="article"></app-article>
-        </div>
-        <ng-template #loading>
-          <p class="loading">Loading...</p>
-        </ng-template> -->
         <app-profile-articles [username]="profile.username" [type$]="changingValue"></app-profile-articles>
       </div>
     </div>

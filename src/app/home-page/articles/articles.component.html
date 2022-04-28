@@ -1,7 +1,16 @@
 <div class="list-articles" *ngIf="articles$ | async as articles; else loading">
   <div>
-    <app-article *ngFor="let article of articles" [article]="article"></app-article>
+    <app-article
+      *ngFor="let article of articles"
+      [article]="article"
+      [type]="type"
+      (getAllArticles)="getAllArticles()"
+      (getFavoriteArticles)="getFavoriteArticles()"
+      (getArticlesByTag)="getArticlesByTag(type)"
+    ></app-article>
+    <span *ngIf="loadingArticle">Loading articles...</span>
     <mat-paginator
+      #paginator
       [length]="length"
       [pageSize]="pageSize"
       (page)="pageEvent = $event"

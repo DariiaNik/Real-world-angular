@@ -49,7 +49,16 @@ export class SettingsComponent implements OnInit {
 
   public updateUser() {
     const user: User = { ...this.form.value, token: this.user.token };
-    this.userService.updateUser(user).subscribe();
+    this.userService.updateUser(user).subscribe((response) => {
+      this.authService.setToken(response);
+      console.log(response);
+    });
     this.router.navigate(['/profile', this.user.username]);
   }
 }
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhcmlpYThAZ21haWwuY29tIiwidXNlcm5hbWUiOiJEYXJpaWE4IiwiaWF0IjoxNjUxMDczMTY4LCJleHAiOjE2NTYyNTcxNjh9.UcvNyXlGvj641k5xNzUToS5SEmU5_OevYN6E1tlaMgQ"
+// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhcmlpYThAZ21haWwuY29tIiwidXNlcm5hbWUiOiJEYXJpaWE4IiwiaWF0IjoxNjUxMDczMjk3LCJleHAiOjE2NTYyNTcyOTd9.LUpEgr-SUqpAPizJmbsIglQjFcy_Cdu3ez9xrgLpRGM"
+// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhcmlpYThAZ21haWwuY29tIiwidXNlcm5hbWUiOiJEYXJpaWE4IiwiaWF0IjoxNjUxMDczMzUwLCJleHAiOjE2NTYyNTczNTB9.eUakPvkjXEZocG-U28-4ma7oxTtsLax3bs_KuEXbHJM"
+// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhcmlpYThAZ21haWwuY29tIiwidXNlcm5hbWUiOiJEYXJpaWE4NSIsImlhdCI6MTY1MTA3MzQ5NywiZXhwIjoxNjU2MjU3NDk3fQ.UCrKphr_6cVuOL87UsM5usj7emUhRnlgwo8VTCuC7sw"
+// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhcmlpYThAZ21haWwuY29tIiwidXNlcm5hbWUiOiJEYXJpaWE4NSIsImlhdCI6MTY1MTA3MzQ5NywiZXhwIjoxNjU2MjU3NDk3fQ.UCrKphr_6cVuOL87UsM5usj7emUhRnlgwo8VTCuC7sw"

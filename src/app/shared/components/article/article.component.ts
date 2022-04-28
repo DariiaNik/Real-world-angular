@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Article } from 'src/app/shared/models/article-interface';
 import { ArticlesService } from '../../services/articles.service';
@@ -10,7 +10,13 @@ import { ArticlesService } from '../../services/articles.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleComponent implements OnInit, OnDestroy {
+  @Output('getAllArticles') getAllArticles: EventEmitter<void> = new EventEmitter();
+  @Output('getFavoriteArticles') getFavoriteArticles: EventEmitter<void> = new EventEmitter();
+  @Output('getFavoriteArticlesProfile') getFavoriteArticlesProfile: EventEmitter<void> = new EventEmitter();
+  @Output('getArticlesByTag') getArticlesByTag: EventEmitter<String> = new EventEmitter();
+  @Output('getArticlesByAuthor') getArticlesByAuthor: EventEmitter<void> = new EventEmitter();
   @Input() article!: Article;
+  @Input() type!: string;
   disabled: boolean = false;
   subscriptions: Subscription[] = [];
 
@@ -18,26 +24,47 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {}
 
-  private getAllArticle() {
-    const getAllArticlesSubscription = this.articlesService.getAll().subscribe(() => {
-      this.disabled = false;
-    });
-    this.subscriptions.push(getAllArticlesSubscription);
-  }
-
   private favouriteArticle() {
     this.disabled = true;
     const favouriteArticleSubscription = this.articlesService.favouriteArticle(this.article.slug).subscribe(() => {
-      this.getAllArticle();
+      this.updateArticles();
     });
     this.subscriptions.push(favouriteArticleSubscription);
   }
   private unFavouriteArticle() {
     this.disabled = true;
     const unFavouriteArticleSubscription = this.articlesService.unFavouriteArticle(this.article.slug).subscribe(() => {
-      this.getAllArticle();
+      this.updateArticles();
     });
     this.subscriptions.push(unFavouriteArticleSubscription);
+  }
+
+  private updateArticles() {
+    if (this.type) {
+      switch (this.type) {
+        case 'global':
+          this.getAllArticles.emit();
+          break;
+
+        case 'your':
+          this.getFavoriteArticles.emit();
+          break;
+
+        case 'favorites':
+          this.getFavoriteArticlesProfile.emit();
+          break;
+
+        case 'author':
+          this.getArticlesByAuthor.emit();
+          break;
+
+        default:
+          this.getArticlesByTag.emit(this.type);
+      }
+    } else {
+      this.getAllArticles.emit();
+      this.getArticlesByAuthor.emit();
+    }
   }
 
   public favouriteClick() {

@@ -1,4 +1,4 @@
-<div class="banner">
+<div *ngIf="!isAuth" class="banner">
   <h1 class="logo">real world</h1>
   <p>Create by Dariia</p>
 </div>
@@ -7,7 +7,7 @@
     <div class="home-articles">
       <div class="feed-toggle">
         <ul class="nav">
-          <li class="nav-item" (click)="getType('your')" (click)="clearTag()">
+          <li *ngIf="isAuth" class="nav-item" (click)="getType('your')" (click)="clearTag()">
             <a [ngClass]="type === 'your' ? 'active' : ''" class="nav-link">Your Feed</a>
           </li>
           <li class="nav-item" (click)="getType('global')" (click)="clearTag()">

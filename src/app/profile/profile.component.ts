@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   user!: User;
   disabled: boolean = false;
   name!: any;
+  type: string = 'author';
 
   constructor(
     private userService: UserService,
@@ -53,6 +54,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public getType(type: string) {
     this.changingValue.next(type);
+    this.type = type;
   }
 
   public following(username: string) {

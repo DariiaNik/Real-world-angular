@@ -39,7 +39,7 @@ export class ProfileArticlesComponent implements OnInit, OnDestroy {
     this.getArticlesByAuthor();
   }
 
-  private getArticlesByAuthor(limit: number = 5, ofset: number = 0) {
+  public getArticlesByAuthor(limit: number = 5, ofset: number = 0) {
     this.articles$ = this.articlesService.articlesByAuthor$;
     const getAllArticlesSubscription: Subscription = this.articlesService
       .getByAuthor(this.username, limit, ofset)
@@ -49,7 +49,7 @@ export class ProfileArticlesComponent implements OnInit, OnDestroy {
     this.subscriptions.push(getAllArticlesSubscription);
   }
 
-  private getFavoriteArticles(limit: number = 5, ofset: number = 0) {
+  public getFavoriteArticles(limit: number = 5, ofset: number = 0) {
     this.articles$ = this.articlesService.favoriteArticles$;
     const getAllArticlesSubscription: Subscription = this.articlesService
       .getFavoriteArticles(this.username, limit, ofset)

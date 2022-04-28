@@ -1,5 +1,5 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { AuthorizationService } from 'src/app/authorization/shared/services/authorization.service';
 import { Article } from 'src/app/shared/models/article-interface';
@@ -16,6 +16,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 export class ArticlesComponent implements OnInit, OnDestroy {
   @Input() type$!: Subject<string>;
   @Input() tagName$!: Subject<string>;
+  @ViewChild('paginator') paginator!: MatPaginator;
   articles$!: Observable<Article[]>;
   tags$!: Observable<Tags[]>;
   subscriptions: Subscription[] = [];
@@ -24,6 +25,7 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   length: number = 0;
   pageSize: number = 5;
   type!: string;
+  loadingArticle: boolean = false;
 
   constructor(
     private articlesService: ArticlesService,
@@ -60,6 +62,7 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   private getType() {
     const getType: Subscription = this.type$.subscribe((value) => {
       this.type = value;
+      this.paginator.firstPage();
       switch (this.type) {
         case 'global':
           this.getAllArticles(this.pageSize);
@@ -73,37 +76,41 @@ export class ArticlesComponent implements OnInit, OnDestroy {
     this.subscriptions.push(getType);
   }
 
-  private getAllArticles(limit: number = 5, ofset: number = 0) {
+  public getAllArticles(limit: number = 5, ofset: number = 0) {
     this.articles$ = this.articlesService.articles$;
     const getAllArticlesSubscription: Subscription = this.articlesService
       .getAll(limit, ofset)
       .subscribe((response: any) => {
         this.length = response.articlesCount;
+        this.loadingArticle = false;
       });
     this.subscriptions.push(getAllArticlesSubscription);
   }
 
-  private getFavoriteArticles(limit: number = 5, ofset: number = 0) {
+  public getFavoriteArticles(limit: number = 5, ofset: number = 0) {
     this.articles$ = this.articlesService.favoriteArticles$;
     const getFavoriteArticles: Subscription = this.articlesService
       .getFavoriteArticles(this.user.username, limit, ofset)
       .subscribe((response: any) => {
         this.length = response.articlesCount;
+        this.loadingArticle = false;
       });
     this.subscriptions.push(getFavoriteArticles);
   }
 
-  private getArticlesByTag(tagName: string, limit: number = 5, ofset: number = 0) {
+  public getArticlesByTag(tagName: string, limit: number = 5, ofset: number = 0) {
     this.articles$ = this.articlesService.articlesByTag$;
     const getArticlesByTag: Subscription = this.articlesService
       .getByTag(tagName.toString(), limit, ofset)
       .subscribe((response: any) => {
         this.length = response.articlesCount;
+        this.loadingArticle = false;
       });
     this.subscriptions.push(getArticlesByTag);
   }
 
   public changesPage(event: PageEvent): PageEvent {
+    this.loadingArticle = true;
     switch (this.type || 'global') {
       case 'global':
         this.getAllArticles(event.pageSize, event.pageIndex * event.pageSize);
