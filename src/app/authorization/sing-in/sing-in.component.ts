@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -33,15 +34,16 @@ export class SingInComponent implements OnInit {
       password: this.form.value.password,
     };
 
-    this.authService.login(user).subscribe(
-      () => {
+    this.authService.login(user).subscribe({
+      next: () => {
         this.form.reset;
         this.router.navigate(['/home']);
         this.submitted = false;
       },
-      (err) => {
+      error: (error: HttpErrorResponse) => {
+        console.log(error);
         this.submitted = false;
-      }
-    );
+      },
+    });
   }
 }
