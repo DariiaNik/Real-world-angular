@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthorizationService } from 'src/app/authorization/shared/services/authorization.service';
 import { User } from 'src/app/shared/models/user-interface';
 import { UserService } from 'src/app/shared/services/user.service';
@@ -10,7 +11,8 @@ import { UserService } from 'src/app/shared/services/user.service';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription[] = [];
   form!: FormGroup;
   user!: User;
   isFormReady: boolean = false;
@@ -26,10 +28,15 @@ export class SettingsComponent implements OnInit {
       password: new FormControl(''),
     });
 
-    this.userService.getUser().subscribe((user) => {
+    this.getUser();
+  }
+
+  private getUser() {
+    const getUserSubscription: Subscription = this.userService.getUser().subscribe((user) => {
       this.user = user;
       this.updateForm();
     });
+    this.subscriptions.push(getUserSubscription);
   }
 
   private updateForm() {
@@ -49,16 +56,19 @@ export class SettingsComponent implements OnInit {
 
   public updateUser() {
     const user: User = { ...this.form.value, token: this.user.token };
-    this.userService.updateUser(user).subscribe((response) => {
-      this.authService.setToken(response);
-      console.log(response);
+
+    const updateUser: Subscription = this.userService.updateUser(user).subscribe((response) => {
+      this.getUser();
+      this.router.navigate(['/profile', response.user.username]);
     });
-    this.router.navigate(['/profile', this.user.username]);
+    this.subscriptions.push(updateUser);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => {
+      if (sub) {
+        sub.unsubscribe();
+      }
+    });
   }
 }
-
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhcmlpYThAZ21haWwuY29tIiwidXNlcm5hbWUiOiJEYXJpaWE4IiwiaWF0IjoxNjUxMDczMTY4LCJleHAiOjE2NTYyNTcxNjh9.UcvNyXlGvj641k5xNzUToS5SEmU5_OevYN6E1tlaMgQ"
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhcmlpYThAZ21haWwuY29tIiwidXNlcm5hbWUiOiJEYXJpaWE4IiwiaWF0IjoxNjUxMDczMjk3LCJleHAiOjE2NTYyNTcyOTd9.LUpEgr-SUqpAPizJmbsIglQjFcy_Cdu3ez9xrgLpRGM"
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhcmlpYThAZ21haWwuY29tIiwidXNlcm5hbWUiOiJEYXJpaWE4IiwiaWF0IjoxNjUxMDczMzUwLCJleHAiOjE2NTYyNTczNTB9.eUakPvkjXEZocG-U28-4ma7oxTtsLax3bs_KuEXbHJM"
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhcmlpYThAZ21haWwuY29tIiwidXNlcm5hbWUiOiJEYXJpaWE4NSIsImlhdCI6MTY1MTA3MzQ5NywiZXhwIjoxNjU2MjU3NDk3fQ.UCrKphr_6cVuOL87UsM5usj7emUhRnlgwo8VTCuC7sw"
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhcmlpYThAZ21haWwuY29tIiwidXNlcm5hbWUiOiJEYXJpaWE4NSIsImlhdCI6MTY1MTA3MzQ5NywiZXhwIjoxNjU2MjU3NDk3fQ.UCrKphr_6cVuOL87UsM5usj7emUhRnlgwo8VTCuC7sw"

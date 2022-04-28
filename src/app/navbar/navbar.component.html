@@ -31,7 +31,7 @@
         <a class="nav-link settings">Settings </a>
       </li>
       <li
-        *ngIf="(isAuthenticated$ | async) && user"
+        *ngIf="user$ | async as user"
         class="nav-item"
         routerLinkActive="active"
         [routerLink]="['/profile', user.username]"
