@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, Subscription, switchMap } from 'rxjs';
 import { Article } from 'src/app/shared/models/article-interface';
 import { ArticlesService } from 'src/app/shared/services/articles.service';
 
@@ -10,10 +10,11 @@ import { ArticlesService } from 'src/app/shared/services/articles.service';
   templateUrl: './new-article-page.component.html',
   styleUrls: ['./new-article-page.component.scss'],
 })
-export class NewArticlePageComponent implements OnInit {
+export class NewArticlePageComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   article!: Article;
   isFormReady: boolean = false;
+  subscriptions: Subscription[] = [];
 
   constructor(private articlesService: ArticlesService, private router: Router, private route: ActivatedRoute) {}
 
@@ -25,24 +26,28 @@ export class NewArticlePageComponent implements OnInit {
       tagList: new FormControl(''),
     });
 
-    this.route.params
+    this.getArticleBySlug();
+  }
+
+  private getArticleBySlug() {
+    const getArticleBySlug: Subscription = this.route.params
       .pipe(
         switchMap((params: Params) => {
-          return this.articlesService.getBySlug(params['slug']);
+          if (params['slug']) {
+            return this.articlesService.getBySlug(params['slug']);
+          } else {
+            const result$ = new Observable<any>();
+            this.isFormReady = true;
+            return result$;
+          }
         })
       )
-      .subscribe({
-        next: (article: Article) => {
-          this.article = article;
-          this.updateForm();
-        },
-        error: (error: any) => {
-          if (error.statusText == 'Not Found') {
-            this.isFormReady = true;
-            console.warn = () => {};
-          }
-        },
+      .subscribe((article: Article) => {
+        this.article = article;
+        this.updateForm();
       });
+
+    this.subscriptions.push(getArticleBySlug);
   }
 
   private updateForm() {
@@ -55,17 +60,37 @@ export class NewArticlePageComponent implements OnInit {
     this.isFormReady = true;
   }
 
+  private updateArticle(article: Article) {
+    const updateArticle: Subscription = this.articlesService.updateArticle(article, this.article.slug).subscribe(() => {
+      this.router.navigate(['/home']);
+    });
+    this.subscriptions.push(updateArticle);
+  }
+
+  private createArticle(article: Article) {
+    const createArticle: Subscription = this.articlesService.createArticle(article).subscribe(() => {
+      this.router.navigate(['/home']);
+    });
+    this.subscriptions.push(createArticle);
+  }
+
   public publishArticle() {
     const article = {
       ...this.form.value,
       tagList: this.form.value.tagList.toString().split(','),
     };
     if (this.article) {
-      this.articlesService.updateArticle(article, this.article.slug).subscribe();
+      this.updateArticle(article);
     } else {
-      this.articlesService.createArticle(article).subscribe();
+      this.createArticle(article);
     }
+  }
 
-    this.router.navigate(['/home']);
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => {
+      if (sub) {
+        sub.unsubscribe();
+      }
+    });
   }
 }

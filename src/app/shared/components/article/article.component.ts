@@ -26,16 +26,20 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   private favouriteArticle() {
     this.disabled = true;
-    const favouriteArticleSubscription = this.articlesService.favouriteArticle(this.article.slug).subscribe(() => {
-      this.updateArticles();
-    });
+    const favouriteArticleSubscription: Subscription = this.articlesService
+      .favouriteArticle(this.article.slug)
+      .subscribe(() => {
+        this.updateArticles();
+      });
     this.subscriptions.push(favouriteArticleSubscription);
   }
   private unFavouriteArticle() {
     this.disabled = true;
-    const unFavouriteArticleSubscription = this.articlesService.unFavouriteArticle(this.article.slug).subscribe(() => {
-      this.updateArticles();
-    });
+    const unFavouriteArticleSubscription: Subscription = this.articlesService
+      .unFavouriteArticle(this.article.slug)
+      .subscribe(() => {
+        this.updateArticles();
+      });
     this.subscriptions.push(unFavouriteArticleSubscription);
   }
 
