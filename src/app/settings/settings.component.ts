@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -16,6 +17,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   user!: User;
   isFormReady: boolean = false;
+  errorMesages!: string;
 
   constructor(private authService: AuthorizationService, private userService: UserService, private router: Router) {}
 
@@ -57,9 +59,22 @@ export class SettingsComponent implements OnInit, OnDestroy {
   public updateUser() {
     const user: User = { ...this.form.value, token: this.user.token };
 
-    const updateUser: Subscription = this.userService.updateUser(user).subscribe((response) => {
-      this.getUser();
-      this.router.navigate(['/profile', response.user.username]);
+    const updateUser: Subscription = this.userService.updateUser(user).subscribe({
+      next: (response) => {
+        this.getUser();
+        this.router.navigate(['/profile', response.user.username]);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.error);
+        switch (error.error) {
+          case 'Unique constraint failed on the fields: (`email`)':
+            this.errorMesages = 'Email Has Already Been Taken';
+            break;
+          case 'Unique constraint failed on the fields: (`username`)':
+            this.errorMesages = 'Username Has Already Been Taken';
+            break;
+        }
+      },
     });
     this.subscriptions.push(updateUser);
   }

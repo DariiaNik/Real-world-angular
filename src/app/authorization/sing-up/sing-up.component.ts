@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,6 +13,7 @@ import { NewUser } from 'src/app/shared/models/new-user-interface';
 export class SingUpComponent implements OnInit {
   form!: FormGroup;
   submitted: boolean = false;
+  errorMesages!: string;
 
   constructor(private authService: AuthorizationService, private router: Router) {}
 
@@ -34,15 +36,20 @@ export class SingUpComponent implements OnInit {
       password: this.form.value.password,
     };
 
-    this.authService.register(newUser).subscribe(
-      () => {
+    this.authService.register(newUser).subscribe({
+      next: () => {
         this.form.reset;
         this.router.navigate(['/home']);
         this.submitted = false;
       },
-      (err) => {
+      error: (error: HttpErrorResponse) => {
+        const errors = Object.entries(error.error.errors)
+          .map((entries) => entries.join(' '))
+          .join(',');
+        this.errorMesages = errors;
+        console.log(errors);
         this.submitted = false;
-      }
-    );
+      },
+    });
   }
 }

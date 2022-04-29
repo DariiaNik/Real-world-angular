@@ -2,6 +2,7 @@
   <form [formGroup]="form" (ngSubmit)="publishArticle()">
     <div class="form-control">
       <input class="input-title" type="text" placeholder="Article Title" formControlName="title" />
+      <small *ngIf="errorMesages">{{ errorMesages }}</small>
     </div>
     <div class="form-control">
       <input class="input-about" type="text" placeholder="What's this article about?" formControlName="description" />

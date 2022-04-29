@@ -13,6 +13,7 @@ import { LoginUser } from 'src/app/shared/models/login-user-interface';
 export class SingInComponent implements OnInit {
   form!: FormGroup;
   submitted: boolean = false;
+  errorMesages!: string;
 
   constructor(private authService: AuthorizationService, private router: Router) {}
 
@@ -41,7 +42,10 @@ export class SingInComponent implements OnInit {
         this.submitted = false;
       },
       error: (error: HttpErrorResponse) => {
-        console.log(error);
+        const errors = Object.entries(error.error.errors)
+          .map((entries) => entries.join(' '))
+          .join(',');
+        this.errorMesages = errors;
         this.submitted = false;
       },
     });

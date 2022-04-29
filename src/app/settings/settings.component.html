@@ -2,6 +2,7 @@
   <div class="settings-page">
     <h1>Your Settings</h1>
     <form [formGroup]="form" (ngSubmit)="updateUser()">
+      <small *ngIf="errorMesages">{{ errorMesages }}</small>
       <div class="form-control">
         <input type="text" placeholder="URL of profile picture" formControlName="image" />
       </div>

@@ -94,7 +94,7 @@ form {
 .form-control {
   margin-bottom: 1rem;
   &.invalid {
-    color: rgb(177, 24, 24);
+    color: rgb(196, 15, 15);
   }
 }
 .btn {
@@ -190,4 +190,7 @@ form {
     margin-top: -20px;
     cursor: pointer;
   }
+}
+small {
+  color: rgb(196, 15, 15);
 }

@@ -25,8 +25,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
           errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
         }
         console.log(errorMsg);
-        console.log(error.error.errors);
-        return throwError(() => new Error(errorMsg));
+        return throwError(() => error);
       })
     );
   }

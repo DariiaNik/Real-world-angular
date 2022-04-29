@@ -3,6 +3,7 @@
   <p>
     <a [routerLink]="['/auth', 'register']">Need an account?</a>
   </p>
+  <small *ngIf="errorMesages">{{ errorMesages }}</small>
 
   <div
     class="form-control"

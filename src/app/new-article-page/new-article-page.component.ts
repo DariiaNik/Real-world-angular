@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -15,6 +16,7 @@ export class NewArticlePageComponent implements OnInit, OnDestroy {
   article!: Article;
   isFormReady: boolean = false;
   subscriptions: Subscription[] = [];
+  errorMesages!: string;
 
   constructor(private articlesService: ArticlesService, private router: Router, private route: ActivatedRoute) {}
 
@@ -61,15 +63,31 @@ export class NewArticlePageComponent implements OnInit, OnDestroy {
   }
 
   private updateArticle(article: Article) {
-    const updateArticle: Subscription = this.articlesService.updateArticle(article, this.article.slug).subscribe(() => {
-      this.router.navigate(['/home']);
+    const updateArticle: Subscription = this.articlesService.updateArticle(article, this.article.slug).subscribe({
+      next: () => {
+        this.router.navigate(['/home']);
+      },
+      error: (error: HttpErrorResponse) => {
+        const errors = Object.entries(error.error.errors)
+          .map((entries) => entries.join(' '))
+          .join(',');
+        this.errorMesages = errors;
+      },
     });
     this.subscriptions.push(updateArticle);
   }
 
   private createArticle(article: Article) {
-    const createArticle: Subscription = this.articlesService.createArticle(article).subscribe(() => {
-      this.router.navigate(['/home']);
+    const createArticle: Subscription = this.articlesService.createArticle(article).subscribe({
+      next: () => {
+        this.router.navigate(['/home']);
+      },
+      error: (error: HttpErrorResponse) => {
+        const errors = Object.entries(error.error.errors)
+          .map((entries) => entries.join(' '))
+          .join(',');
+        this.errorMesages = errors;
+      },
     });
     this.subscriptions.push(createArticle);
   }
