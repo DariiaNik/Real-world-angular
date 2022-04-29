@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthorizationService } from 'src/app/authorization/shared/services/authorization.service';
 import { LoginUser } from 'src/app/shared/models/login-user-interface';
 
@@ -10,10 +11,11 @@ import { LoginUser } from 'src/app/shared/models/login-user-interface';
   templateUrl: './sing-in.component.html',
   styleUrls: ['./sing-in.component.scss'],
 })
-export class SingInComponent implements OnInit {
+export class SingInComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   submitted: boolean = false;
   errorMesages!: string;
+  subscriptions: Subscription[] = [];
 
   constructor(private authService: AuthorizationService, private router: Router) {}
 
@@ -35,7 +37,7 @@ export class SingInComponent implements OnInit {
       password: this.form.value.password,
     };
 
-    this.authService.login(user).subscribe({
+    const loginSubscription: Subscription = this.authService.login(user).subscribe({
       next: () => {
         this.form.reset;
         this.router.navigate(['/home']);
@@ -48,6 +50,14 @@ export class SingInComponent implements OnInit {
         this.errorMesages = errors;
         this.submitted = false;
       },
+    });
+    this.subscriptions.push(loginSubscription);
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => {
+      if (sub) {
+        sub.unsubscribe();
+      }
     });
   }
 }

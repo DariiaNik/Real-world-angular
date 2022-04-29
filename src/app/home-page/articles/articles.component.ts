@@ -44,23 +44,23 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   }
 
   private getUser() {
-    const userSubscription: Subscription = this.userService.getUser().subscribe((user) => {
+    const getUserSubscription: Subscription = this.userService.getUser().subscribe((user) => {
       this.user = user;
     });
-    this.subscriptions.push(userSubscription);
+    this.subscriptions.push(getUserSubscription);
   }
 
   private getTagName() {
-    const getTagName: Subscription = this.tagName$.subscribe((tag) => {
+    const getTagNameSubscription: Subscription = this.tagName$.subscribe((tag) => {
       if (tag) {
         this.getArticlesByTag(tag, this.pageSize);
       }
     });
-    this.subscriptions.push(getTagName);
+    this.subscriptions.push(getTagNameSubscription);
   }
 
   private getType() {
-    const getType: Subscription = this.type$.subscribe((value) => {
+    const getTypeSubscription: Subscription = this.type$.subscribe((value) => {
       this.type = value;
       this.paginator.firstPage();
       switch (this.type) {
@@ -73,7 +73,7 @@ export class ArticlesComponent implements OnInit, OnDestroy {
           break;
       }
     });
-    this.subscriptions.push(getType);
+    this.subscriptions.push(getTypeSubscription);
   }
 
   public getAllArticles(limit: number = 5, ofset: number = 0) {
@@ -89,24 +89,24 @@ export class ArticlesComponent implements OnInit, OnDestroy {
 
   public getFavoriteArticles(limit: number = 5, ofset: number = 0) {
     this.articles$ = this.articlesService.favoriteArticles$;
-    const getFavoriteArticles: Subscription = this.articlesService
+    const getFavoriteArticlesSubscription: Subscription = this.articlesService
       .getFavoriteArticles(this.user.username, limit, ofset)
       .subscribe((response: any) => {
         this.length = response.articlesCount;
         this.loadingArticle = false;
       });
-    this.subscriptions.push(getFavoriteArticles);
+    this.subscriptions.push(getFavoriteArticlesSubscription);
   }
 
   public getArticlesByTag(tagName: string, limit: number = 5, ofset: number = 0) {
     this.articles$ = this.articlesService.articlesByTag$;
-    const getArticlesByTag: Subscription = this.articlesService
+    const getArticlesByTagSubscription: Subscription = this.articlesService
       .getByTag(tagName.toString(), limit, ofset)
       .subscribe((response: any) => {
         this.length = response.articlesCount;
         this.loadingArticle = false;
       });
-    this.subscriptions.push(getArticlesByTag);
+    this.subscriptions.push(getArticlesByTagSubscription);
   }
 
   public changesPage(event: PageEvent): PageEvent {

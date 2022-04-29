@@ -30,17 +30,19 @@
       <li *ngIf="isAuthenticated$ | async" class="nav-item" routerLinkActive="active" [routerLink]="['/settings']">
         <a class="nav-link settings">Settings </a>
       </li>
-      <li
-        *ngIf="user$ | async as user"
-        class="nav-item"
-        routerLinkActive="active"
-        [routerLink]="['/profile', user.username]"
-      >
-        <a class="nav-link profile">
-          <img src="{{ user.image }}" />
-          {{ user.username }}
-        </a>
-      </li>
+      <ng-container *ngIf="isAuthenticated$ | async">
+        <li
+          *ngIf="user$ | async as user"
+          class="nav-item"
+          routerLinkActive="active"
+          [routerLink]="['/profile', user.username]"
+        >
+          <a class="nav-link profile">
+            <img src="{{ user.image }}" />
+            {{ user.username }}
+          </a>
+        </li>
+      </ng-container>
     </ul>
   </div>
 </nav>

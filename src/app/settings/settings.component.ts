@@ -59,7 +59,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   public updateUser() {
     const user: User = { ...this.form.value, token: this.user.token };
 
-    const updateUser: Subscription = this.userService.updateUser(user).subscribe({
+    const updateUserSubscription: Subscription = this.userService.updateUser(user).subscribe({
       next: (response) => {
         this.getUser();
         this.router.navigate(['/profile', response.user.username]);
@@ -76,7 +76,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         }
       },
     });
-    this.subscriptions.push(updateUser);
+    this.subscriptions.push(updateUserSubscription);
   }
 
   ngOnDestroy(): void {

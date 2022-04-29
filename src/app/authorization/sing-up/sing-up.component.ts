@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthorizationService } from 'src/app/authorization/shared/services/authorization.service';
 import { NewUser } from 'src/app/shared/models/new-user-interface';
 
@@ -10,10 +11,11 @@ import { NewUser } from 'src/app/shared/models/new-user-interface';
   templateUrl: './sing-up.component.html',
   styleUrls: ['./sing-up.component.scss'],
 })
-export class SingUpComponent implements OnInit {
+export class SingUpComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   submitted: boolean = false;
   errorMesages!: string;
+  subscriptions: Subscription[] = [];
 
   constructor(private authService: AuthorizationService, private router: Router) {}
 
@@ -36,7 +38,7 @@ export class SingUpComponent implements OnInit {
       password: this.form.value.password,
     };
 
-    this.authService.register(newUser).subscribe({
+    const registerSubscription: Subscription = this.authService.register(newUser).subscribe({
       next: () => {
         this.form.reset;
         this.router.navigate(['/home']);
@@ -50,6 +52,14 @@ export class SingUpComponent implements OnInit {
         console.log(errors);
         this.submitted = false;
       },
+    });
+    this.subscriptions.push(registerSubscription);
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => {
+      if (sub) {
+        sub.unsubscribe();
+      }
     });
   }
 }

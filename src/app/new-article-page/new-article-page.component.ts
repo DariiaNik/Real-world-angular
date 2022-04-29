@@ -30,9 +30,18 @@ export class NewArticlePageComponent implements OnInit, OnDestroy {
 
     this.getArticleBySlug();
   }
+  private updateForm() {
+    this.form.patchValue({
+      title: this.article.title,
+      description: this.article.description,
+      body: this.article.body,
+      tagList: this.article.tagList,
+    });
+    this.isFormReady = true;
+  }
 
   private getArticleBySlug() {
-    const getArticleBySlug: Subscription = this.route.params
+    const getArticleBySlugSubscription: Subscription = this.route.params
       .pipe(
         switchMap((params: Params) => {
           if (params['slug']) {
@@ -49,36 +58,28 @@ export class NewArticlePageComponent implements OnInit, OnDestroy {
         this.updateForm();
       });
 
-    this.subscriptions.push(getArticleBySlug);
-  }
-
-  private updateForm() {
-    this.form.patchValue({
-      title: this.article.title,
-      description: this.article.description,
-      body: this.article.body,
-      tagList: this.article.tagList,
-    });
-    this.isFormReady = true;
+    this.subscriptions.push(getArticleBySlugSubscription);
   }
 
   private updateArticle(article: Article) {
-    const updateArticle: Subscription = this.articlesService.updateArticle(article, this.article.slug).subscribe({
-      next: () => {
-        this.router.navigate(['/home']);
-      },
-      error: (error: HttpErrorResponse) => {
-        const errors = Object.entries(error.error.errors)
-          .map((entries) => entries.join(' '))
-          .join(',');
-        this.errorMesages = errors;
-      },
-    });
-    this.subscriptions.push(updateArticle);
+    const updateArticleSubscription: Subscription = this.articlesService
+      .updateArticle(article, this.article.slug)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/home']);
+        },
+        error: (error: HttpErrorResponse) => {
+          const errors = Object.entries(error.error.errors)
+            .map((entries) => entries.join(' '))
+            .join(',');
+          this.errorMesages = errors;
+        },
+      });
+    this.subscriptions.push(updateArticleSubscription);
   }
 
   private createArticle(article: Article) {
-    const createArticle: Subscription = this.articlesService.createArticle(article).subscribe({
+    const createArticleSubscription: Subscription = this.articlesService.createArticle(article).subscribe({
       next: () => {
         this.router.navigate(['/home']);
       },
@@ -89,7 +90,7 @@ export class NewArticlePageComponent implements OnInit, OnDestroy {
         this.errorMesages = errors;
       },
     });
-    this.subscriptions.push(createArticle);
+    this.subscriptions.push(createArticleSubscription);
   }
 
   public publishArticle() {
