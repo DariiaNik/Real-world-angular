@@ -26,7 +26,7 @@ export class SingInComponent implements OnInit, OnDestroy {
     });
   }
 
-  singIn() {
+  public singIn() {
     if (this.form.invalid) {
       return;
     }

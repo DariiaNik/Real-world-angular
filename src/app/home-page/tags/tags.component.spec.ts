@@ -8,9 +8,8 @@ describe('TagsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TagsComponent ]
-    })
-    .compileComponents();
+      declarations: [TagsComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -21,5 +20,9 @@ describe('TagsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  it('Then: call clickTag', () => {
+    component.clickTag('tag');
+    expect(component.tagName).toBe('tag');
   });
 });

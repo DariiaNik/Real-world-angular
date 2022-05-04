@@ -22,6 +22,7 @@ export class ArticlesService {
     return this.http.get<ResponseMultiArticles>(`${environment.apiUrl}articles?limit=${limit}&offset=${offset}`).pipe(
       map((response: ResponseMultiArticles) => {
         this.articles$.next(response.articles);
+        console.log(response);
         return response;
       })
     );

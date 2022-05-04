@@ -24,6 +24,7 @@ export class CommentsService {
   addComments(slug: string, comment: NewComment): Observable<NewComment> {
     return this.http.post<NewComment>(`https://api.realworld.io/api/articles/${slug}/comments`, { comment }).pipe(
       map((response: NewComment) => {
+        console.log(response);
         return response;
       })
     );

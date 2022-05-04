@@ -26,7 +26,7 @@ export class SingUpComponent implements OnInit, OnDestroy {
       password: new FormControl('', [Validators.required]),
     });
   }
-  singUp() {
+  public singUp() {
     if (this.form.invalid) {
       return;
     }
