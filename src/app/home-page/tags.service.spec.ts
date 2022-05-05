@@ -27,7 +27,7 @@ describe('TagsService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  it('Then: method call getTags method', () => {
+  it('Then: call getTags method', () => {
     service.getTags().subscribe((tags: Object) => {
       expect(tags).toEqual(someTags.tags);
     });

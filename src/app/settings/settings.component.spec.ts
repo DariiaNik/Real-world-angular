@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -21,6 +22,11 @@ describe('SettingsComponent', () => {
       image: 'string',
     },
   };
+  const errorResponse = new HttpErrorResponse({
+    error: 'Unique constraint failed on the fields: (`email`)',
+    status: 400,
+    statusText: 'Bad Request',
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -84,10 +90,24 @@ describe('SettingsComponent', () => {
       expect(component.user).toEqual(user.user);
       flush();
     }));
-    it('Then: handle error', fakeAsync(() => {
+    it('Then: handle error email case', fakeAsync(() => {
+      spyOn(console, 'log').and.throwError;
+      const serviceSpy = spyOn(userService, 'updateUser').and.returnValue(throwError(() => errorResponse));
+      component.updateUser();
+      expect(serviceSpy).toHaveBeenCalled();
+      expect(console.log).toHaveBeenCalled();
+    }));
+    it('Then: handle error username case', fakeAsync(() => {
       spyOn(console, 'log').and.throwError;
       const serviceSpy = spyOn(userService, 'updateUser').and.returnValue(
-        throwError(() => new Error('Unique constraint failed on the fields: (`email`)'))
+        throwError(
+          () =>
+            new HttpErrorResponse({
+              error: 'Unique constraint failed on the fields: (`username`)',
+              status: 400,
+              statusText: 'Bad Request',
+            })
+        )
       );
       component.updateUser();
       expect(serviceSpy).toHaveBeenCalled();

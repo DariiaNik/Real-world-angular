@@ -33,7 +33,7 @@ describe('ProfileService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  it('Then: method call getProfile method', () => {
+  it('Then:  call getProfile method', () => {
     service.getProfile(username).subscribe((data) => {
       expect(data).toEqual(profile);
     });
@@ -42,7 +42,7 @@ describe('ProfileService', () => {
     request.flush(profile);
     httpMock.verify();
   });
-  it('Then: method call followUser method', () => {
+  it('Then: call followUser method', () => {
     service.followUser(username).subscribe((data) => {
       expect(data).toEqual(profile);
     });
@@ -51,7 +51,7 @@ describe('ProfileService', () => {
     request.flush(profile);
     httpMock.verify();
   });
-  it('Then: method call unFollowUser method', () => {
+  it('Then:  call unFollowUser method', () => {
     service.unFollowUser(username).subscribe((data) => {
       expect(data).toEqual(profile);
     });

@@ -55,7 +55,7 @@ describe('CommentsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('Then: method call getComments method', () => {
+  it('Then:  call getComments method', () => {
     service.getComments(slug).subscribe((data) => {
       expect(data).toEqual(someComments.comments);
     });
@@ -64,7 +64,7 @@ describe('CommentsService', () => {
     request.flush(someComments);
     httpMock.verify();
   });
-  it('Then: method call addComments method', () => {
+  it('Then: call addComments method', () => {
     service.addComments(slug, someComments.comments[0]).subscribe((data) => {
       expect(data).toEqual(comment.comment);
     });
@@ -73,7 +73,7 @@ describe('CommentsService', () => {
     request.flush(comment.comment);
     httpMock.verify();
   });
-  it('Then: method call deleteComment method', () => {
+  it('Then: call deleteComment method', () => {
     service.deleteComment(slug, 1).subscribe();
     const request = httpMock.expectOne(`${url}/1`);
     expect(request.request.method).toBe('DELETE');

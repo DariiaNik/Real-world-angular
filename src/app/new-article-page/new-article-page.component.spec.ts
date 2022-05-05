@@ -44,9 +44,9 @@ describe('NewArticlePageComponent', () => {
         {
           provide: ArticlesService,
           useValue: {
-            getBySlug: () => of({}),
-            updateArticle: () => of({}),
-            createArticle: () => of({}),
+            getBySlug: () => of(article),
+            updateArticle: () => of(article),
+            createArticle: () => of(article),
           },
         },
         {
@@ -62,59 +62,83 @@ describe('NewArticlePageComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    });
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(NewArticlePageComponent);
-    component = fixture.componentInstance;
-    articlesService = TestBed.inject(ArticlesService);
-    route = TestBed.inject(ActivatedRoute);
-    fixture.detectChanges();
-    component.form.controls['title'].setValue('test');
-    component.form.controls['description'].setValue('test');
-    component.form.controls['body'].setValue('test');
-    component.form.controls['tagList'].setValue('test');
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-  describe('Create new article', () => {
-    it('Then: call publishArticle if article is empty', () => {
-      const componentSpy = spyOn(component, 'publishArticle').and.callThrough();
-      component.publishArticle();
-      expect(componentSpy).toHaveBeenCalled();
-    });
-    it('Then: call updateArticle from articlesService ', () => {
-      const serviceSpy = spyOn(articlesService, 'createArticle').and.returnValue(of(article));
-      component.publishArticle();
-      expect(serviceSpy).toHaveBeenCalled();
-    });
-    it('Then: call updateArticle from articlesService  with error', () => {
-      const serviceSpy = spyOn(articlesService, 'createArticle').and.returnValue(throwError(() => errorResponse));
-      component.publishArticle();
-      expect(serviceSpy).toHaveBeenCalled();
-    });
-  });
-  describe('Update existing article', () => {
+  describe('Without slug', () => {
     beforeEach(() => {
-      component.article = article;
+      TestBed.compileComponents();
+      fixture = TestBed.createComponent(NewArticlePageComponent);
+      component = fixture.componentInstance;
+      articlesService = TestBed.inject(ArticlesService);
+      route = TestBed.inject(ActivatedRoute);
+      fixture.detectChanges();
+      component.form.controls['title'].setValue('test');
+      component.form.controls['description'].setValue('test');
+      component.form.controls['body'].setValue('test');
+      component.form.controls['tagList'].setValue('test');
     });
-    it('Then: call publishArticle', () => {
-      const componentSpy = spyOn(component, 'publishArticle').and.callThrough();
-      component.publishArticle();
-      expect(componentSpy).toHaveBeenCalled();
+    it('should create', () => {
+      expect(component).toBeTruthy();
     });
-    it('Then: call updateArticle from articlesService ', () => {
-      const serviceSpy = spyOn(articlesService, 'updateArticle').and.returnValue(of(article));
-      component.publishArticle();
-      expect(serviceSpy).toHaveBeenCalled();
+    describe('Create new article', () => {
+      it('Then: call publishArticle if article is empty', () => {
+        const componentSpy = spyOn(component, 'publishArticle').and.callThrough();
+        component.publishArticle();
+        expect(componentSpy).toHaveBeenCalled();
+      });
+      it('Then: call updateArticle from articlesService ', () => {
+        const serviceSpy = spyOn(articlesService, 'createArticle').and.returnValue(of(article));
+        component.publishArticle();
+        expect(serviceSpy).toHaveBeenCalled();
+      });
+      it('Then: call updateArticle from articlesService  with error', () => {
+        const serviceSpy = spyOn(articlesService, 'createArticle').and.returnValue(throwError(() => errorResponse));
+        component.publishArticle();
+        expect(serviceSpy).toHaveBeenCalled();
+      });
     });
-    it('Then: call updateArticle from articlesService  with error', () => {
-      const serviceSpy = spyOn(articlesService, 'updateArticle').and.returnValue(throwError(() => errorResponse));
-      component.publishArticle();
-      expect(serviceSpy).toHaveBeenCalled();
+    describe('Update existing article', () => {
+      beforeEach(() => {
+        component.article = article;
+      });
+      it('Then: call publishArticle', () => {
+        const componentSpy = spyOn(component, 'publishArticle').and.callThrough();
+        component.publishArticle();
+        expect(componentSpy).toHaveBeenCalled();
+      });
+      it('Then: call updateArticle from articlesService ', () => {
+        const serviceSpy = spyOn(articlesService, 'updateArticle').and.returnValue(of(article));
+        component.publishArticle();
+        expect(serviceSpy).toHaveBeenCalled();
+      });
+      it('Then: call updateArticle from articlesService  with error', () => {
+        const serviceSpy = spyOn(articlesService, 'updateArticle').and.returnValue(throwError(() => errorResponse));
+        component.publishArticle();
+        expect(serviceSpy).toHaveBeenCalled();
+      });
+    });
+  });
+  describe('With slug', () => {
+    beforeEach(() => {
+      TestBed.overrideProvider(ActivatedRoute, {
+        useValue: {
+          params: of({ slug: 'sdf' }),
+        },
+      });
+      TestBed.compileComponents();
+      fixture = TestBed.createComponent(NewArticlePageComponent);
+      component = fixture.componentInstance;
+      articlesService = TestBed.inject(ArticlesService);
+      route = TestBed.inject(ActivatedRoute);
+      fixture.detectChanges();
+      component.form.controls['title'].setValue('test');
+      component.form.controls['description'].setValue('test');
+      component.form.controls['body'].setValue('test');
+      component.form.controls['tagList'].setValue('test');
+    });
+    it('should create', () => {
+      expect(component).toBeTruthy();
     });
   });
 });

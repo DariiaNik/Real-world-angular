@@ -55,7 +55,7 @@ describe('ArticlesService', () => {
   });
 
   describe('Get multiply articles', () => {
-    it('Then: method call getAll method', () => {
+    it('Then: call getAll method', () => {
       service.getAll().subscribe((data: ResponseMultiArticles) => {
         expect(data).toEqual(articles);
       });
@@ -64,7 +64,7 @@ describe('ArticlesService', () => {
       request.flush(articles);
       httpMock.verify();
     });
-    it('Then: method call getByAuthor method', () => {
+    it('Then: call getByAuthor method', () => {
       service.getByAuthor(username).subscribe((data: ResponseMultiArticles) => {
         expect(data).toEqual(articles);
       });
@@ -73,7 +73,7 @@ describe('ArticlesService', () => {
       request.flush(articles);
       httpMock.verify();
     });
-    it('Then: method call getByTag method', () => {
+    it('Then:  call getByTag method', () => {
       service.getByTag(username).subscribe((data: ResponseMultiArticles) => {
         expect(data).toEqual(articles);
       });
@@ -82,7 +82,7 @@ describe('ArticlesService', () => {
       request.flush(articles);
       httpMock.verify();
     });
-    it('Then: method call getFavoriteArticles method', () => {
+    it('Then:  call getFavoriteArticles method', () => {
       service.getFavoriteArticles(username).subscribe((data: ResponseMultiArticles) => {
         expect(data).toEqual(articles);
       });
@@ -93,7 +93,7 @@ describe('ArticlesService', () => {
     });
   });
   describe('Get single article', () => {
-    it('Then: method call getBySlug method', () => {
+    it('Then:  call getBySlug method', () => {
       service.getBySlug(username).subscribe((data) => {
         expect(data).toEqual(article);
       });
@@ -104,7 +104,7 @@ describe('ArticlesService', () => {
     });
   });
   describe('Post article', () => {
-    it('Then: method call createArticle method', () => {
+    it('Then: call createArticle method', () => {
       service.createArticle(article).subscribe((data) => {
         expect(data).toEqual(article);
       });
@@ -115,7 +115,7 @@ describe('ArticlesService', () => {
     });
   });
   describe('Edit article', () => {
-    it('Then: method call updateArticle method', () => {
+    it('Then: call updateArticle method', () => {
       service.updateArticle(article, username).subscribe((data) => {
         expect(data).toEqual(article);
       });
@@ -124,19 +124,19 @@ describe('ArticlesService', () => {
       request.flush(article);
       httpMock.verify();
     });
-    it('Then: method call deleteArticle method', () => {
+    it('Then:  call deleteArticle method', () => {
       service.deleteArticle(username).subscribe();
       const request = httpMock.expectOne(`http://api.realworld.io/api/articles/${username}`);
       expect(request.request.method).toBe('DELETE');
       httpMock.verify();
     });
-    it('Then: method call favouriteArticle method', () => {
+    it('Then: call favouriteArticle method', () => {
       service.favouriteArticle(username).subscribe();
       const request = httpMock.expectOne(`http://api.realworld.io/api/articles/${username}/favorite`);
       expect(request.request.method).toBe('POST');
       httpMock.verify();
     });
-    it('Then: method call unFavouriteArticle method', () => {
+    it('Then: call unFavouriteArticle method', () => {
       service.unFavouriteArticle(username).subscribe();
       const request = httpMock.expectOne(`http://api.realworld.io/api/articles/${username}/favorite`);
       expect(request.request.method).toBe('DELETE');

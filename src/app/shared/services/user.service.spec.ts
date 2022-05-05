@@ -31,7 +31,7 @@ describe('UserService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  it('Then: method call getUser method', () => {
+  it('Then:  call getUser method', () => {
     service.getUser().subscribe((data) => {
       expect(data).toEqual(user.user);
     });
@@ -40,7 +40,7 @@ describe('UserService', () => {
     request.flush(user);
     httpMock.verify();
   });
-  it('Then: method call updateUser method', () => {
+  it('Then: call updateUser method', () => {
     service.updateUser(user.user).subscribe((data) => {
       expect(data).toEqual(user);
     });
