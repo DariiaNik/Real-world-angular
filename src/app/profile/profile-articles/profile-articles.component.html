@@ -6,7 +6,7 @@
     (getArticlesByAuthor)="getArticlesByAuthor()"
     (getFavoriteArticlesProfile)="getFavoriteArticles()"
   ></app-article>
-  <div [hidden]="articles.length < 5">
+  <div [hidden]="length < 5">
     <mat-paginator
       hidePageSize="true"
       [length]="length"

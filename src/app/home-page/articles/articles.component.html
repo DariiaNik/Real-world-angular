@@ -9,7 +9,7 @@
       (getArticlesByTag)="getArticlesByTag(type)"
     ></app-article>
     <span *ngIf="loadingArticle">Loading articles...</span>
-    <div [hidden]="articles.length < 5">
+    <div [hidden]="length < 5">
       <mat-paginator
         #paginator
         hidePageSize="true"
