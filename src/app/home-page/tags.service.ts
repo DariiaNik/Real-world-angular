@@ -11,10 +11,6 @@ export class TagsService {
   constructor(private http: HttpClient) {}
 
   getTags(): Observable<Tags[]> {
-    return this.http.get(`${environment.apiUrl}tags`).pipe(
-      map((response: any) => {
-        return response.tags;
-      })
-    );
+    return this.http.get(`${environment.apiUrl}tags`).pipe(map((response: any) => response.tags));
   }
 }

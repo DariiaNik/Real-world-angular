@@ -6,14 +6,17 @@
     (getArticlesByAuthor)="getArticlesByAuthor()"
     (getFavoriteArticlesProfile)="getFavoriteArticles()"
   ></app-article>
-  <mat-paginator
-    [length]="length"
-    [pageSize]="pageSize"
-    (page)="pageEvent = $event"
-    (page)="pageEvent = changesPage($event)"
-    aria-label="Select page"
-  >
-  </mat-paginator>
+  <div [hidden]="articles.length < 5">
+    <mat-paginator
+      hidePageSize="true"
+      [length]="length"
+      [pageSize]="pageSize"
+      (page)="pageEvent = $event"
+      (page)="pageEvent = changesPage($event)"
+      aria-label="Select page"
+    >
+    </mat-paginator>
+  </div>
 </div>
 <ng-template #loading>
   <p class="loading">Loading...</p>

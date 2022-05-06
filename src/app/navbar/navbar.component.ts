@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { AuthorizationService } from 'src/app/authorization/shared/services/authorization.service';
 import { User } from 'src/app/shared/models/user-interface';
@@ -8,14 +8,18 @@ import { UserService } from 'src/app/shared/services/user.service';
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   isAuthenticated$!: Observable<boolean>;
+
   user$!: Observable<User>;
+
   subscriptions: Subscription[] = [];
+
   user!: User;
 
-  constructor(private authService: AuthorizationService, private userService: UserService) {}
+  constructor(readonly authService: AuthorizationService, readonly userService: UserService) {}
 
   ngOnInit(): void {
     this.isAuthenticated$ = this.authService.isAuthenticated$;
@@ -27,14 +31,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   private getUser() {
-    const getUserSubscription: Subscription = this.userService.getUser().subscribe((user) => {
+    const getUserSubscription: Subscription = this.userService.getUser().subscribe((user: User) => {
       this.user = user;
     });
     this.subscriptions.push(getUserSubscription);
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
+    this.subscriptions.forEach((sub: Subscription) => {
       if (sub) {
         sub.unsubscribe();
       }

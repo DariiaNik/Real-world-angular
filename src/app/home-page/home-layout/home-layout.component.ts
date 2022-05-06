@@ -13,20 +13,20 @@ import { AuthorizationService } from 'src/app/authorization/shared/services/auth
   styleUrls: ['./home-layout.component.scss'],
 })
 export class HomeLayoutComponent implements OnInit, OnDestroy {
+  changingValue$: Subject<string> = new Subject();
+  tagName$: Subject<string> = new Subject();
   articles$!: Observable<Article[]>;
   tags$!: Observable<Tags[]>;
   subscriptions: Subscription[] = [];
-  changingValue$: Subject<string> = new Subject();
-  tagName$: Subject<string> = new Subject();
+  pageEvent!: PageEvent;
   type: string = 'global';
-  user!: User;
   length: number = 0;
   pageSize: number = 5;
-  pageEvent!: PageEvent;
+  user!: User;
   selectedItem!: any;
   isAuth!: boolean;
 
-  constructor(private tagsService: TagsService, private authorizationService: AuthorizationService) {}
+  constructor(readonly tagsService: TagsService, readonly authorizationService: AuthorizationService) {}
 
   ngOnInit(): void {
     this.getTags();
@@ -35,7 +35,7 @@ export class HomeLayoutComponent implements OnInit, OnDestroy {
   }
 
   private changingValue() {
-    const changingValue: Subscription = this.changingValue$.subscribe((value) => {
+    const changingValue: Subscription = this.changingValue$.subscribe((value: string) => {
       if (value) {
         this.type = value;
       }
@@ -61,7 +61,7 @@ export class HomeLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
+    this.subscriptions.forEach((sub: Subscription) => {
       if (sub) {
         sub.unsubscribe();
       }

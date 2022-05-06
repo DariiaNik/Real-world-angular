@@ -6,20 +6,20 @@ import { AuthorizationService } from './authorization.service';
 describe('AuthorizationService', () => {
   let service: AuthorizationService;
   let httpMock: HttpTestingController;
-  let user = {
+  const user = {
     user: {
       email: 'string',
       password: 'string',
     },
   };
-  let newUser = {
+  const newUser = {
     user: {
       username: 'string',
       email: 'string',
       password: 'string',
     },
   };
-  let userResponse = {
+  const userResponse = {
     user: {
       email: 'string',
       token: 'string',
@@ -50,7 +50,7 @@ describe('AuthorizationService', () => {
     service.login(user.user).subscribe((data) => {
       expect(data).toBeTruthy();
     });
-    const request = httpMock.expectOne(`http://api.realworld.io/api/users/login`);
+    const request = httpMock.expectOne('http://api.realworld.io/api/users/login');
     expect(request.request.method).toBe('POST');
     request.flush(userResponse);
     httpMock.verify();
@@ -59,7 +59,7 @@ describe('AuthorizationService', () => {
     service.register(newUser.user).subscribe((data) => {
       expect(data).toBeTruthy();
     });
-    const request = httpMock.expectOne(`http://api.realworld.io/api/users`);
+    const request = httpMock.expectOne('http://api.realworld.io/api/users');
     expect(request.request.method).toBe('POST');
     request.flush(userResponse);
     httpMock.verify();

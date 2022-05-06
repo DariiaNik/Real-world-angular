@@ -8,15 +8,15 @@ import { AuthorizationService } from 'src/app/authorization/shared/services/auth
 })
 export class AuthorizationGuard implements CanActivate {
   constructor(private router: Router, private authorizationService: AuthorizationService) {}
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.authorizationService.isAuthenticated()) {
       return true;
-    } else {
-      this.router.navigate(['/auth', 'login']);
-      return false;
     }
+    this.router.navigate(['/auth', 'login']);
+    return false;
   }
 }

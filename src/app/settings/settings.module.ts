@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SettingsComponent } from './settings.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthorizationGuard } from 'src/app/authorization/shared/services/authorization.guard';
+import { SettingsComponent } from './settings.component';
 
 @NgModule({
   declarations: [SettingsComponent],

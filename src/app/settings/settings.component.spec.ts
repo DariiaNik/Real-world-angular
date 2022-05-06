@@ -68,7 +68,7 @@ describe('SettingsComponent', () => {
   describe('Function logout', () => {
     it('Then: call logout by click ', () => {
       const componentSpy = spyOn(component, 'logout').and.callThrough();
-      let button: HTMLElement = fixture.debugElement.nativeElement.querySelector('.btn-logout');
+      const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('.btn-logout');
       button.click();
       expect(componentSpy).toHaveBeenCalled();
       expect(routerSpy.navigate).toHaveBeenCalledWith(['/home']);
@@ -78,7 +78,7 @@ describe('SettingsComponent', () => {
   describe('Function updateUser', () => {
     it('Then: call updateUser by click ', () => {
       const componentSpy = spyOn(component, 'updateUser').and.callThrough();
-      let button: HTMLElement = fixture.debugElement.nativeElement.querySelector('.btn-lg');
+      const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('.btn-lg');
       button.click();
       expect(componentSpy).toHaveBeenCalled();
     });

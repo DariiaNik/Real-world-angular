@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,12 +10,13 @@ import { LoginUser } from 'src/app/shared/models/login-user-interface';
   selector: 'app-sing-in',
   templateUrl: './sing-in.component.html',
   styleUrls: ['./sing-in.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SingInComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription[] = [];
   form!: FormGroup;
   submitted: boolean = false;
   errorMesages!: string;
-  subscriptions: Subscription[] = [];
 
   constructor(private authService: AuthorizationService, private router: Router) {}
 
@@ -53,8 +54,9 @@ export class SingInComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.push(loginSubscription);
   }
+
   ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
+    this.subscriptions.forEach((sub: Subscription) => {
       if (sub) {
         sub.unsubscribe();
       }

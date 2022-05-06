@@ -18,17 +18,16 @@ export class CommentsService {
       map((response: ResponseMultiComment) => {
         this.comments$.next(response.comments);
         return response.comments;
-      })
+      }),
     );
   }
+
   addComments(slug: string, comment: NewComment): Observable<NewComment> {
     return this.http.post<NewComment>(`https://api.realworld.io/api/articles/${slug}/comments`, { comment }).pipe(
-      map((response: NewComment) => {
-        console.log(response);
-        return response;
-      })
+      map((response: NewComment) => response),
     );
   }
+
   deleteComment(slug: string, id: number) {
     return this.http.delete(`https://api.realworld.io/api/articles/${slug}/comments/${id}`).pipe();
   }

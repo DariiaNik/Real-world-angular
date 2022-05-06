@@ -17,10 +17,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
   @Output('getArticlesByAuthor') getArticlesByAuthor: EventEmitter<void> = new EventEmitter();
   @Input() article!: Article;
   @Input() type!: string;
-  disabled: boolean = false;
   subscriptions: Subscription[] = [];
+  disabled: boolean = false;
 
-  constructor(private articlesService: ArticlesService) {}
+  constructor(readonly articlesService: ArticlesService) {}
 
   ngOnInit(): void {}
 
@@ -33,6 +33,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
       });
     this.subscriptions.push(favouriteArticleSubscription);
   }
+
   private unFavouriteArticle() {
     this.disabled = true;
     const unFavouriteArticleSubscription: Subscription = this.articlesService
@@ -80,7 +81,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
+    this.subscriptions.forEach((sub: Subscription) => {
       if (sub) {
         sub.unsubscribe();
       }

@@ -21,9 +21,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   type: string = 'author';
 
   constructor(
-    private userService: UserService,
-    private profileService: ProfileService,
-    private route: ActivatedRoute
+    readonly userService: UserService,
+    readonly profileService: ProfileService,
+    readonly route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   private getUser() {
-    const getUserSubscription: Subscription = this.userService.getUser().subscribe((user) => {
+    const getUserSubscription: Subscription = this.userService.getUser().subscribe((user: User) => {
       this.user = user;
     });
     this.subscriptions.push(getUserSubscription);
@@ -40,11 +40,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private getProfile() {
     const getProfileSubscription: Subscription = this.route.params
-      .pipe(
-        switchMap((params: Params) => {
-          return this.profileService.getProfile(params['username']);
-        })
-      )
+      .pipe(switchMap((params: Params) => this.profileService.getProfile(params['username'])))
       .subscribe((response) => {
         this.profile = response.profile;
       });
@@ -76,7 +72,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
+    this.subscriptions.forEach((sub: Subscription) => {
       if (sub) {
         sub.unsubscribe();
       }

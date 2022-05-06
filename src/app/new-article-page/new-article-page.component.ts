@@ -12,15 +12,14 @@ import { ArticlesService } from 'src/app/shared/services/articles.service';
   styleUrls: ['./new-article-page.component.scss'],
 })
 export class NewArticlePageComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription[] = [];
   form!: FormGroup;
   article!: Article;
   isFormReady: boolean = false;
-  subscriptions: Subscription[] = [];
   errorMesages!: string;
+  constructor(readonly articlesService: ArticlesService, readonly router: Router, readonly route: ActivatedRoute) {}
 
-  constructor(private articlesService: ArticlesService, private router: Router, private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
+  ngOnInit() {
     this.form = new FormGroup({
       title: new FormControl(''),
       description: new FormControl(''),
@@ -30,6 +29,7 @@ export class NewArticlePageComponent implements OnInit, OnDestroy {
 
     this.getArticleBySlug();
   }
+
   private updateForm() {
     this.form.patchValue({
       title: this.article.title,
@@ -46,11 +46,10 @@ export class NewArticlePageComponent implements OnInit, OnDestroy {
         switchMap((params: Params) => {
           if (params['slug']) {
             return this.articlesService.getBySlug(params['slug']);
-          } else {
-            const result$ = new Observable<any>();
-            this.isFormReady = true;
-            return result$;
           }
+          const result$ = new Observable<any>();
+          this.isFormReady = true;
+          return result$;
         })
       )
       .subscribe((article: Article) => {
@@ -106,7 +105,7 @@ export class NewArticlePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
+    this.subscriptions.forEach((sub: Subscription) => {
       if (sub) {
         sub.unsubscribe();
       }

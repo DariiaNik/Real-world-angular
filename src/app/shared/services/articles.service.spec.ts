@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { ArticlesService } from './articles.service';
 import { ResponseMultiArticles } from 'src/app/shared/models/response-multi-articles-interface';
 import { ResponseArticle } from 'src/app/shared/models/response-article-interface';
 import { Article } from 'src/app/shared/models/article-interface';
+import { ArticlesService } from './articles.service';
 
 describe('ArticlesService', () => {
   let service: ArticlesService;
   let httpMock: HttpTestingController;
-  let username = 'Dariia';
-  let url = 'http://api.realworld.io/api/articles?limit=5&offset=0';
+  const username = 'Dariia';
+  const url = 'http://api.realworld.io/api/articles?limit=5&offset=0';
   const article: Article = {
     slug: 'string',
     title: 'string',
@@ -34,7 +34,7 @@ describe('ArticlesService', () => {
   };
 
   const responseArticle = {
-    article: article,
+    article,
   };
 
   beforeEach(async () => {
@@ -108,7 +108,7 @@ describe('ArticlesService', () => {
       service.createArticle(article).subscribe((data) => {
         expect(data).toEqual(article);
       });
-      const request = httpMock.expectOne(`http://api.realworld.io/api/articles`);
+      const request = httpMock.expectOne('http://api.realworld.io/api/articles');
       expect(request.request.method).toBe('POST');
       request.flush(article);
       httpMock.verify();

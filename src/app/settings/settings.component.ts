@@ -19,7 +19,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   isFormReady: boolean = false;
   errorMesages!: string;
 
-  constructor(private authService: AuthorizationService, private userService: UserService, private router: Router) {}
+  constructor(readonly authService: AuthorizationService, readonly userService: UserService, readonly router: Router) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -34,7 +34,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   private getUser() {
-    const getUserSubscription: Subscription = this.userService.getUser().subscribe((user) => {
+    const getUserSubscription: Subscription = this.userService.getUser().subscribe((user: User) => {
       this.user = user;
       this.updateForm();
     });
@@ -80,7 +80,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
+    this.subscriptions.forEach((sub: Subscription) => {
       if (sub) {
         sub.unsubscribe();
       }

@@ -15,18 +15,18 @@ import { ProfileService } from 'src/app/shared/services/profile.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticlePageComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription[] = [];
   article$!: Observable<Article>;
   user!: User;
   profile!: Profile;
   disabled: boolean = false;
-  subscriptions: Subscription[] = [];
 
   constructor(
-    private articlesService: ArticlesService,
-    private userService: UserService,
-    private profileService: ProfileService,
-    private route: ActivatedRoute,
-    private router: Router
+    readonly articlesService: ArticlesService,
+    readonly userService: UserService,
+    readonly profileService: ProfileService,
+    readonly route: ActivatedRoute,
+    readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -37,17 +37,13 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
   private getArticles() {
     this.article$ = this.articlesService.articleBySlug$;
     const getBySlugSubscription: Subscription = this.route.params
-      .pipe(
-        switchMap((params: Params) => {
-          return this.articlesService.getBySlug(params['slug']);
-        })
-      )
+      .pipe(switchMap((params: Params) => this.articlesService.getBySlug(params['slug'])))
       .subscribe();
     this.subscriptions.push(getBySlugSubscription);
   }
 
   private getUser() {
-    const getUserSubscription: Subscription = this.userService.getUser().subscribe((user) => {
+    const getUserSubscription: Subscription = this.userService.getUser().subscribe((user: User) => {
       this.user = user;
     });
     this.subscriptions.push(getUserSubscription);
@@ -58,6 +54,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     this.subscriptions.push(deleteSubscription);
     this.router.navigate(['/home']);
   }
+
   public follow(username: string) {
     this.disabled = true;
     const followSubscription: Subscription = this.profileService.followUser(username).subscribe(() => {
@@ -66,6 +63,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.push(followSubscription);
   }
+
   public unFollow(username: string) {
     this.disabled = true;
     const unFollowSubscription: Subscription = this.profileService.unFollowUser(username).subscribe(() => {
@@ -83,6 +81,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.push(favouriteArticleSubscription);
   }
+
   public unFavouriteArticle(slug: string) {
     this.disabled = true;
     const unFavouriteArticleSubscription: Subscription = this.articlesService.unFavouriteArticle(slug).subscribe(() => {
@@ -93,7 +92,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
+    this.subscriptions.forEach((sub: Subscription) => {
       if (sub) {
         sub.unsubscribe();
       }

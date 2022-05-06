@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,14 +10,15 @@ import { NewUser } from 'src/app/shared/models/new-user-interface';
   selector: 'app-sing-up',
   templateUrl: './sing-up.component.html',
   styleUrls: ['./sing-up.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SingUpComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription[] = [];
   form!: FormGroup;
   submitted: boolean = false;
   errorMesages!: string;
-  subscriptions: Subscription[] = [];
 
-  constructor(private authService: AuthorizationService, private router: Router) {}
+  constructor(readonly authService: AuthorizationService, readonly router: Router) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -26,6 +27,7 @@ export class SingUpComponent implements OnInit, OnDestroy {
       password: new FormControl('', [Validators.required]),
     });
   }
+
   public singUp() {
     if (this.form.invalid) {
       return;
@@ -55,8 +57,9 @@ export class SingUpComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.push(registerSubscription);
   }
+
   ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
+    this.subscriptions.forEach((sub: Subscription) => {
       if (sub) {
         sub.unsubscribe();
       }

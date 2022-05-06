@@ -18,11 +18,12 @@ describe('AuthorizationGuard', () => {
     } as RouterStateSnapshot;
   }
   const state = fakeRouterState(fakeUrls);
-  let router = {
+  const router = {
     navigate: jasmine.createSpy('navigate'),
   };
   class MockActivatedRouteSnapshot {
     private _data: any;
+
     get data() {
       return this._data;
     }

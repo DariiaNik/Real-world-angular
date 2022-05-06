@@ -6,7 +6,7 @@ describe('CommentsService', () => {
   let service: CommentsService;
   let httpMock: HttpTestingController;
   const slug = 'Create-a-new-implementation-1';
-  let url = `https://api.realworld.io/api/articles/${slug}/comments`;
+  const url = `https://api.realworld.io/api/articles/${slug}/comments`;
   const someComments = {
     comments: [
       {

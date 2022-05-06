@@ -10,7 +10,6 @@ import { ArticlesService } from 'src/app/shared/services/articles.service';
   styleUrls: ['./profile-articles.component.scss'],
 })
 export class ProfileArticlesComponent implements OnInit, OnDestroy {
-  constructor(private articlesService: ArticlesService) {}
   @Input() username!: string;
   @Input() type$!: Subject<string>;
   articles$!: Observable<Article[]>;
@@ -23,8 +22,10 @@ export class ProfileArticlesComponent implements OnInit, OnDestroy {
   length: number = 0;
   pageSize: number = 5;
 
+  constructor(readonly articlesService: ArticlesService) {}
+
   ngOnInit(): void {
-    this.type$.subscribe((value) => {
+    this.type$.subscribe((value: string) => {
       this.type = value;
       switch (this.type) {
         case 'favorites':
@@ -73,7 +74,7 @@ export class ProfileArticlesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
+    this.subscriptions.forEach((sub: Subscription) => {
       if (sub) {
         sub.unsubscribe();
       }

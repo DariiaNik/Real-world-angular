@@ -15,11 +15,11 @@ import { SingleComment } from 'src/app/shared/models/comment-interface';
 })
 export class CommentComponent implements OnInit, OnDestroy {
   @Input() slug!: string;
-  form!: FormGroup;
   comments$!: Observable<SingleComment[]>;
+  subscriptions: Subscription[] = [];
+  form!: FormGroup;
   user!: User;
   disabled: boolean = false;
-  subscriptions: Subscription[] = [];
 
   constructor(readonly userService: UserService, readonly commentsService: CommentsService) {}
 
@@ -32,7 +32,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   }
 
   private getUser() {
-    const getUserSubscription: Subscription = this.userService.getUser().subscribe((user) => {
+    const getUserSubscription: Subscription = this.userService.getUser().subscribe((user: User) => {
       this.user = user;
     });
     this.subscriptions.push(getUserSubscription);
@@ -45,7 +45,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   }
 
   public deleteComment(id: number) {
-    const deleteSubscription: Subscription = this.commentsService.deleteComment(this.slug, id).subscribe((result) => {
+    const deleteSubscription: Subscription = this.commentsService.deleteComment(this.slug, id).subscribe(() => {
       this.getComments();
     });
     this.subscriptions.push(deleteSubscription);
@@ -65,7 +65,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
+    this.subscriptions.forEach((sub: Subscription) => {
       if (sub) {
         sub.unsubscribe();
       }

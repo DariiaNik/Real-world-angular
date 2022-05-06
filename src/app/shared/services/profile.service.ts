@@ -9,24 +9,18 @@ export class ProfileService {
   constructor(private http: HttpClient) {}
 
   getProfile(username: string) {
-    return this.http.get(`https://api.realworld.io/api/profiles/${username}`).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.http.get(`https://api.realworld.io/api/profiles/${username}`).pipe(map((response: any) => response));
   }
+
   followUser(username: string) {
-    return this.http.post(`https://api.realworld.io/api/profiles/${username}/follow`, {}).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.http
+      .post(`https://api.realworld.io/api/profiles/${username}/follow`, {})
+      .pipe(map((response: any) => response));
   }
+
   unFollowUser(username: string) {
-    return this.http.delete(`https://api.realworld.io/api/profiles/${username}/follow`).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.http
+      .delete(`https://api.realworld.io/api/profiles/${username}/follow`)
+      .pipe(map((response: any) => response));
   }
 }

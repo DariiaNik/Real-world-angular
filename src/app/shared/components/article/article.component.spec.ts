@@ -8,7 +8,7 @@ describe('ArticleComponent', () => {
   let component: ArticleComponent;
   let fixture: ComponentFixture<ArticleComponent>;
   let articlesService: ArticlesService;
-  let article = {
+  const article = {
     article: {
       slug: 'string',
       title: 'string',

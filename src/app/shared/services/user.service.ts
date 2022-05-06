@@ -1,10 +1,10 @@
-import { User } from '../models/user-interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, Subject } from 'rxjs';
 import { ResponseUser } from 'src/app/shared/models/response-user-interface';
 import { environment } from 'src/environments/environment';
 import { AuthorizationService } from 'src/app/authorization/shared/services/authorization.service';
+import { User } from '../models/user-interface';
 
 @Injectable({
   providedIn: 'root',

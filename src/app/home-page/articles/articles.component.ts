@@ -28,9 +28,9 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   loadingArticle: boolean = false;
 
   constructor(
-    private articlesService: ArticlesService,
-    private authorizationService: AuthorizationService,
-    private userService: UserService
+    readonly articlesService: ArticlesService,
+    readonly authorizationService: AuthorizationService,
+    readonly userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -124,7 +124,7 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
+    this.subscriptions.forEach((sub: Subscription) => {
       if (sub) {
         sub.unsubscribe();
       }

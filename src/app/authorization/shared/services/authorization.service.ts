@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, Subject } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 import { LoginUser } from 'src/app/shared/models/login-user-interface';
 import { NewUser } from 'src/app/shared/models/new-user-interface';
 import { environment } from 'src/environments/environment';
