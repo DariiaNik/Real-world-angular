@@ -19,6 +19,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
   article$!: Observable<Article>;
   user!: User;
   profile!: Profile;
+  slug!: string;
   disabled: boolean = false;
 
   constructor(
@@ -31,14 +32,20 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getUser();
+    this.getSlug();
     this.getArticles();
+  }
+
+  private getSlug() {
+    const getSlug: Subscription = this.route.params
+      .pipe(switchMap((params: Params) => (this.slug = params['slug'])))
+      .subscribe();
+    this.subscriptions.push(getSlug);
   }
 
   private getArticles() {
     this.article$ = this.articlesService.articleBySlug$;
-    const getBySlugSubscription: Subscription = this.route.params
-      .pipe(switchMap((params: Params) => this.articlesService.getBySlug(params['slug'])))
-      .subscribe();
+    const getBySlugSubscription: Subscription = this.articlesService.getBySlug(this.slug).subscribe();
     this.subscriptions.push(getBySlugSubscription);
   }
 
