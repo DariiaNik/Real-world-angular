@@ -61,6 +61,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     const updateUserSubscription: Subscription = this.userService.updateUser(user).subscribe({
       next: (response) => {
+        console.log(response);
         this.getUser();
         this.router.navigate(['/profile', response.user.username]);
       },

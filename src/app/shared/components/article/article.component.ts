@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthorizationService } from 'src/app/authorization/shared/services/authorization.service';
 import { Article } from 'src/app/shared/models/article-interface';
 import { ArticlesService } from '../../services/articles.service';
 
@@ -11,7 +13,7 @@ import { ArticlesService } from '../../services/articles.service';
 })
 export class ArticleComponent implements OnInit, OnDestroy {
   @Output('getAllArticles') getAllArticles: EventEmitter<void> = new EventEmitter();
-  @Output('getFavoriteArticles') getFavoriteArticles: EventEmitter<void> = new EventEmitter();
+  @Output('getFeedArticles') getFeedArticles: EventEmitter<void> = new EventEmitter();
   @Output('getFavoriteArticlesProfile') getFavoriteArticlesProfile: EventEmitter<void> = new EventEmitter();
   @Output('getArticlesByTag') getArticlesByTag: EventEmitter<String> = new EventEmitter();
   @Output('getArticlesByAuthor') getArticlesByAuthor: EventEmitter<void> = new EventEmitter();
@@ -20,18 +22,26 @@ export class ArticleComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   disabled: boolean = false;
 
-  constructor(readonly articlesService: ArticlesService) {}
+  constructor(
+    readonly articlesService: ArticlesService,
+    readonly authService: AuthorizationService,
+    readonly router: Router
+  ) {}
 
   ngOnInit(): void {}
 
   private favouriteArticle() {
-    this.disabled = true;
-    const favouriteArticleSubscription: Subscription = this.articlesService
-      .favouriteArticle(this.article.slug)
-      .subscribe(() => {
-        this.updateArticles();
-      });
-    this.subscriptions.push(favouriteArticleSubscription);
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/auth', 'login']);
+    } else {
+      this.disabled = true;
+      const favouriteArticleSubscription: Subscription = this.articlesService
+        .favouriteArticle(this.article.slug)
+        .subscribe(() => {
+          this.updateArticles();
+        });
+      this.subscriptions.push(favouriteArticleSubscription);
+    }
   }
 
   private unFavouriteArticle() {
@@ -52,7 +62,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
           break;
 
         case 'your':
-          this.getFavoriteArticles.emit();
+          this.getFeedArticles.emit();
           break;
 
         case 'favorites':

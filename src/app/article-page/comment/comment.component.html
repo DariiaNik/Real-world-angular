@@ -10,7 +10,7 @@
   </form>
   <div *ngIf="comments$ | async as comments">
     <div *ngFor="let comment of comments">
-      <div class="comment-card" *ngIf="user">
+      <div class="comment-card" > <!-- *ngIf="user" -->
         <p>{{ comment.body }}</p>
         <div class="comment-card-footer">
           <a class="article-image">

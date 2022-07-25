@@ -11,20 +11,25 @@ export class AuthorizationInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (this.authService.isAuthenticated()) {
       request = request.clone({
-        setHeaders: { Authorization: `Token ${this.authService.token}` },
+        setHeaders: { 'x-access-token': `${this.authService.token}` },
       });
     }
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorMsg = '';
-        if (error.error instanceof ErrorEvent) {
-          console.log('This is client side error');
-          errorMsg = `Error: ${error.error.message}`;
+        if (error.statusText === 'Unauthorized' || error.statusText === 'Forbidden') {
+          this.authService.logout();
+          this.router.navigate(['/auth', 'login']);
         } else {
-          console.log('This is server side error');
-          errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+          if (error.error instanceof ErrorEvent) {
+            console.log('This is client side error');
+            errorMsg = `Error: ${error.error.message}`;
+          } else {
+            console.log('This is server side error');
+            errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+          }
+          console.log(errorMsg);
         }
-        console.log(errorMsg);
         return throwError(() => error);
       })
     );

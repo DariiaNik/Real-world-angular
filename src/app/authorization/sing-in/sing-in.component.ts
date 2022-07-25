@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { AuthorizationService } from 'src/app/authorization/shared/services/authorization.service';
 import { LoginUser } from 'src/app/shared/models/login-user-interface';
 
@@ -16,7 +16,7 @@ export class SingInComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   form!: FormGroup;
   submitted: boolean = false;
-  errorMesages!: string;
+  errMsg = new Subject<string>();
 
   constructor(private authService: AuthorizationService, private router: Router) {}
 
@@ -45,10 +45,7 @@ export class SingInComponent implements OnInit, OnDestroy {
         this.submitted = false;
       },
       error: (error: HttpErrorResponse) => {
-        const errors = Object.entries(error.error.errors)
-          .map((entries) => entries.join(' '))
-          .join(',');
-        this.errorMesages = errors;
+        this.errMsg.next(error.error.message);
         this.submitted = false;
       },
     });

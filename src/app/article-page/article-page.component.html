@@ -1,5 +1,5 @@
 <div class="article-page" *ngIf="article$ | async as article">
-  <div class="banner" *ngIf="user">
+  <div class="banner">
     <div class="container">
       <h1 class="logo">{{ article.title }}</h1>
       <div class="article-bio">
@@ -10,7 +10,7 @@
           <a class="info-name" [routerLink]="['/profile', article.author.username]">{{ article.author.username }} </a>
           <span class="info-date">{{ article.createdAt | date: 'longDate' }}</span>
         </div>
-        <div class="article-btn" *ngIf="article.author.username !== user.username; else myArticle">
+        <div class="article-btn" *ngIf=" user && article.author.username !== user.username; else myArticle">
           <button
             *ngIf="!article.author.following; else unfollowing"
             mat-stroked-button
@@ -35,7 +35,7 @@
       </div>
     </div>
   </div>
-  <div class="container article-body" *ngIf="user">
+  <div class="container article-body">
     <div class="article-content">
       <p>
         {{ article.body }}
@@ -46,7 +46,7 @@
         </li>
       </ul>
     </div>
-    <div class="article-bio">
+    <div class="article-bio" *ngIf="user">
       <a class="article-image">
         <img src="{{ article.author.image }}" />
       </a>
@@ -77,11 +77,11 @@
         </button>
       </div>
     </div>
-    <app-comment [slug]="article.slug"></app-comment>
+    <app-comment *ngIf="user" [slug]="article.slug"></app-comment>
   </div>
 
   <ng-template #myArticle>
-    <div class="article-btn">
+    <div *ngIf="user" class="article-btn">
       <button mat-stroked-button class="btn-edit" [routerLink]="['/editor', article.slug]">
         <mat-icon class="icon-btn">edit</mat-icon>
         <span>Edit Article</span>

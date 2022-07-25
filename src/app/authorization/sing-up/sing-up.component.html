@@ -3,7 +3,7 @@
   <p>
     <a [routerLink]="['/auth', 'login']">Have an account?</a>
   </p>
-  <small *ngIf="errorMesages">{{ errorMesages }}</small>
+  <small *ngIf="errMsg | async as error">{{ error }} </small>
 
   <div
     class="form-control"

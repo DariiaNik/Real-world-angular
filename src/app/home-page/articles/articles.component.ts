@@ -69,7 +69,7 @@ export class ArticlesComponent implements OnInit, OnDestroy {
           break;
 
         case 'your':
-          this.getFavoriteArticles(this.pageSize);
+          this.getFeedArticles(this.pageSize);
           break;
       }
     });
@@ -87,10 +87,10 @@ export class ArticlesComponent implements OnInit, OnDestroy {
     this.subscriptions.push(getAllArticlesSubscription);
   }
 
-  public getFavoriteArticles(limit: number = 5, ofset: number = 0) {
-    this.articles$ = this.articlesService.favoriteArticles$;
+  public getFeedArticles(limit: number = 5, ofset: number = 0) {
+    this.articles$ = this.articlesService.feedArticles$;
     const getFavoriteArticlesSubscription: Subscription = this.articlesService
-      .getFavoriteArticles(this.user.username, limit, ofset)
+      .getFeedArticles(limit, ofset)
       .subscribe((response: any) => {
         this.length = response.articlesCount;
         this.loadingArticle = false;
@@ -117,7 +117,7 @@ export class ArticlesComponent implements OnInit, OnDestroy {
         break;
 
       case 'your':
-        this.getFavoriteArticles(event.pageSize, event.pageIndex * event.pageSize);
+        this.getFeedArticles(event.pageSize, event.pageIndex * event.pageSize);
         break;
     }
     return event;

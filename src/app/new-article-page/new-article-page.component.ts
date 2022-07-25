@@ -17,7 +17,11 @@ export class NewArticlePageComponent implements OnInit, OnDestroy {
   article!: Article;
   isFormReady: boolean = false;
   errorMesages!: string;
-  constructor(readonly articlesService: ArticlesService, readonly router: Router, readonly route: ActivatedRoute) {}
+  constructor(
+    readonly articlesService: ArticlesService,
+    readonly router: Router,
+    readonly route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -68,27 +72,23 @@ export class NewArticlePageComponent implements OnInit, OnDestroy {
           this.router.navigate(['/home']);
         },
         error: (error: HttpErrorResponse) => {
-          const errors = Object.entries(error.error.errors)
-            .map((entries) => entries.join(' '))
-            .join(',');
-          this.errorMesages = errors;
+          this.errorMesages = error.error.error;
         },
       });
     this.subscriptions.push(updateArticleSubscription);
   }
 
   private createArticle(article: Article) {
-    const createArticleSubscription: Subscription = this.articlesService.createArticle(article).subscribe({
-      next: () => {
-        this.router.navigate(['/home']);
-      },
-      error: (error: HttpErrorResponse) => {
-        const errors = Object.entries(error.error.errors)
-          .map((entries) => entries.join(' '))
-          .join(',');
-        this.errorMesages = errors;
-      },
-    });
+    const createArticleSubscription: Subscription = this.articlesService
+      .createArticle(article)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/home']);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.errorMesages = error.error.error;
+        },
+      });
     this.subscriptions.push(createArticleSubscription);
   }
 

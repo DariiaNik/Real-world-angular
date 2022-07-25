@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { AuthorizationService } from 'src/app/authorization/shared/services/authorization.service';
 import { NewUser } from 'src/app/shared/models/new-user-interface';
 
@@ -16,7 +16,7 @@ export class SingUpComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   form!: FormGroup;
   submitted: boolean = false;
-  errorMesages!: string;
+  errMsg = new Subject<string>();
 
   constructor(readonly authService: AuthorizationService, readonly router: Router) {}
 
@@ -47,11 +47,7 @@ export class SingUpComponent implements OnInit, OnDestroy {
         this.submitted = false;
       },
       error: (error: HttpErrorResponse) => {
-        const errors = Object.entries(error.error.errors)
-          .map((entries) => entries.join(' '))
-          .join(',');
-        this.errorMesages = errors;
-        console.log(errors);
+        this.errMsg.next(error.error.message);
         this.submitted = false;
       },
     });

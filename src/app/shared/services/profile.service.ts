@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { map } from 'rxjs';
 
 @Injectable({
@@ -9,18 +10,18 @@ export class ProfileService {
   constructor(private http: HttpClient) {}
 
   getProfile(username: string) {
-    return this.http.get(`https://api.realworld.io/api/profiles/${username}`).pipe(map((response: any) => response));
+    return this.http.get(`${environment.apiUrl}profiles/${username}`).pipe(map((response: any) => response));
   }
 
   followUser(username: string) {
     return this.http
-      .post(`https://api.realworld.io/api/profiles/${username}/follow`, {})
+      .post(`${environment.apiUrl}profiles/${username}/follow`, {})
       .pipe(map((response: any) => response));
   }
 
   unFollowUser(username: string) {
     return this.http
-      .delete(`https://api.realworld.io/api/profiles/${username}/follow`)
+      .delete(`${environment.apiUrl}profiles/${username}/follow`)
       .pipe(map((response: any) => response));
   }
 }

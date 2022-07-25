@@ -7,6 +7,7 @@ import { User } from 'src/app/shared/models/user-interface';
 import { UserService } from 'src/app/shared/services/user.service';
 import { Profile } from 'src/app/shared/models/profile-interface';
 import { ProfileService } from 'src/app/shared/services/profile.service';
+import { AuthorizationService } from 'src/app/authorization/shared/services/authorization.service';
 
 @Component({
   selector: 'app-article-page',
@@ -27,11 +28,14 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     readonly userService: UserService,
     readonly profileService: ProfileService,
     readonly route: ActivatedRoute,
-    readonly router: Router
+    readonly router: Router,
+    readonly authService: AuthorizationService
   ) {}
 
   ngOnInit(): void {
-    this.getUser();
+    if (this.authService.isAuthenticated()) {
+      this.getUser();
+    }
     this.getSlug();
     this.getArticles();
   }
