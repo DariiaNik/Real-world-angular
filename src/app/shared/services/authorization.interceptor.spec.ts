@@ -59,25 +59,24 @@ describe('AuthorizationInterceptor', () => {
     httpClient.get<Data>(testUrl).subscribe({
       next: (res) => fail('should have failed with the 401 error'),
       error: (error: HttpErrorResponse) => {
-        expect(error.error).toEqual(emsg);
+        expect(console.log).toHaveBeenCalledWith('This is server side error');
       },
     });
     const req = httpMock.expectOne(testUrl);
-    req.flush(emsg, { status: 401, statusText: 'Unauthorized' });
+    req.flush(emsg, { status: 401, statusText: 'Error' });
 
     expect(console.log).toHaveBeenCalled();
   });
   it('Then: handle HttpErrorResponse case ErrorEvent', () => {
-    const emsg = ' 401 error';
     spyOn(console, 'log');
 
     httpClient.get<Data>(testUrl).subscribe({
       next: (res) => fail('should have failed with the 401 error'),
       error: (error: HttpErrorResponse) => {
-        expect(console.log).toHaveBeenCalled();
+        expect(console.log).toHaveBeenCalledWith('This is client side error');
       },
     });
     const req = httpMock.expectOne(testUrl);
-    req.error(new ErrorEvent('the error message'), { status: 401, statusText: 'Unauthorized' });
+    req.error(new ErrorEvent('the error message'), { status: 400, statusText: 'Email exist' });
   });
 });

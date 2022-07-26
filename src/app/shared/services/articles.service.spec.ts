@@ -10,7 +10,7 @@ describe('ArticlesService', () => {
   let service: ArticlesService;
   let httpMock: HttpTestingController;
   const username = 'Dariia';
-  const url = 'http://api.realworld.io/api/articles?limit=5&offset=0';
+  const url = 'http://localhost:3000/articles?limit=5&offset=0';
   const article: Article = {
     slug: 'string',
     title: 'string',
@@ -68,7 +68,9 @@ describe('ArticlesService', () => {
       service.getByAuthor(username).subscribe((data: ResponseMultiArticles) => {
         expect(data).toEqual(articles);
       });
-      const request = httpMock.expectOne(`http://api.realworld.io/api/articles?author=${username}&limit=5&offset=0`);
+      const request = httpMock.expectOne(
+        `http://localhost:3000/articles?author=${username}&limit=5&offset=0`
+      );
       expect(request.request.method).toBe('GET');
       request.flush(articles);
       httpMock.verify();
@@ -77,7 +79,9 @@ describe('ArticlesService', () => {
       service.getByTag(username).subscribe((data: ResponseMultiArticles) => {
         expect(data).toEqual(articles);
       });
-      const request = httpMock.expectOne(`http://api.realworld.io/api/articles?tag=${username}&limit=5&offset=0`);
+      const request = httpMock.expectOne(
+        `http://localhost:3000/articles?tag=${username}&limit=5&offset=0`
+      );
       expect(request.request.method).toBe('GET');
       request.flush(articles);
       httpMock.verify();
@@ -86,7 +90,9 @@ describe('ArticlesService', () => {
       service.getFavoriteArticles(username).subscribe((data: ResponseMultiArticles) => {
         expect(data).toEqual(articles);
       });
-      const request = httpMock.expectOne(`http://api.realworld.io/api/articles?favorited=${username}&limit=5&offset=0`);
+      const request = httpMock.expectOne(
+        `http://localhost:3000/articles?favorited=${username}&limit=5&offset=0`
+      );
       expect(request.request.method).toBe('GET');
       request.flush(articles);
       httpMock.verify();
@@ -97,7 +103,7 @@ describe('ArticlesService', () => {
       service.getBySlug(username).subscribe((data) => {
         expect(data).toEqual(article);
       });
-      const request = httpMock.expectOne(`http://api.realworld.io/api/articles/${username}`);
+      const request = httpMock.expectOne(`http://localhost:3000/articles/${username}`);
       expect(request.request.method).toBe('GET');
       request.flush(responseArticle);
       httpMock.verify();
@@ -108,7 +114,7 @@ describe('ArticlesService', () => {
       service.createArticle(article).subscribe((data) => {
         expect(data).toEqual(article);
       });
-      const request = httpMock.expectOne('http://api.realworld.io/api/articles');
+      const request = httpMock.expectOne('http://localhost:3000/articles');
       expect(request.request.method).toBe('POST');
       request.flush(article);
       httpMock.verify();
@@ -119,26 +125,26 @@ describe('ArticlesService', () => {
       service.updateArticle(article, username).subscribe((data) => {
         expect(data).toEqual(article);
       });
-      const request = httpMock.expectOne(`http://api.realworld.io/api/articles/${username}`);
+      const request = httpMock.expectOne(`http://localhost:3000/articles/${username}`);
       expect(request.request.method).toBe('PUT');
       request.flush(article);
       httpMock.verify();
     });
     it('Then:  call deleteArticle method', () => {
       service.deleteArticle(username).subscribe();
-      const request = httpMock.expectOne(`http://api.realworld.io/api/articles/${username}`);
+      const request = httpMock.expectOne(`http://localhost:3000/articles/${username}`);
       expect(request.request.method).toBe('DELETE');
       httpMock.verify();
     });
     it('Then: call favouriteArticle method', () => {
       service.favouriteArticle(username).subscribe();
-      const request = httpMock.expectOne(`http://api.realworld.io/api/articles/${username}/favorite`);
+      const request = httpMock.expectOne(`http://localhost:3000/articles/${username}/favorite`);
       expect(request.request.method).toBe('POST');
       httpMock.verify();
     });
     it('Then: call unFavouriteArticle method', () => {
       service.unFavouriteArticle(username).subscribe();
-      const request = httpMock.expectOne(`http://api.realworld.io/api/articles/${username}/favorite`);
+      const request = httpMock.expectOne(`http://localhost:3000/articles/${username}/favorite`);
       expect(request.request.method).toBe('DELETE');
       httpMock.verify();
     });

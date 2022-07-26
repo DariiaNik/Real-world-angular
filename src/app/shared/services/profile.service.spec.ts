@@ -7,7 +7,7 @@ describe('ProfileService', () => {
   let service: ProfileService;
   let httpMock: HttpTestingController;
   const username = 'Dariia';
-  const url = `https://api.realworld.io/api/profiles/${username}`;
+  const url = `http://localhost:3000/profiles/${username}`;
   const profile = {
     profile: {
       username: 'string',

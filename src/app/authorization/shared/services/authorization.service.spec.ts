@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { AuthorizationService } from './authorization.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('AuthorizationService', () => {
   let service: AuthorizationService;
@@ -31,7 +32,7 @@ describe('AuthorizationService', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, ReactiveFormsModule],
       providers: [AuthorizationService],
     }).compileComponents();
   });
@@ -50,7 +51,7 @@ describe('AuthorizationService', () => {
     service.login(user.user).subscribe((data) => {
       expect(data).toBeTruthy();
     });
-    const request = httpMock.expectOne('http://api.realworld.io/api/users/login');
+    const request = httpMock.expectOne('http://localhost:3000/users/login');
     expect(request.request.method).toBe('POST');
     request.flush(userResponse);
     httpMock.verify();
@@ -59,7 +60,7 @@ describe('AuthorizationService', () => {
     service.register(newUser.user).subscribe((data) => {
       expect(data).toBeTruthy();
     });
-    const request = httpMock.expectOne('http://api.realworld.io/api/users');
+    const request = httpMock.expectOne('http://localhost:3000/users');
     expect(request.request.method).toBe('POST');
     request.flush(userResponse);
     httpMock.verify();

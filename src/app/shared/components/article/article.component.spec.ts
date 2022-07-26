@@ -1,4 +1,6 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { ArticlesService } from 'src/app/shared/services/articles.service';
 
@@ -31,6 +33,7 @@ describe('ArticleComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ArticleComponent],
+      imports: [HttpClientModule, RouterTestingModule],
       providers: [
         {
           provide: ArticlesService,

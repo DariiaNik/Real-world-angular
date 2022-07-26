@@ -20,8 +20,8 @@ describe('ArticlesComponent', () => {
           provide: ArticlesService,
           useValue: {
             getAll: () => of({}),
-            getFavoriteArticles: () => of({}),
             getByTag: () => of({}),
+            getFeedArticles: () => of({}),
           },
         },
         {
@@ -54,20 +54,20 @@ describe('ArticlesComponent', () => {
   });
   describe('Function getFavoriteArticles', () => {
     it('Then: call getFavoriteArticles', () => {
-      const componentSpy = spyOn(component, 'getFavoriteArticles').and.callThrough();
-      component.getFavoriteArticles();
+      const componentSpy = spyOn(component, 'getFeedArticles').and.callThrough();
+      component.getFeedArticles();
       expect(componentSpy).toHaveBeenCalled();
     });
     it('Then: call ArticlesService from getFavoriteArticles', fakeAsync(() => {
-      const serviceSpy = spyOn(articlesService, 'getFavoriteArticles').and.returnValue(of());
-      component.getFavoriteArticles();
+      const serviceSpy = spyOn(articlesService, 'getFeedArticles').and.returnValue(of());
+      component.getFeedArticles();
       expect(serviceSpy).toHaveBeenCalled();
     }));
   });
   describe('Function getArticlesByTag', () => {
     it('Then: call getArticlesByTag', () => {
       const componentSpy = spyOn(component, 'getArticlesByTag').and.callThrough();
-      component.getArticlesByTag('tag');
+      component.getArticlesByTag('First');
       expect(componentSpy).toHaveBeenCalled();
     });
     it('Then: call ArticlesService from getArticlesByTag', fakeAsync(() => {

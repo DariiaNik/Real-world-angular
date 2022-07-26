@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CommentsService } from './comments.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('CommentsService', () => {
   let service: CommentsService;
   let httpMock: HttpTestingController;
   const slug = 'Create-a-new-implementation-1';
-  const url = `https://api.realworld.io/api/articles/${slug}/comments`;
+  const url = `http://localhost:3000/articles/${slug}/comments`;
   const someComments = {
     comments: [
       {
@@ -28,7 +29,8 @@ describe('CommentsService', () => {
       author: {
         username: 'Dariia8',
         bio: 'Hello!!!',
-        image: 'http://artist.com/art-recognition-and-education/wp…ia-files/2015/11/minimalist-art-minimalism-13.jpg',
+        image:
+          'http://artist.com/art-recognition-and-education/wp…ia-files/2015/11/minimalist-art-minimalism-13.jpg',
         following: false,
       },
       body: 'Holla',

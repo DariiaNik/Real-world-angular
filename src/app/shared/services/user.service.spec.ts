@@ -35,7 +35,7 @@ describe('UserService', () => {
     service.getUser().subscribe((data) => {
       expect(data).toEqual(user.user);
     });
-    const request = httpMock.expectOne('http://api.realworld.io/api/user');
+    const request = httpMock.expectOne('http://localhost:3000/user');
     expect(request.request.method).toBe('GET');
     request.flush(user);
     httpMock.verify();
@@ -44,7 +44,7 @@ describe('UserService', () => {
     service.updateUser(user.user).subscribe((data) => {
       expect(data).toEqual(user);
     });
-    const request = httpMock.expectOne('http://api.realworld.io/api/user');
+    const request = httpMock.expectOne('http://localhost:3000/user');
     expect(request.request.method).toBe('PUT');
     request.flush(user);
     httpMock.verify();
