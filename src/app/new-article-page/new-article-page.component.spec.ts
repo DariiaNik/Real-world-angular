@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
 import { Article } from 'src/app/shared/models/article-interface';
+import { ResponseArticle } from 'src/app/shared/models/response-article-interface';
 import { ArticlesService } from 'src/app/shared/services/articles.service';
 import { NewArticlePageComponent } from './new-article-page.component';
 
@@ -29,6 +30,10 @@ describe('NewArticlePageComponent', () => {
       image: 'string',
       following: true,
     },
+  };
+
+  const responseArticle: ResponseArticle = {
+    article,
   };
   const errorResponse = new HttpErrorResponse({
     error: { errors: { 'email or password': ['is invalid'] } },
@@ -88,12 +93,16 @@ describe('NewArticlePageComponent', () => {
         expect(componentSpy).toHaveBeenCalled();
       });
       it('Then: call updateArticle from articlesService ', () => {
-        const serviceSpy = spyOn(articlesService, 'createArticle').and.returnValue(of(article));
+        const serviceSpy = spyOn(articlesService, 'createArticle').and.returnValue(
+          of(responseArticle)
+        );
         component.publishArticle();
         expect(serviceSpy).toHaveBeenCalled();
       });
       it('Then: call updateArticle from articlesService  with error', () => {
-        const serviceSpy = spyOn(articlesService, 'createArticle').and.returnValue(throwError(() => errorResponse));
+        const serviceSpy = spyOn(articlesService, 'createArticle').and.returnValue(
+          throwError(() => errorResponse)
+        );
         component.publishArticle();
         expect(serviceSpy).toHaveBeenCalled();
       });
@@ -102,18 +111,17 @@ describe('NewArticlePageComponent', () => {
       beforeEach(() => {
         component.article = article;
       });
-      it('Then: call publishArticle', () => {
-        const componentSpy = spyOn(component, 'publishArticle').and.callThrough();
-        component.publishArticle();
-        expect(componentSpy).toHaveBeenCalled();
-      });
       it('Then: call updateArticle from articlesService ', () => {
-        const serviceSpy = spyOn(articlesService, 'updateArticle').and.returnValue(of(article));
+        const serviceSpy = spyOn(articlesService, 'updateArticle').and.returnValue(
+          of(responseArticle)
+        );
         component.publishArticle();
         expect(serviceSpy).toHaveBeenCalled();
       });
       it('Then: call updateArticle from articlesService  with error', () => {
-        const serviceSpy = spyOn(articlesService, 'updateArticle').and.returnValue(throwError(() => errorResponse));
+        const serviceSpy = spyOn(articlesService, 'updateArticle').and.returnValue(
+          throwError(() => errorResponse)
+        );
         component.publishArticle();
         expect(serviceSpy).toHaveBeenCalled();
       });

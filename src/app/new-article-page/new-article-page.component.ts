@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, Subscription, switchMap } from 'rxjs';
 import { Article } from 'src/app/shared/models/article-interface';
+import { ResponseArticle } from 'src/app/shared/models/response-article-interface';
 import { ArticlesService } from 'src/app/shared/services/articles.service';
 
 @Component({
@@ -25,7 +26,7 @@ export class NewArticlePageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.form = new FormGroup({
-      title: new FormControl(''),
+      title: new FormControl('', [Validators.required]),
       description: new FormControl(''),
       body: new FormControl(''),
       tagList: new FormControl(''),
@@ -68,8 +69,8 @@ export class NewArticlePageComponent implements OnInit, OnDestroy {
     const updateArticleSubscription: Subscription = this.articlesService
       .updateArticle(article, this.article.slug)
       .subscribe({
-        next: () => {
-          this.router.navigate(['/home']);
+        next: (response: ResponseArticle) => {
+          this.router.navigate([`/article/${response.article.slug}`]);
         },
         error: (error: HttpErrorResponse) => {
           this.errorMesages = error.error.error;
@@ -82,8 +83,8 @@ export class NewArticlePageComponent implements OnInit, OnDestroy {
     const createArticleSubscription: Subscription = this.articlesService
       .createArticle(article)
       .subscribe({
-        next: () => {
-          this.router.navigate(['/home']);
+        next: (response: ResponseArticle) => {
+          this.router.navigate([`/article/${response.article.slug}`]);
         },
         error: (error: HttpErrorResponse) => {
           this.errorMesages = error.error.error;

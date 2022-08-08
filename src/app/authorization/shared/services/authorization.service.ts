@@ -21,6 +21,7 @@ export class AuthorizationService {
     return this.http.post<LoginUser>(`${environment.apiUrl}users/login`, { user }).pipe(
       map((response) => {
         this.setToken(response);
+        console.log(response);
         return response;
       })
     );
@@ -30,6 +31,7 @@ export class AuthorizationService {
     return this.http.post<NewUser>(`${environment.apiUrl}users`, { user }).pipe(
       map((response) => {
         this.setToken(response);
+        console.log(response);
         return response;
       })
     );

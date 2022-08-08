@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthorizationService } from 'src/app/authorization/shared/services/authorization.service';
@@ -19,14 +19,18 @@ export class SettingsComponent implements OnInit, OnDestroy {
   isFormReady: boolean = false;
   errorMesages!: string;
 
-  constructor(readonly authService: AuthorizationService, readonly userService: UserService, readonly router: Router) {}
+  constructor(
+    readonly authService: AuthorizationService,
+    readonly userService: UserService,
+    readonly router: Router
+  ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
       image: new FormControl('https://api.realworld.io/images/smiley-cyrus.jpeg'),
-      username: new FormControl(''),
+      username: new FormControl('', [Validators.required]),
       bio: new FormControl(''),
-      email: new FormControl(''),
+      email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl(''),
     });
 

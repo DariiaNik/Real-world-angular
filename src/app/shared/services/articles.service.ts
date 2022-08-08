@@ -102,14 +102,21 @@ export class ArticlesService {
     );
   }
 
-  createArticle(article: Article): Observable<Article> {
+  createArticle(article: Article): Observable<ResponseArticle> {
     return this.http
-      .post<Article>(`${environment.apiUrl}articles`, { article })
-      .pipe(map((response: Article) => response));
+      .post<ResponseArticle>(`${environment.apiUrl}articles`, { article })
+      .pipe(map((response: ResponseArticle) => response));
   }
 
-  updateArticle(article: Article, slug: string) {
-    return this.http.put(`${environment.apiUrl}articles/${slug}`, { article });
+  updateArticle(article: Article, slug: string): Observable<ResponseArticle> {
+    return this.http
+      .put<ResponseArticle>(`${environment.apiUrl}articles/${slug}`, { article })
+      .pipe(
+        map((response: ResponseArticle) => {
+          console.log(response);
+          return response;
+        })
+      );
   }
 
   deleteArticle(slug: string): Observable<void> {

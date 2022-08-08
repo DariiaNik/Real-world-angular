@@ -12,7 +12,7 @@
     }"
   >
     <input id="username" type="text" placeholder="Username" formControlName="username" />
-    <div class="validation" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+    <div class="validation" *ngIf="form.get('username')?.touched && form.get('username')?.invalid">
       <small *ngIf="form.get('username')?.hasError('required')">Field cannot be empty</small>
     </div>
   </div>

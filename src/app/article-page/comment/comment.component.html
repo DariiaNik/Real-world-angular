@@ -1,16 +1,25 @@
 <div class="article-comments">
   <form [formGroup]="form" (ngSubmit)="postComment()" class="comment-form">
     <div class="comment-input">
-      <textarea type="text" placeholder="Write a comment..." rows="3" formControlName="comment"></textarea>
+      <textarea
+        id="new-comment"
+        type="text"
+        placeholder="Write a comment..."
+        rows="3"
+        formControlName="comment"
+      ></textarea>
     </div>
     <div class="comment-banner" *ngIf="user">
       <img src="{{ user.image }}" />
-      <button type="submit" class="btn-sub" [disabled]="disabled || form.invalid">Post comment</button>
+      <button type="submit" class="btn-sub" [disabled]="disabled || form.invalid">
+        Post comment
+      </button>
     </div>
   </form>
   <div *ngIf="comments$ | async as comments">
     <div *ngFor="let comment of comments">
-      <div class="comment-card" > <!-- *ngIf="user" -->
+      <div class="comment-card">
+        <!-- *ngIf="user" -->
         <p>{{ comment.body }}</p>
         <div class="comment-card-footer">
           <a class="article-image">

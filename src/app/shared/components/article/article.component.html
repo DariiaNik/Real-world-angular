@@ -4,10 +4,13 @@
       <img src="{{ article.author.image }}" />
     </a>
     <div class="article-info">
-      <a class="info-name" [routerLink]="['/profile', article.author.username]">{{ article.author.username }}</a>
+      <a class="info-name" [routerLink]="['/profile', article.author.username]">{{
+        article.author.username
+      }}</a>
       <span class="info-date">{{ article.createdAt | date: 'longDate' }}</span>
     </div>
     <button
+      id="favourite-button"
       mat-stroked-button
       [disabled]="disabled"
       [ngClass]="article.favorited ? 'favourited' : ''"

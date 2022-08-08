@@ -15,7 +15,7 @@ describe('SettingsComponent', () => {
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   const user = {
     user: {
-      email: 'string',
+      email: 'string@gmail.com',
       token: 'string',
       username: 'string',
       bio: 'string',
@@ -77,10 +77,10 @@ describe('SettingsComponent', () => {
 
   describe('Function updateUser', () => {
     it('Then: call updateUser by click ', () => {
-      const componentSpy = spyOn(component, 'updateUser').and.callThrough();
+      spyOn(component, 'updateUser').and.callThrough();
       const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('.btn-lg');
       button.click();
-      expect(componentSpy).toHaveBeenCalled();
+      expect(component.updateUser).toHaveBeenCalled();
     });
     it('Then: return value from updateUser', fakeAsync(() => {
       const serviceSpy = spyOn(userService, 'updateUser').and.returnValue(of(user));
@@ -92,7 +92,9 @@ describe('SettingsComponent', () => {
     }));
     it('Then: handle error email case', fakeAsync(() => {
       spyOn(console, 'log').and.throwError;
-      const serviceSpy = spyOn(userService, 'updateUser').and.returnValue(throwError(() => errorResponse));
+      const serviceSpy = spyOn(userService, 'updateUser').and.returnValue(
+        throwError(() => errorResponse)
+      );
       component.updateUser();
       expect(serviceSpy).toHaveBeenCalled();
       expect(console.log).toHaveBeenCalled();

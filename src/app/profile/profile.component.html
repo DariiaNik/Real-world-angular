@@ -26,11 +26,16 @@
               <a class="nav-link" [ngClass]="type === 'author' ? 'active' : ''">My Articles</a>
             </li>
             <li class="nav-item" (click)="getType('favorites')">
-              <a class="nav-link" [ngClass]="type === 'favorites' ? 'active' : ''">Favorited Articles</a>
+              <a class="nav-link" [ngClass]="type === 'favorites' ? 'active' : ''"
+                >Favorited Articles</a
+              >
             </li>
           </ul>
         </div>
-        <app-profile-articles [username]="profile.username" [type$]="changingValue"></app-profile-articles>
+        <app-profile-articles
+          [username]="profile.username"
+          [type$]="changingValue"
+        ></app-profile-articles>
       </div>
     </div>
   </div>
@@ -49,7 +54,12 @@
   </ng-template>
 
   <ng-template #unfollowing>
-    <button mat-stroked-button class="btn-unfollow" [disabled]="disabled" (click)="unFollowing(profile.username)">
+    <button
+      mat-stroked-button
+      class="btn-unfollow"
+      [disabled]="disabled"
+      (click)="unFollowing(profile.username)"
+    >
       <mat-icon class="icon-btn">add</mat-icon>
       <span>Unfollow {{ profile.username }}</span>
     </button>

@@ -1,14 +1,27 @@
 <div class="container" *ngIf="isFormReady">
   <form [formGroup]="form" (ngSubmit)="publishArticle()">
     <div class="form-control">
-      <input class="input-title" type="text" placeholder="Article Title" formControlName="title" />
+      <input
+        id="title"
+        class="input-title"
+        type="text"
+        placeholder="Article Title"
+        formControlName="title"
+      />
       <small *ngIf="errorMesages">{{ errorMesages }}</small>
     </div>
     <div class="form-control">
-      <input class="input-about" type="text" placeholder="What's this article about?" formControlName="description" />
+      <input
+        id="description"
+        class="input-about"
+        type="text"
+        placeholder="What's this article about?"
+        formControlName="description"
+      />
     </div>
     <div class="form-control">
       <textarea
+        id="body"
         class="input-body"
         type="text"
         rows="8"
@@ -17,8 +30,14 @@
       ></textarea>
     </div>
     <div class="form-control">
-      <input class="input-tags" type="text" placeholder="Enter tags" formControlName="tagList" />
+      <input
+        id="tags"
+        class="input-tags"
+        type="text"
+        placeholder="Enter tags"
+        formControlName="tagList"
+      />
     </div>
-    <button type="submit" class="btn-lg">Publish Article</button>
+    <button [disabled]="form.invalid" type="submit" class="btn-lg">Publish Article</button>
   </form>
 </div>

@@ -33,7 +33,7 @@ describe('ArticlesService', () => {
     articlesCount: 2,
   };
 
-  const responseArticle = {
+  const responseArticle: ResponseArticle = {
     article,
   };
 
@@ -112,22 +112,23 @@ describe('ArticlesService', () => {
   describe('Post article', () => {
     it('Then: call createArticle method', () => {
       service.createArticle(article).subscribe((data) => {
-        expect(data).toEqual(article);
+        expect(data).toEqual(responseArticle);
       });
       const request = httpMock.expectOne('http://localhost:3000/articles');
       expect(request.request.method).toBe('POST');
-      request.flush(article);
+      request.flush(responseArticle);
       httpMock.verify();
     });
   });
   describe('Edit article', () => {
     it('Then: call updateArticle method', () => {
-      service.updateArticle(article, username).subscribe((data) => {
-        expect(data).toEqual(article);
+      service.updateArticle(article, username).subscribe((response: ResponseArticle) => {
+        console.log(response, 'jk');
+        expect(response).toEqual(responseArticle);
       });
       const request = httpMock.expectOne(`http://localhost:3000/articles/${username}`);
       expect(request.request.method).toBe('PUT');
-      request.flush(article);
+      request.flush(responseArticle);
       httpMock.verify();
     });
     it('Then:  call deleteArticle method', () => {

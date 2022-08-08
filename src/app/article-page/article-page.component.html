@@ -7,10 +7,15 @@
           <img src="{{ article.author.image }}" />
         </a>
         <div class="article-info">
-          <a class="info-name" [routerLink]="['/profile', article.author.username]">{{ article.author.username }} </a>
+          <a class="info-name" [routerLink]="['/profile', article.author.username]"
+            >{{ article.author.username }}
+          </a>
           <span class="info-date">{{ article.createdAt | date: 'longDate' }}</span>
         </div>
-        <div class="article-btn" *ngIf=" user && article.author.username !== user.username; else myArticle">
+        <div
+          class="article-btn"
+          *ngIf="user && article.author.username !== user.username; else myArticle"
+        >
           <button
             *ngIf="!article.author.following; else unfollowing"
             mat-stroked-button
@@ -29,7 +34,7 @@
             class="btn-favorite"
           >
             <mat-icon class="icon-btn">favorite</mat-icon>
-            <span>Favorite articles {{ article.favoritesCount }}</span>
+            <span id="article-count">Favorite articles {{ article.favoritesCount }}</span>
           </button>
         </div>
       </div>
@@ -51,7 +56,9 @@
         <img src="{{ article.author.image }}" />
       </a>
       <div class="article-info">
-        <a class="info-name" [routerLink]="['/profile', article.author.username]">{{ article.author.username }}</a>
+        <a class="info-name" [routerLink]="['/profile', article.author.username]">{{
+          article.author.username
+        }}</a>
         <span class="info-date">{{ article.createdAt | date: 'longDate' }}</span>
       </div>
       <div class="article-btn" *ngIf="article.author.username !== user.username; else myArticle">
@@ -94,16 +101,26 @@
   </ng-template>
 
   <ng-template #unfollowing>
-    <button mat-stroked-button class="btn-unfollow" [disabled]="disabled" (click)="unFollow(article.author.username)">
+    <button
+      mat-stroked-button
+      class="btn-unfollow"
+      [disabled]="disabled"
+      (click)="unFollow(article.author.username)"
+    >
       <mat-icon class="icon-btn">add</mat-icon>
       <span>Unfollow {{ article.author.username }}</span>
     </button>
   </ng-template>
 
   <ng-template #unfavourite>
-    <button mat-stroked-button class="btn-unfavorite" [disabled]="disabled" (click)="unFavouriteArticle(article.slug)">
+    <button
+      mat-stroked-button
+      class="btn-unfavorite"
+      [disabled]="disabled"
+      (click)="unFavouriteArticle(article.slug)"
+    >
       <mat-icon class="icon-btn">favorite</mat-icon>
-      <span>Unfavorite articles {{ article.favoritesCount }}</span>
+      <span id="article-count">Unfavorite articles {{ article.favoritesCount }}</span>
     </button>
   </ng-template>
 </div>
